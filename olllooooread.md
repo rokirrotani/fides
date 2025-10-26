@@ -103,3 +103,6 @@ const properties = await fetch('http://localhost:4000/api/properties')
 3. **SERVICE** → Aggiungi business logic
 4. **CONTROLLER** → Gestisci HTTP
 5. **ROUTE** → Esponi endpoint
+
+
+tentativo oli 
