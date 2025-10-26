@@ -24,7 +24,7 @@ export interface Property {
 export interface PropertyDB {
   id: string;
   title: string;
-  description?: string;
+  description: string | null;
   price: number;
   type: 'sale' | 'rent';
   category: 'apartment' | 'house' | 'commercial';
@@ -34,7 +34,7 @@ export interface PropertyDB {
   rooms: number;
   bathrooms: number;
   sqm: number;
-  floor?: number;
+  floor: number | null;
   images: string;
   created_at: string;
   updated_at: string;

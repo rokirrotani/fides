@@ -1,4 +1,4 @@
-import { Database } from 'sqlite';
+import type { Database } from 'sqlite';
 import { Property, PropertyDB } from '../models/Property';
 import { getDatabase } from '../config/database';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,7 +11,7 @@ export class PropertyDAO {
   async findAll(): Promise<Property[]> {
     const db = this.getDb();
     const rows = await db.all<PropertyDB[]>('SELECT * FROM properties ORDER BY created_at DESC');
-    return rows.map(this.mapToProperty);
+    return rows.map(row => this.mapToProperty(row));
   }
 
   async findById(id: string): Promise<Property | null> {
@@ -34,7 +34,7 @@ export class PropertyDAO {
     `, [
       id,
       propertyData.title,
-      propertyData.description || null,
+      propertyData.description ?? null,
       propertyData.price,
       propertyData.type,
       propertyData.category,
@@ -44,13 +44,17 @@ export class PropertyDAO {
       propertyData.details.rooms,
       propertyData.details.bathrooms,
       propertyData.details.sqm,
-      propertyData.details.floor || null,
+      propertyData.details.floor ?? null,
       JSON.stringify(propertyData.images),
       now,
       now
     ]);
 
-    return this.findById(id) as Promise<Property>;
+    const created = await this.findById(id);
+    if (!created) {
+      throw new Error('Failed to create property');
+    }
+    return created;
   }
 
   async update(id: string, updates: Partial<Property>): Promise<Property | null> {
@@ -68,7 +72,7 @@ export class PropertyDAO {
       WHERE id = ?
     `, [
       updated.title,
-      updated.description || null,
+      updated.description ?? null,
       updated.price,
       updated.type,
       updated.category,
@@ -78,7 +82,7 @@ export class PropertyDAO {
       updated.details.rooms,
       updated.details.bathrooms,
       updated.details.sqm,
-      updated.details.floor || null,
+      updated.details.floor ?? null,
       JSON.stringify(updated.images),
       updated.updatedAt.toISOString(),
       id
@@ -90,14 +94,14 @@ export class PropertyDAO {
   async delete(id: string): Promise<boolean> {
     const db = this.getDb();
     const result = await db.run('DELETE FROM properties WHERE id = ?', id);
-    return (result.changes || 0) > 0;
+    return (result.changes ?? 0) > 0;
   }
 
   private mapToProperty(row: PropertyDB): Property {
     return {
       id: row.id,
       title: row.title,
-      description: row.description || undefined,
+      description: row.description ?? undefined,
       price: row.price,
       type: row.type,
       category: row.category,
@@ -110,7 +114,7 @@ export class PropertyDAO {
         rooms: row.rooms,
         bathrooms: row.bathrooms,
         sqm: row.sqm,
-        floor: row.floor || undefined
+        floor: row.floor ?? undefined
       },
       images: JSON.parse(row.images || '[]'),
       createdAt: new Date(row.created_at),

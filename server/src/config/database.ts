@@ -1,5 +1,6 @@
 import sqlite3 from 'sqlite3';
-import { open, Database } from 'sqlite';
+import { open } from 'sqlite';
+import type { Database } from 'sqlite';
 import path from 'path';
 
 let db: Database | null = null;
@@ -23,7 +24,7 @@ export async function initDatabase(): Promise<Database> {
   return db;
 }
 
-async function createTables() {
+async function createTables(): Promise<void> {
   if (!db) throw new Error('Database not initialized');
 
   console.log('🔧 Creating database tables...');

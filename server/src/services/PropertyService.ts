@@ -18,7 +18,6 @@ export class PropertyService {
   }
 
   async createProperty(data: CreatePropertyRequest): Promise<Property> {
-    // Qui potresti aggiungere business logic (es: validazioni extra, calcoli)
     return this.propertyDAO.create(data);
   }
 
@@ -42,8 +41,8 @@ export class PropertyService {
     return properties.filter(property => {
       if (filters.type && property.type !== filters.type) return false;
       if (filters.category && property.category !== filters.category) return false;
-      if (filters.minPrice && property.price < filters.minPrice) return false;
-      if (filters.maxPrice && property.price > filters.maxPrice) return false;
+      if (filters.minPrice !== undefined && property.price < filters.minPrice) return false;
+      if (filters.maxPrice !== undefined && property.price > filters.maxPrice) return false;
       if (filters.city && !property.location.city.toLowerCase().includes(filters.city.toLowerCase())) return false;
       return true;
     });
