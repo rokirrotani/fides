@@ -1,7 +1,28 @@
-# 🏠 FIDES — Agenzia Immobiliare
+# 🏠 FIDES IMMOBILIARE
 
-Progetto full-stack per la gestione e visualizzazione di immobili in vendita o in affitto.  
-**Architettura**: REST API con layered architecture + React SPA.
+Piattaforma immobiliare full-stack per **Fides Immobiliare** con doppia sede: **Paesana (Valle Po)** e **Torino**.  
+Gestione completa di immobili in vendita/affitto con interfaccia moderna e amministrazione centralizzata.
+
+**Architettura**: REST API layered + React SPA con design split-screen dinamico.
+
+---
+
+## 🌟 Features Principali
+
+### 🎨 Frontend
+- ✨ **Split-Screen Homepage** - Interfaccia dinamica con immagini full-screen per Paesana e Torino
+- 🎯 **Animazioni Fluide** - Hover effects e transizioni morbide
+- 📱 **Design Responsive** - Ottimizzato per desktop, tablet e mobile
+- 🗺️ **Multi-Sede** - Pagine dedicate per ogni branch (Paesana/Torino)
+- 🖼️ **Gallerie Immobili** - Visualizzazione proprietà con immagini e dettagli
+- 🔍 **Ricerca Avanzata** - Filtri per località, prezzo, tipologia
+
+### 🔧 Backend
+- 🔐 **API REST Sicure** - Autenticazione e validazione robusta
+- 📊 **Dashboard Admin** - Gestione immobili, upload immagini
+- 🗄️ **Database SQLite** - Leggero e performante
+- 📤 **Upload Immagini** - Sistema di gestione file
+- ✅ **Validazione Zod** - Input/output type-safe
 
 ---
 
@@ -13,12 +34,14 @@ Progetto full-stack per la gestione e visualizzazione di immobili in vendita o i
 - **SQLite** → database embedded
 - **Zod** → validazione robusta input/output
 - **Architettura Layered** → Route → Controller → Service → DAO
+- **Middleware Stack** → CORS, security headers, rate limiting, error handling
 
 ### Frontend (web/)
-- **React 18 + Vite** → SPA moderna e veloce
+- **React 18 + Vite** → SPA ultra-veloce con HMR
 - **TypeScript** → type safety end-to-end
 - **React Router** → navigazione client-side
-- **Fetch API** → comunicazione con backend
+- **CSS Modules** → styling modulare
+- **Fetch API** → comunicazione REST con backend
 
 ---
 
@@ -213,22 +236,50 @@ npm run preview  # Preview build locale
 
 ---
 
-## 📱 Features Principali
+## 📱 Pagine Implementate
 
-### ✅ Implementate
+### 🏠 Homepage
+- Split-screen dinamico con immagini full-screen
+- Sezione Paesana (sinistra) con zani1.jpeg
+- Sezione Torino (destra) con torino.jpg
+- Effetti hover interattivi con espansione
+- Logo centrale "FIDES IMMOBILIARE"
+- Sezione "Chi Siamo" informativa
+
+### 📍 Pagine Sedi
+- **Paesana** - Immobili Valle Po e dintorni
+- **Torino** - Immobili centro città e provincia
+- Griglia proprietà con dettagli e immagini
+- Click-through verso dettaglio immobile
+
+### 📄 Pagine Istituzionali
+- **Chi Siamo** - Storia e valori aziendali
+- **Contatti** - Form contatti e informazioni
+
+### 🔧 Area Admin
+- Dashboard gestione immobili
+- Upload e gestione immagini
+- CRUD completo proprietà
+
+### ✅ Features Tecniche
 - [x] CRUD completo immobili
 - [x] Validazione robusta input (Zod)
-- [x] Upload immagini
-- [x] Ricerca e filtri
-- [x] Database SQLite
+- [x] Upload immagini multiple
+- [x] Ricerca e filtri per branch
+- [x] Database SQLite ottimizzato
 - [x] API REST complete
+- [x] Middleware security stack
+- [x] Rate limiting
+- [x] Error handling centralizzato
+- [x] Request logging
 
-### 🚧 In Sviluppo
-- [ ] Autenticazione utenti
-- [ ] Sistema preferiti
-- [ ] Dashboard admin
-- [ ] Notifiche email
-- [ ] Integrazione mappe
+### 🚧 Roadmap Futura
+- [ ] Autenticazione JWT
+- [ ] Sistema preferiti utenti
+- [ ] Notifiche email automatiche
+- [ ] Integrazione Google Maps
+- [ ] Export PDF schede immobili
+- [ ] Analytics dashboard
 
 ---
 
