@@ -10,9 +10,28 @@ export function PaesanaPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchPropertiesByBranch('paesana')
-      .then(setProperties)
-      .finally(() => setLoading(false));
+    // Carica immobili dal localStorage (creati dall'admin)
+    const savedProperties = localStorage.getItem('fides_properties');
+    if (savedProperties) {
+      try {
+        const allProperties = JSON.parse(savedProperties);
+        // Filtra solo per Paesana
+        const paesanaProperties = allProperties.filter((p: any) => p.branch === 'paesana');
+        setProperties(paesanaProperties);
+        setLoading(false);
+      } catch (e) {
+        console.error('Error loading properties:', e);
+        // Fallback API
+        fetchPropertiesByBranch('paesana')
+          .then(setProperties)
+          .finally(() => setLoading(false));
+      }
+    } else {
+      // Nessun immobile salvato, usa API mock
+      fetchPropertiesByBranch('paesana')
+        .then(setProperties)
+        .finally(() => setLoading(false));
+    }
   }, []);
 
   return (

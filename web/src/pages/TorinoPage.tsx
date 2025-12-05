@@ -10,9 +10,28 @@ export function TorinoPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchPropertiesByBranch('torino')
-      .then(setProperties)
-      .finally(() => setLoading(false));
+    // Carica immobili dal localStorage (creati dall'admin)
+    const savedProperties = localStorage.getItem('fides_properties');
+    if (savedProperties) {
+      try {
+        const allProperties = JSON.parse(savedProperties);
+        // Filtra solo per Torino
+        const torinoProperties = allProperties.filter((p: any) => p.branch === 'torino');
+        setProperties(torinoProperties);
+        setLoading(false);
+      } catch (e) {
+        console.error('Error loading properties:', e);
+        // Fallback API
+        fetchPropertiesByBranch('torino')
+          .then(setProperties)
+          .finally(() => setLoading(false));
+      }
+    } else {
+      // Nessun immobile salvato, usa API mock
+      fetchPropertiesByBranch('torino')
+        .then(setProperties)
+        .finally(() => setLoading(false));
+    }
   }, []);
 
   return (

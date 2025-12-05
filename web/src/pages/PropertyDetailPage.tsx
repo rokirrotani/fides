@@ -10,20 +10,33 @@ export function PropertyDetailPage() {
   const [property, setProperty] = useState<Property | null>(null);
 
   useEffect(() => {
-    // TODO: chiamata API reale per caricare immobile per ID
-    // Per ora mock
-    const mockProperty: Property = {
-      id: id!,
-      title: 'Baita Montana Vista Monviso',
-      description: 'Splendida baita completamente ristrutturata con vista panoramica sul Monviso. La proprietà dispone di ampi spazi interni, finiture di pregio e un giardino privato di 500 mq.',
-      price: 185000,
-      type: 'sale',
-      category: 'house',
-      location: { address: 'Via Monviso 12', city: 'Paesana', province: 'CN' },
-      details: { rooms: 3, bathrooms: 2, sqm: 110 },
-      images: ['/zani1.jpeg', '/zani1.jpeg', '/zani1.jpeg']
-    };
-    setProperty(mockProperty);
+    // Carica l'immobile dal localStorage
+    const savedProperties = localStorage.getItem('fides_properties');
+    if (savedProperties && id) {
+      try {
+        const allProperties = JSON.parse(savedProperties);
+        const foundProperty = allProperties.find((p: any) => p.id === id);
+        if (foundProperty) {
+          setProperty(foundProperty);
+        } else {
+          // Fallback mock se non trovato
+          const mockProperty: Property = {
+            id: id!,
+            title: 'Immobile non trovato',
+            description: 'L\'immobile richiesto non è più disponibile.',
+            price: 0,
+            type: 'sale',
+            category: 'house',
+            location: { address: '', city: '', province: '' },
+            details: { rooms: 0, bathrooms: 0, sqm: 0 },
+            images: ['/placeholder.jpg']
+          };
+          setProperty(mockProperty);
+        }
+      } catch (e) {
+        console.error('Error loading property:', e);
+      }
+    }
   }, [id]);
 
   if (!property) return <div>Caricamento...</div>;
@@ -55,32 +68,105 @@ export function PropertyDetailPage() {
               📍 {property.location.address}, {property.location.city} ({property.location.province})
             </p>
 
-            <div style={{ fontSize: '2rem', color: '#dc2626', fontWeight: 'bold', marginBottom: '24px' }}>
-              {new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(property.price)}
-              {property.type === 'rent' && '/mese'}
+            <div style={{ fontSize: '2.5rem', color: '#dc2626', fontWeight: 'bold', marginBottom: '24px' }}>
+              € {property.price.toLocaleString('it-IT')}
+              {property.type === 'rent' && <span style={{ fontSize: '1rem' }}>/mese</span>}
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px', padding: '16px', background: '#f3f4f6', borderRadius: '12px' }}>
-              <div>
-                <div style={{ fontSize: '0.85rem', color: '#6b7280' }}>Locali</div>
-                <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{property.details.rooms}</div>
+            {/* Caratteristiche principali */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px', padding: '20px', background: '#f8fafc', borderRadius: '12px', border: '2px solid #e2e8f0' }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '4px' }}>Locali</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1e293b' }}>{property.details.rooms}</div>
               </div>
-              <div>
-                <div style={{ fontSize: '0.85rem', color: '#6b7280' }}>Bagni</div>
-                <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{property.details.bathrooms}</div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '4px' }}>Bagni</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1e293b' }}>{property.details.bathrooms}</div>
               </div>
-              <div>
-                <div style={{ fontSize: '0.85rem', color: '#6b7280' }}>Superficie</div>
-                <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{property.details.sqm} m²</div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '4px' }}>m²</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1e293b' }}>{property.details.sqm}</div>
               </div>
             </div>
 
-            <h3 style={{ marginBottom: '12px' }}>Descrizione</h3>
-            <p style={{ lineHeight: '1.6', color: '#374151', marginBottom: '24px' }}>
+            {/* Altre caratteristiche */}
+            {(property as any).details && (
+              <div style={{ marginBottom: '24px' }}>
+                <h3 style={{ marginBottom: '16px', fontSize: '1.3rem', color: '#1e293b' }}>🏠 Caratteristiche</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+                  {(property as any).details.floor !== undefined && (
+                    <div style={{ padding: '12px', background: '#f1f5f9', borderRadius: '8px' }}>
+                      <span style={{ color: '#64748b', fontSize: '0.9rem' }}>Piano:</span>
+                      <span style={{ marginLeft: '8px', fontWeight: '600' }}>{(property as any).details.floor === 0 ? 'Terra' : (property as any).details.floor}</span>
+                    </div>
+                  )}
+                  {(property as any).details.energyClass && (
+                    <div style={{ padding: '12px', background: '#f1f5f9', borderRadius: '8px' }}>
+                      <span style={{ color: '#64748b', fontSize: '0.9rem' }}>Classe Energetica:</span>
+                      <span style={{ marginLeft: '8px', fontWeight: '600' }}>{(property as any).details.energyClass}</span>
+                    </div>
+                  )}
+                  {(property as any).details.balcony && (
+                    <div style={{ padding: '12px', background: '#dbeafe', borderRadius: '8px', color: '#1e40af', fontWeight: '600' }}>
+                      ✓ Balcone
+                    </div>
+                  )}
+                  {(property as any).details.garage && (
+                    <div style={{ padding: '12px', background: '#dbeafe', borderRadius: '8px', color: '#1e40af', fontWeight: '600' }}>
+                      ✓ Box/Garage
+                    </div>
+                  )}
+                  {(property as any).details.elevator && (
+                    <div style={{ padding: '12px', background: '#dbeafe', borderRadius: '8px', color: '#1e40af', fontWeight: '600' }}>
+                      ✓ Ascensore
+                    </div>
+                  )}
+                  {(property as any).details.furnished && (
+                    <div style={{ padding: '12px', background: '#dbeafe', borderRadius: '8px', color: '#1e40af', fontWeight: '600' }}>
+                      ✓ Arredato
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Spese */}
+            {(property as any).costs && ((property as any).costs.condominiumFees || (property as any).costs.heatingCosts) && (
+              <div style={{ marginBottom: '24px', padding: '16px', background: '#fef3c7', borderRadius: '12px' }}>
+                <h3 style={{ marginBottom: '12px', fontSize: '1.1rem', color: '#92400e' }}>💶 Spese</h3>
+                {(property as any).costs.condominiumFees > 0 && (
+                  <p style={{ marginBottom: '8px' }}>
+                    <strong>Condominio:</strong> € {(property as any).costs.condominiumFees}/mese
+                  </p>
+                )}
+                {(property as any).costs.heatingCosts > 0 && (
+                  <p>
+                    <strong>Riscaldamento:</strong> € {(property as any).costs.heatingCosts}/anno
+                  </p>
+                )}
+              </div>
+            )}
+
+            <h3 style={{ marginBottom: '12px', fontSize: '1.3rem', color: '#1e293b' }}>📄 Descrizione</h3>
+            <p style={{ lineHeight: '1.8', color: '#475569', marginBottom: '24px', whiteSpace: 'pre-wrap' }}>
               {property.description}
             </p>
 
-            <button className="btn btn--primary btn--full">
+            <button 
+              className="btn btn--primary" 
+              style={{ 
+                width: '100%', 
+                padding: '16px', 
+                fontSize: '1.1rem',
+                background: '#dc2626',
+                border: 'none',
+                borderRadius: '8px',
+                color: 'white',
+                fontWeight: '600',
+                cursor: 'pointer'
+              }}
+              onClick={() => window.location.href = '/contatti'}
+            >
               📞 Contatta l'agenzia
             </button>
           </div>

@@ -4,21 +4,15 @@ import { Footer } from '../components/Footer';
 export function ChiSiamoPage() {
   const team = [
     {
-      name: 'Marco Rossi',
-      role: 'Fondatore & CEO',
-      bio: 'Oltre 20 anni di esperienza nel settore immobiliare.',
+      name: 'Niccolò Zanias',
+      role: 'Agente Immobiliare - Fides Paesana',
+      bio: 'Esperto di immobili in Valle Po e zone montane. Referente per la sede di Paesana.',
       image: 'https://i.pravatar.cc/300?img=12'
     },
     {
-      name: 'Laura Bianchi',
-      role: 'Agente Fides Paesana',
-      bio: 'Esperta di immobili in montagna e Valle Po.',
-      image: 'https://i.pravatar.cc/300?img=45'
-    },
-    {
-      name: 'Giovanni Verdi',
-      role: 'Agente Fides Torino',
-      bio: 'Specializzato in investimenti immobiliari urbani.',
+      name: 'XXXX',
+      role: 'Agente Immobiliare - Fides Torino',
+      bio: 'Referente per la sede di Torino. Specializzato in immobili urbani e centro città.',
       image: 'https://i.pravatar.cc/300?img=33'
     }
   ];
@@ -29,8 +23,9 @@ export function ChiSiamoPage() {
       
       <main style={{ marginTop: '64px', padding: '64px 24px', maxWidth: '1000px', margin: '64px auto' }}>
         <h1 style={{ fontSize: '2.5rem', textAlign: 'center', marginBottom: '16px' }}>Chi Siamo</h1>
-        <p style={{ textAlign: 'center', color: '#6b7280', marginBottom: '48px', fontSize: '1.1rem' }}>
-          Fides Immobiliare è un'agenzia con due sedi: Paesana e Torino. La nostra missione è offrire soluzioni immobiliari su misura.
+        <p style={{ textAlign: 'center', color: '#6b7280', marginBottom: '48px', fontSize: '1.1rem', maxWidth: '800px', margin: '0 auto 48px' }}>
+          Fides Immobiliare opera con professionalità nel settore immobiliare con due sedi strategiche:
+          Paesana in Valle Po e Torino centro. Offriamo consulenza personalizzata per vendita, acquisto e affitto di immobili.
         </p>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '32px' }}>

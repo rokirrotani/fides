@@ -7,16 +7,17 @@ export function Footer() {
       </div>
 
       <div className="footer__column">
-        <h4>Contatti</h4>
-        <p>Tel: +39 0123 456789</p>
-        <p>Email: info@fidesimmobiliare.it</p>
-        <p>Indirizzo: Via Esempio 1, 10100 Torino (TO)</p>
+        <h4>📍 Fides Paesana</h4>
+        <p>Via Po, 1, 12034 Paesana CN</p>
+        <p>Tel: <a href="tel:011 428 2544" style={{ color: 'inherit' }}>011 428 2544</a></p>
+        <p>Orari: Lun-Gio 09-13, 14-19:30</p>
       </div>
 
       <div className="footer__column">
-        <h4>Orari</h4>
-        <p>Lun - Ven: 9:00 - 18:30</p>
-        <p>Sab: 9:30 - 12:30</p>
+        <h4>📍 Fides Torino</h4>
+        <p>Via Paolo Sacchi, 32, 10128 Torino TO</p>
+        <p>Tel: <a href="tel:011 428 2544" style={{ color: 'inherit' }}>011 428 2544</a></p>
+        <p>Email: info@fidesimmobiliare.it</p>
       </div>
     </footer>
   );
