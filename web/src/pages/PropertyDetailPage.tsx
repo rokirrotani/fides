@@ -53,7 +53,41 @@ export function PropertyDetailPage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
           {/* Gallery */}
           <div>
-            <img src={property.images[0]} alt={property.title} style={{ width: '100%', borderRadius: '16px', marginBottom: '16px' }} />
+            <div style={{ position: 'relative' }}>
+              <img src={property.images[0]} alt={property.title} style={{ width: '100%', borderRadius: '16px', marginBottom: '16px' }} />
+              {(property as any).status === 'sold' && (
+                <>
+                  <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'rgba(0, 0, 0, 0.6)',
+                    borderRadius: '16px',
+                    pointerEvents: 'none'
+                  }}></div>
+                  <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%) rotate(-15deg)',
+                    background: '#dc2626',
+                    color: 'white',
+                    padding: '20px 80px',
+                    fontSize: '2.5rem',
+                    fontWeight: 'bold',
+                    border: '4px solid white',
+                    borderRadius: '8px',
+                    whiteSpace: 'nowrap',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
+                    pointerEvents: 'none'
+                  }}>
+                    VENDUTO
+                  </div>
+                </>
+              )}
+            </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
               {property.images.slice(1).map((img, i) => (
                 <img key={i} src={img} alt="" style={{ width: '100%', borderRadius: '8px', aspectRatio: '1' }} />

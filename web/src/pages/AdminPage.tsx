@@ -1,8 +1,7 @@
-import { useState, FormEvent, useEffect } from 'react';
+import { useState, FormEvent, useEffect, DragEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
-import { loginOwner } from '../services/api';
 
 interface Property {
   id?: string;
@@ -12,6 +11,7 @@ interface Property {
   type: 'sale' | 'rent';
   category: 'apartment' | 'house' | 'commercial';
   branch: 'paesana' | 'torino';
+  status: 'available' | 'sold';
   location: {
     address: string;
     city: string;
@@ -44,6 +44,8 @@ export function AdminPage() {
 
   const [properties, setProperties] = useState<Property[]>([]);
   const [selectedBranch, setSelectedBranch] = useState<'paesana' | 'torino' | 'all'>('all');
+  const [isDragging, setIsDragging] = useState(false);
+  const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
   
   const [formData, setFormData] = useState<Property>({
     title: '',
@@ -52,6 +54,7 @@ export function AdminPage() {
     type: 'sale',
     category: 'apartment',
     branch: 'paesana',
+    status: 'available',
     location: {
       address: '',
       city: 'Paesana',
@@ -78,7 +81,13 @@ export function AdminPage() {
     const saved = localStorage.getItem('fides_properties');
     if (saved) {
       try {
-        setProperties(JSON.parse(saved));
+        const loadedProperties = JSON.parse(saved);
+        // Aggiungi status: 'available' alle proprietà esistenti che non ce l'hanno
+        const migratedProperties = loadedProperties.map((p: any) => ({
+          ...p,
+          status: p.status || 'available'
+        }));
+        setProperties(migratedProperties);
       } catch (e) {
         console.error('Error loading properties:', e);
       }
@@ -97,26 +106,43 @@ export function AdminPage() {
     setLoginStatus(null);
 
     const formData = new FormData(e.currentTarget);
-    const email = String(formData.get('email') ?? '').trim();
+    const username = String(formData.get('username') ?? '').trim();
     const password = String(formData.get('password') ?? '').trim();
 
-    if (!email || !password) {
-      setLoginMessage('Inserisci email e password');
+    if (!username || !password) {
+      setLoginMessage('Inserisci username e password');
       setLoginStatus('error');
       return;
     }
 
     try {
-      const res = await loginOwner(email, password);
-      setToken(res.token);
-      setUserName(res.name);
-      setLoginMessage(`✅ Benvenuto, ${res.name}!`);
+      // Chiamata API sicura con bcrypt
+      const response = await fetch('http://localhost:4000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Autenticazione fallita');
+      }
+
+      // Login riuscito
+      setToken(data.token);
+      setUserName(username);
+      localStorage.setItem('fides_admin_token', data.token);
+      setLoginMessage(`✅ Benvenuto, ${username}!`);
       setLoginStatus('success');
     } catch (err: any) {
       setToken(null);
       setUserName('');
-      setLoginMessage(err.message ?? 'Errore di autenticazione');
+      setLoginMessage(`❌ ${err.message}`);
       setLoginStatus('error');
+      console.error('Login error:', err);
     }
   }
 
@@ -125,6 +151,68 @@ export function AdminPage() {
     setUserName('');
     setLoginMessage('');
     setLoginStatus(null);
+    localStorage.removeItem('fides_admin_token');
+  }
+
+  function handleDragOver(e: DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setIsDragging(true);
+  }
+
+  function handleDragLeave(e: DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setIsDragging(false);
+  }
+
+  function handleDrop(e: DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setIsDragging(false);
+    
+    const files = Array.from(e.dataTransfer.files).filter(file => 
+      file.type.startsWith('image/')
+    );
+    
+    if (files.length > 0) {
+      // Crea preview per le nuove immagini
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (e.target?.result) {
+            setImagePreviewUrls(prev => [...prev, e.target!.result as string]);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  }
+
+  function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files).filter(file => 
+        file.type.startsWith('image/')
+      );
+      
+      fileArray.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (e.target?.result) {
+            setImagePreviewUrls(prev => [...prev, e.target!.result as string]);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  }
+
+  function addImageUrl(url: string) {
+    if (url.trim()) {
+      setImagePreviewUrls(prev => [...prev, url.trim()]);
+    }
+  }
+
+  function removeImageUrl(index: number) {
+    setImagePreviewUrls(prev => prev.filter((_, i) => i !== index));
   }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -137,12 +225,15 @@ export function AdminPage() {
 
     const newProperty: Property = {
       ...formData,
-      id: Date.now().toString()
+      id: Date.now().toString(),
+      images: imagePreviewUrls,
+      status: 'available'
     };
 
     setProperties(prev => [...prev, newProperty]);
     alert('✅ Immobile aggiunto con successo!');
 
+    // Reset form completo
     setFormData({
       title: '',
       description: '',
@@ -150,6 +241,7 @@ export function AdminPage() {
       type: 'sale',
       category: 'apartment',
       branch: 'paesana',
+      status: 'available',
       location: {
         address: '',
         city: 'Paesana',
@@ -171,12 +263,20 @@ export function AdminPage() {
       },
       images: []
     });
+    
+    setImagePreviewUrls([]);
   }
 
   function handleDelete(id: string) {
     if (confirm('Sei sicuro di voler eliminare questo immobile?')) {
       setProperties(prev => prev.filter(p => p.id !== id));
     }
+  }
+
+  function handleMarkSold(id: string) {
+    setProperties(prev => prev.map(p => 
+      p.id === id ? { ...p, status: p.status === 'sold' ? 'available' : 'sold' } : p
+    ));
   }
 
   const filteredProperties = selectedBranch === 'all' 
@@ -187,35 +287,86 @@ export function AdminPage() {
     <>
       <Navbar />
 
-      <main style={{ marginTop: '64px', padding: '48px 24px', minHeight: 'calc(100vh - 64px)' }}>
+      <main style={{ marginTop: '56px', padding: '48px 24px', minHeight: 'calc(100vh - 56px)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <h1 style={{ fontSize: '2.5rem', marginBottom: '32px', textAlign: 'center', color: '#1e293b' }}>
             🔐 Area Admin Fides
           </h1>
 
           {!token ? (
-            <div style={{ maxWidth: '500px', margin: '0 auto', background: '#fff', padding: '40px', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}>
-              <h2 style={{ marginBottom: '24px', textAlign: 'center', color: '#1e293b' }}>Accedi al Pannello</h2>
+            <div style={{ maxWidth: '500px', margin: '0 auto', background: '#fff', padding: '40px', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.1)', border: '1px solid #e5e7eb' }}>
+              <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                <div style={{ 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  width: '64px',
+                  height: '64px',
+                  borderRadius: '50%',
+                  background: '#0f172a',
+                  marginBottom: '16px'
+                }}>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </div>
+                <h2 style={{ color: '#1e293b', fontSize: '1.5rem', fontWeight: '700' }}>Accesso Sicuro</h2>
+                <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '8px' }}>Area riservata agli amministratori</p>
+              </div>
+
               <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <div>
-                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#475569' }}>Email</label>
+                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#475569', fontSize: '0.9rem' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ verticalAlign: 'middle', marginRight: '6px' }}>
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Username
+                  </label>
                   <input
-                    name="email"
-                    type="email"
+                    name="username"
+                    type="text"
                     required
-                    placeholder="admin@fides.it"
-                    style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem' }}
+                    autoComplete="username"
+                    placeholder="Inserisci username"
+                    style={{ 
+                      width: '100%', 
+                      padding: '12px 14px', 
+                      border: '2px solid #e2e8f0', 
+                      borderRadius: '8px', 
+                      fontSize: '1rem',
+                      transition: 'border-color 0.3s'
+                    }}
+                    onFocus={(e) => e.currentTarget.style.borderColor = '#0f172a'}
+                    onBlur={(e) => e.currentTarget.style.borderColor = '#e2e8f0'}
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#475569' }}>Password</label>
+                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#475569', fontSize: '0.9rem' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ verticalAlign: 'middle', marginRight: '6px' }}>
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    Password
+                  </label>
                   <input
                     name="password"
                     type="password"
                     required
-                    placeholder="••••••••"
-                    style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem' }}
+                    autoComplete="current-password"
+                    placeholder="••••••••••••"
+                    style={{ 
+                      width: '100%', 
+                      padding: '12px 14px', 
+                      border: '2px solid #e2e8f0', 
+                      borderRadius: '8px', 
+                      fontSize: '1rem',
+                      transition: 'border-color 0.3s'
+                    }}
+                    onFocus={(e) => e.currentTarget.style.borderColor = '#0f172a'}
+                    onBlur={(e) => e.currentTarget.style.borderColor = '#e2e8f0'}
                   />
                 </div>
 
@@ -223,24 +374,45 @@ export function AdminPage() {
                   type="submit"
                   style={{ 
                     padding: '14px', 
-                    background: '#dc2626', 
+                    background: '#0f172a', 
                     color: 'white', 
                     border: 'none', 
                     borderRadius: '8px', 
-                    fontSize: '1.1rem', 
+                    fontSize: '1.05rem', 
                     fontWeight: '600',
                     cursor: 'pointer',
-                    transition: 'background 0.3s'
+                    transition: 'all 0.3s',
+                    boxShadow: '0 4px 12px rgba(15, 23, 42, 0.3)'
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = '#b91c1c'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = '#dc2626'}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#1e293b';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(15, 23, 42, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = '#0f172a';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(15, 23, 42, 0.3)';
+                  }}
                 >
-                  Accedi
+                  🔐 Accedi in Sicurezza
                 </button>
 
-                <p style={{ textAlign: 'center', fontSize: '0.9rem', color: '#6b7280' }}>
-                  💡 Test: admin@fides.it / password
-                </p>
+                <div style={{ 
+                  padding: '12px', 
+                  borderRadius: '8px', 
+                  background: '#f0fdf4',
+                  border: '1px solid #bbf7d0',
+                  fontSize: '0.85rem',
+                  color: '#15803d',
+                  textAlign: 'center'
+                }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ verticalAlign: 'middle', marginRight: '6px' }}>
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                  <strong>Autenticazione sicura con bcrypt</strong>
+                  <br />Protezione contro brute-force e timing attacks
+                </div>
 
                 {loginMessage && (
                   <p style={{ 
@@ -612,13 +784,142 @@ export function AdminPage() {
 
                   <div style={{ marginBottom: '32px' }}>
                     <h4 style={{ marginBottom: '16px', color: '#475569', fontSize: '1.2rem' }}>📸 Immagini</h4>
-                    <textarea
-                      rows={3}
-                      value={formData.images.join('\n')}
-                      onChange={(e) => setFormData({...formData, images: e.target.value.split('\n').map(url => url.trim()).filter(Boolean)})}
-                      placeholder={'Inserisci URL immagini (uno per riga)\nhttps://esempio.com/img1.jpg\nhttps://esempio.com/img2.jpg'}
-                      style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem', fontFamily: 'monospace' }}
-                    />
+                    
+                    {/* Drag and Drop Area */}
+                    <div
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                      style={{
+                        border: isDragging ? '3px dashed #0f172a' : '3px dashed #cbd5e1',
+                        borderRadius: '12px',
+                        padding: '40px',
+                        textAlign: 'center',
+                        background: isDragging ? '#f1f5f9' : '#f8fafc',
+                        transition: 'all 0.3s',
+                        marginBottom: '20px',
+                        cursor: 'pointer'
+                      }}
+                      onClick={() => document.getElementById('file-input')?.click()}
+                    >
+                      <div style={{ fontSize: '3rem', marginBottom: '16px' }}>
+                        {isDragging ? '📥' : '🖼️'}
+                      </div>
+                      <p style={{ fontSize: '1.1rem', fontWeight: '600', color: '#1e293b', marginBottom: '8px' }}>
+                        {isDragging ? 'Rilascia le immagini qui' : 'Trascina immagini qui o clicca per selezionare'}
+                      </p>
+                      <p style={{ fontSize: '0.9rem', color: '#64748b' }}>
+                        Formati supportati: JPG, PNG, WEBP
+                      </p>
+                      <input
+                        id="file-input"
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleFileInput}
+                        style={{ display: 'none' }}
+                      />
+                    </div>
+
+                    {/* Image Preview Grid */}
+                    {imagePreviewUrls.length > 0 && (
+                      <div style={{ 
+                        display: 'grid', 
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', 
+                        gap: '12px',
+                        marginBottom: '20px'
+                      }}>
+                        {imagePreviewUrls.map((url, index) => (
+                          <div key={index} style={{ position: 'relative', paddingTop: '100%', borderRadius: '8px', overflow: 'hidden', border: '2px solid #e2e8f0' }}>
+                            <img 
+                              src={url} 
+                              alt={`Preview ${index + 1}`}
+                              style={{ 
+                                position: 'absolute', 
+                                top: 0, 
+                                left: 0, 
+                                width: '100%', 
+                                height: '100%', 
+                                objectFit: 'cover' 
+                              }}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeImageUrl(index)}
+                              style={{
+                                position: 'absolute',
+                                top: '4px',
+                                right: '4px',
+                                background: '#dc2626',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '50%',
+                                width: '28px',
+                                height: '28px',
+                                cursor: 'pointer',
+                                fontSize: '1rem',
+                                fontWeight: 'bold',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                              }}
+                            >
+                              ×
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* URL Input Alternative */}
+                    <div style={{ marginTop: '20px' }}>
+                      <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#475569' }}>
+                        Oppure inserisci URL immagini
+                      </label>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <input
+                          type="url"
+                          id="image-url-input"
+                          placeholder="https://esempio.com/immagine.jpg"
+                          style={{ 
+                            flex: 1, 
+                            padding: '12px', 
+                            border: '2px solid #e2e8f0', 
+                            borderRadius: '8px', 
+                            fontSize: '1rem' 
+                          }}
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault();
+                              const input = e.currentTarget;
+                              addImageUrl(input.value);
+                              input.value = '';
+                            }
+                          }}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const input = document.getElementById('image-url-input') as HTMLInputElement;
+                            if (input) {
+                              addImageUrl(input.value);
+                              input.value = '';
+                            }
+                          }}
+                          style={{
+                            padding: '12px 24px',
+                            background: '#0f172a',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            fontWeight: '600'
+                          }}
+                        >
+                          Aggiungi URL
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
                   <button 
@@ -735,6 +1036,33 @@ export function AdminPage() {
                         backgroundPosition: 'center',
                         position: 'relative'
                       }}>
+                        {/* Overlay VENDUTO con barra diagonale */}
+                        {property.status === 'sold' && (
+                          <div style={{
+                            position: 'absolute',
+                            inset: 0,
+                            background: 'rgba(0, 0, 0, 0.6)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 10
+                          }}>
+                            <div style={{
+                              background: '#dc2626',
+                              color: 'white',
+                              padding: '12px 60px',
+                              fontSize: '1.5rem',
+                              fontWeight: '800',
+                              transform: 'rotate(-15deg)',
+                              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
+                              letterSpacing: '4px',
+                              border: '4px solid white'
+                            }}>
+                              VENDUTO
+                            </div>
+                          </div>
+                        )}
+                        
                         <div style={{
                           position: 'absolute',
                           top: '12px',
@@ -781,6 +1109,7 @@ export function AdminPage() {
                           {property.details.balcony && <span style={{ padding: '4px 8px', background: '#e0e7ff', borderRadius: '4px' }}>🏠 Balcone</span>}
                           {property.details.garage && <span style={{ padding: '4px 8px', background: '#e0e7ff', borderRadius: '4px' }}>🚗 Garage</span>}
                           {property.details.elevator && <span style={{ padding: '4px 8px', background: '#e0e7ff', borderRadius: '4px' }}>🛗 Ascensore</span>}
+                          {property.status === 'sold' && <span style={{ padding: '4px 8px', background: '#fef3c7', color: '#92400e', borderRadius: '4px', fontWeight: '600' }}>✅ VENDUTO</span>}
                         </div>
 
                         <div style={{ 
@@ -793,33 +1122,71 @@ export function AdminPage() {
                           {property.type === 'rent' && <span style={{ fontSize: '1rem', fontWeight: 'normal' }}>/mese</span>}
                         </div>
 
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDelete(property.id!);
-                          }}
-                          style={{
-                            width: '100%',
-                            padding: '10px',
-                            background: '#fee2e2',
-                            color: '#dc2626',
-                            border: '2px solid #dc2626',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontWeight: '600',
-                            transition: 'all 0.3s'
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.background = '#dc2626';
-                            e.currentTarget.style.color = 'white';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.background = '#fee2e2';
-                            e.currentTarget.style.color = '#dc2626';
-                          }}
-                        >
-                          🗑️ Elimina Annuncio
-                        </button>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleMarkSold(property.id!);
+                            }}
+                            style={{
+                              flex: 1,
+                              padding: '10px',
+                              background: property.status === 'sold' ? '#10b981' : '#fef3c7',
+                              color: property.status === 'sold' ? 'white' : '#92400e',
+                              border: property.status === 'sold' ? '2px solid #10b981' : '2px solid #fbbf24',
+                              borderRadius: '8px',
+                              cursor: 'pointer',
+                              fontWeight: '600',
+                              transition: 'all 0.3s'
+                            }}
+                            onMouseEnter={(e) => {
+                              if (property.status === 'sold') {
+                                e.currentTarget.style.background = '#059669';
+                              } else {
+                                e.currentTarget.style.background = '#fbbf24';
+                                e.currentTarget.style.color = 'white';
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (property.status === 'sold') {
+                                e.currentTarget.style.background = '#10b981';
+                              } else {
+                                e.currentTarget.style.background = '#fef3c7';
+                                e.currentTarget.style.color = '#92400e';
+                              }
+                            }}
+                          >
+                            {property.status === 'sold' ? '↩️ Ripubblica' : '✅ Segna Venduto'}
+                          </button>
+
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDelete(property.id!);
+                            }}
+                            style={{
+                              flex: 1,
+                              padding: '10px',
+                              background: '#fee2e2',
+                              color: '#dc2626',
+                              border: '2px solid #dc2626',
+                              borderRadius: '8px',
+                              cursor: 'pointer',
+                              fontWeight: '600',
+                              transition: 'all 0.3s'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.background = '#dc2626';
+                              e.currentTarget.style.color = 'white';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.background = '#fee2e2';
+                              e.currentTarget.style.color = '#dc2626';
+                            }}
+                          >
+                            🗑️ Elimina
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}

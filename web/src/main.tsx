@@ -8,6 +8,8 @@ import { PropertyDetailPage } from './pages/PropertyDetailPage';
 import { ChiSiamoPage } from './pages/ChiSiamoPage';
 import { ContattiPage } from './pages/ContattiPage';
 import { AdminPage } from './pages/AdminPage';
+import { VendiCasaPage } from './pages/VendiCasaPage';
+import { CompraCasaPage } from './pages/CompraCasaPage';
 import './assets/styles/main.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -20,6 +22,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/immobile/:id" element={<PropertyDetailPage />} />
         <Route path="/chi-siamo" element={<ChiSiamoPage />} />
         <Route path="/contatti" element={<ContattiPage />} />
+        <Route path="/vendi-casa" element={<VendiCasaPage />} />
+        <Route path="/compra-casa" element={<CompraCasaPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </BrowserRouter>

@@ -1,4 +1,4 @@
-/* Reset leggero */
+/* Reset e Base Styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,10 +6,84 @@
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: #1f2933;
-  background-color: #f5f7fa;
-  line-height: 1.6;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #2c3e50;
+  background-color: #ffffff;
+  line-height: 1.65;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animazioni globali */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Elementi con animazione all'apparizione */
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.slide-in-left {
+  animation: slideInFromLeft 0.6s ease-out;
+}
+
+.slide-in-right {
+  animation: slideInFromRight 0.6s ease-out;
+}
+
+.scale-in {
+  animation: scaleIn 0.5s ease-out;
 }
 
 /* Home page specifica (senza navbar standard) */
@@ -54,42 +128,45 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 64px;
-  padding: 0 24px;
-  background: rgba(15, 23, 42, 0.98);
-  backdrop-filter: blur(8px);
-  color: #f9fafb;
+  height: 72px;
+  padding: 0 40px;
+  background: #ffffff;
+  color: #2c3e50;
   display: flex;
   align-items: center;
   justify-content: space-between;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .navbar__logo {
-  font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  color: #1a202c;
 }
 
 .navbar__links {
   display: flex;
-  gap: 8px;
+  gap: 4px;
+  align-items: center;
 }
 
 .navbar__links a {
-  padding: 8px 16px;
-  color: #e5e7eb;
+  padding: 10px 18px;
+  color: #4a5568;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
   border-radius: 6px;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  letter-spacing: -0.01em;
 }
 
 .navbar__links a:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  background: #f7fafc;
+  color: #1a202c;
 }
 
 /* Split layout */
@@ -211,27 +288,51 @@ body {
 /* Buttons */
 .btn {
   border: none;
-  border-radius: 999px;
+  border-radius: 10px;
   padding: 12px 28px;
   font-size: 1rem;
   cursor: pointer;
   font-weight: 600;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
   display: inline-block;
   text-decoration: none;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+  width: 300px;
+  height: 300px;
 }
 
 .btn--primary {
-  background: #dc2626;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 
 .btn--primary:hover {
-  background: #b91c1c;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
+  background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
+}
+
+.btn--primary:active {
+  transform: translateY(-1px) scale(1.02);
 }
 
 .btn--primary:disabled {
@@ -241,12 +342,14 @@ body {
 }
 
 .btn--secondary {
-  background: #111827;
+  background: linear-gradient(135deg, #111827 0%, #374151 100%);
   color: #ffffff;
 }
 
 .btn--secondary:hover {
-  background: #374151;
+  background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.3);
 }
 
 .btn--full {
@@ -287,19 +390,28 @@ body {
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
   overflow: hidden;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
   cursor: pointer;
+  border: 1px solid #f3f4f6;
 }
 
 .property-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.2);
+  border-color: #2c3e50;
 }
 
 .property-card__image {
   height: 200px;
   background-size: cover;
   background-position: center;
+  transition: transform 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.property-card:hover .property-card__image {
+  transform: scale(1.1);
 }
 
 .property-card__body {
@@ -363,11 +475,12 @@ body {
 .form-group select,
 .form-group textarea {
   width: 100%;
-  padding: 10px 14px;
+  padding: 12px 16px;
   border-radius: 10px;
   border: 2px solid #e5e7eb;
   font-size: 0.95rem;
-  transition: border 0.2s;
+  transition: all 0.3s ease;
+  background: #ffffff;
 }
 
 .form-group input:focus,
@@ -375,6 +488,14 @@ body {
 .form-group textarea:focus {
   outline: none;
   border-color: #dc2626;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+  transform: translateY(-2px);
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+  border-color: #cbd5e1;
 }
 
 .login__hint {
@@ -466,6 +587,63 @@ body {
 /* Utils */
 .hidden {
   display: none !important;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Link transitions */
+a {
+  transition: all 0.3s ease;
+}
+
+/* Card hover effects globali */
+.card-interactive {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Loading spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.6s linear infinite;
+}
+
+/* Success/Error messages animate */
+.message-appear {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
 }
 
 /* Responsive */

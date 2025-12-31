@@ -21,6 +21,7 @@ export interface Property {
   location: PropertyLocation;
   details: PropertyDetails;
   images: string[];
+  status?: 'available' | 'sold';
 }
 
 const API_BASE_URL = 'http://localhost:4000';
@@ -95,4 +96,66 @@ function getMockProperties(branch: 'paesana' | 'torino'): Property[] {
   ];
 
   return branch === 'paesana' ? paesana : torino;
+}
+
+// Sell Request
+export interface SellRequest {
+  ownerName: string;
+  email: string;
+  phone: string;
+  propertyType: 'apartment' | 'house' | 'commercial' | 'land';
+  address: string;
+  city: string;
+  province: string;
+  rooms?: number;
+  sqm?: number;
+  price?: number;
+  description?: string;
+  urgency: 'low' | 'medium' | 'high';
+  notifyZani?: boolean;
+}
+
+export async function submitSellRequest(data: SellRequest) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/requests/sell`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('Network error');
+    return res.json();
+  } catch (error) {
+    console.error('Error submitting sell request:', error);
+    throw error;
+  }
+}
+
+// Buy Request
+export interface BuyRequest {
+  buyerName: string;
+  email: string;
+  phone: string;
+  propertyType: 'apartment' | 'house' | 'commercial' | 'any';
+  preferredCity: string;
+  minPrice?: number;
+  maxPrice?: number;
+  minRooms?: number;
+  minSqm?: number;
+  urgency: 'low' | 'medium' | 'high';
+  notes?: string;
+}
+
+export async function submitBuyRequest(data: BuyRequest) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/requests/buy`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('Network error');
+    return res.json();
+  } catch (error) {
+    console.error('Error submitting buy request:', error);
+    throw error;
+  }
 }
