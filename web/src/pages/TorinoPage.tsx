@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
+import { PropertiesGrid } from '../components/PropertiesGrid';
 import { fetchPropertiesByBranch, type Property } from '../services/api';
 
 export function TorinoPage() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Carica immobili dal localStorage (creati dall'admin)
@@ -84,59 +83,14 @@ export function TorinoPage() {
         </section>
 
         {/* Properties Grid */}
-        <section className="properties">
-          <div className="properties__header">
-            <h2 className="slide-in-left">Immobili Disponibili</h2>
-            <p className="slide-in-right">Attici, appartamenti e soluzioni esclusive a Torino</p>
+        {loading && (
+          <div style={{ textAlign: 'center', padding: '48px', color: '#6b7280' }}>
+            <div className="spinner" style={{ borderColor: '#e5e7eb', borderTopColor: '#dc2626', width: '48px', height: '48px', margin: '0 auto 16px' }}></div>
+            <p>Caricamento...</p>
           </div>
+        )}
 
-          {loading && (
-            <div style={{ textAlign: 'center', padding: '48px', color: '#6b7280' }}>
-              <div className="spinner" style={{ borderColor: '#e5e7eb', borderTopColor: '#dc2626', width: '48px', height: '48px', margin: '0 auto 16px' }}></div>
-              <p>Caricamento...</p>
-            </div>
-          )}
-
-          {!loading && properties.length === 0 && (
-            <p style={{ textAlign: 'center', padding: '48px', color: '#6b7280' }}>
-              Nessun immobile disponibile al momento.
-            </p>
-          )}
-
-          <div className="properties__grid">
-            {properties.map(property => (
-              <article
-                key={property.id}
-                className="property-card"
-                onClick={() => navigate(`/immobile/${property.id}`)}
-                style={{ cursor: 'pointer' }}
-              >
-                <div
-                  className="property-card__image"
-                  style={{ 
-                    backgroundImage: `url('${property.images[0]}')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}
-                />
-                <div className="property-card__body">
-                  <h3 className="property-card__title">{property.title}</h3>
-                  <div className="property-card__meta">
-                    📍 {property.location.city} • {property.details.rooms} locali • {property.details.sqm} m²
-                  </div>
-                  <div className="property-card__price">
-                    {new Intl.NumberFormat('it-IT', { 
-                      style: 'currency', 
-                      currency: 'EUR', 
-                      minimumFractionDigits: 0 
-                    }).format(property.price)}
-                    {property.type === 'rent' && '/mese'}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+        {!loading && <PropertiesGrid branch="torino" properties={properties} />}
       </main>
 
       <Footer />

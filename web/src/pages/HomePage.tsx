@@ -18,12 +18,13 @@ export function HomePage() {
           display: 'flex',
           overflow: 'hidden',
           position: 'relative'
-        }}>
+        }} className="split-layout">
           {/* Paesana - Left Side */}
           <div 
             onClick={() => navigate('/paesana')}
             onMouseEnter={() => setHoveredSide('paesana')}
             onMouseLeave={() => setHoveredSide(null)}
+            className="split-panel"
             style={{
               flex: hoveredSide === 'paesana' ? '1.2' : hoveredSide === 'torino' ? '0.8' : '1',
               backgroundImage: 'linear-gradient(rgba(44, 62, 80, 0.15), rgba(44, 62, 80, 0.35)), url(/zani1.jpeg)',
@@ -108,6 +109,7 @@ export function HomePage() {
             onClick={() => navigate('/torino')}
             onMouseEnter={() => setHoveredSide('torino')}
             onMouseLeave={() => setHoveredSide(null)}
+            className="split-panel"
             style={{
               flex: hoveredSide === 'torino' ? '1.2' : hoveredSide === 'paesana' ? '0.8' : '1',
               backgroundImage: 'linear-gradient(rgba(44, 62, 80, 0.15), rgba(44, 62, 80, 0.35)), url(/torino.jpg)',

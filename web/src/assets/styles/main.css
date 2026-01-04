@@ -171,9 +171,9 @@ body {
 
 /* Split layout */
 .split-layout {
-  margin-top: 64px;
+  margin-top: 0;
   display: flex;
-  height: calc(100vh - 64px);
+  height: 100vh;
   min-height: 600px;
 }
 
@@ -648,31 +648,51 @@ a {
 
 /* Responsive */
 @media (max-width: 768px) {
+  /* Mobile menu toggle visibility */
+  .mobile-menu-toggle {
+    display: block !important;
+  }
+
+  .desktop-nav {
+    display: none !important;
+  }
+
+  /* Navbar mobile */
   .navbar {
     padding: 0 16px;
+    height: 56px;
   }
 
   .navbar__logo {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
 
-  .navbar__links {
-    gap: 4px;
+  /* Hero sections mobile */
+  .hero {
+    height: 350px;
+    padding: 24px 20px;
   }
 
-  .navbar__links a {
-    font-size: 0.85rem;
-    padding: 6px 10px;
+  .hero h1 {
+    font-size: 2rem !important;
+    line-height: 1.2;
   }
 
+  .hero p {
+    font-size: 1rem !important;
+    line-height: 1.5;
+  }
+
+  /* Split layout mobile */
   .split-layout {
     flex-direction: column;
     height: auto;
+    margin-top: 56px;
   }
 
   .split-panel {
-    height: 50vh;
-    min-height: 400px;
+    height: 60vh;
+    min-height: 500px;
   }
 
   .split-panel:hover {
@@ -680,22 +700,643 @@ a {
   }
 
   .split-panel__overlay h1 {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
   }
 
-  .hero h1 {
-    font-size: 2rem;
+  .split-panel__overlay p {
+    font-size: 1.1rem;
   }
 
-  .hero p {
-    font-size: 1rem;
+  /* Properties grid mobile */
+  .properties {
+    padding: 0 16px;
+    margin: 32px auto;
+  }
+
+  .properties__header {
+    margin-bottom: 24px;
+  }
+
+  .properties__header h2 {
+    font-size: 1.75rem;
+    line-height: 1.3;
+  }
+
+  .properties__header p {
+    font-size: 0.95rem;
+    line-height: 1.6;
   }
 
   .properties__grid {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .property-card__image {
+    height: 240px;
+  }
+
+  .property-card__body {
+    padding: 18px 20px;
+  }
+
+  .property-card__title {
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .property-card__meta {
+    font-size: 0.9rem;
+  }
+
+  .property-card__price {
+    font-size: 1.35rem;
+  }
+
+  /* Buttons mobile */
+  .btn {
+    padding: 14px 24px;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+
+  /* Footer mobile */
+  .footer {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+    gap: 32px;
+  }
+
+  .footer__column h4 {
+    font-size: 1.05rem;
+    margin-bottom: 16px;
+  }
+
+  .footer__column p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* Forms mobile */
+  .login__card {
+    padding: 28px;
+    margin: 0 16px;
+  }
+
+  .login__card h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 14px 16px;
+  }
+
+  /* Admin page mobile */
+  .admin h3 {
+    font-size: 1.15rem;
+  }
+
+  /* Main content padding */
+  main {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* Tablet breakpoint */
+@media (max-width: 1024px) and (min-width: 769px) {
+  /* Tablet specific styles */
+  .properties__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .navbar {
+    padding: 0 24px;
+  }
+
+  .navbar__links a {
+    font-size: 0.875rem;
+    padding: 8px 14px;
+  }
+
+  .split-layout {
+    margin-top: 0;
+  }
+
+  .hero {
+    height: 380px;
+  }
+
+  .properties {
+    padding: 0 32px;
   }
 
   .footer {
-    grid-template-columns: 1fr;
+    padding: 48px 32px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Large mobile (small tablet) */
+@media (max-width: 600px) {
+  /* Smaller mobile adjustments */
+  .hero {
+    height: 280px;
+    padding: 20px 16px;
+  }
+
+  .hero h1 {
+    font-size: 1.75rem !important;
+    margin-bottom: 12px;
+  }
+
+  .hero p {
+    font-size: 0.95rem !important;
+  }
+
+  .split-panel {
+    min-height: 480px;
+    height: 65vh;
+  }
+
+  .split-panel h2 {
+    font-size: 2.2rem !important;
+    margin-bottom: 12px;
+  }
+
+  .split-panel p {
+    font-size: 1.05rem !important;
+  }
+
+  .properties__header h2 {
+    font-size: 1.5rem;
+  }
+
+  .properties__header p {
+    font-size: 0.9rem;
+  }
+
+  .property-card__title {
+    font-size: 1.05rem;
+  }
+
+  .property-card__meta {
+    font-size: 0.875rem;
+  }
+
+  .property-card__price {
+    font-size: 1.25rem;
+  }
+
+  /* Contatti page mobile */
+  .contatti-office-card {
+    grid-template-columns: 1fr !important;
+  }
+
+  .contatti-office-info {
+    padding: 28px 20px !important;
+  }
+
+  .contatti-office-title {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+  .contatti-office-title h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .contatti-map-container {
+    min-height: 300px !important;
+  }
+
+  /* Property detail page mobile */
+  .property-detail-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  .property-detail-characteristics {
+    grid-template-columns: 1fr !important;
+  }
+
+  .property-detail-main-info {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  /* Admin page additional mobile */
+  .admin-properties-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Hero icons mobile */
+  .hero-icon {
+    width: 64px !important;
+    height: 64px !important;
+  }
+
+  .hero-icon svg {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  /* Typography mobile improvements */
+  h1 {
+    font-size: 1.85rem !important;
+    line-height: 1.25;
+  }
+
+  h2 {
+    font-size: 1.6rem !important;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: 1.3rem !important;
+    line-height: 1.35;
+  }
+
+  /* Button sizing */
+  .btn {
+    font-size: 0.9rem !important;
+    padding: 13px 22px;
+  }
+
+  /* Login/Forms improvements */
+  .login {
+    padding: 48px 16px;
+  }
+
+  .login__card {
+    padding: 24px 20px;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 400px) {
+  /* Very small screens */
+  .navbar {
+    padding: 0 12px;
+  }
+
+  .navbar__logo {
+    font-size: 0.95rem;
+  }
+
+  .hero {
+    height: 280px;
+    padding: 20px 16px;
+  }
+
+  .hero h1 {
+    font-size: 1.7rem !important;
+  }
+
+  .hero p {
+    font-size: 0.95rem !important;
+  }
+
+  .split-panel {
+    min-height: 500px;
+    height: 75vh;
+  }
+
+  .split-panel h2 {
+    font-size: 2.3rem !important;
+    padding: 0 20px;
+    margin-bottom: 10px;
+  }
+
+  .split-panel p {
+    font-size: 1.1rem !important;
+    padding: 0 20px;
+  }
+
+  .split-panel__overlay {
+    padding: 30px 20px;
+  }
+
+  .split-panel__overlay h1 {
+    font-size: 2rem;
+  }
+
+  .properties {
+    padding: 0 14px;
+    margin: 28px auto;
+  }
+
+  .properties__header {
+    margin-bottom: 20px;
+  }
+
+  .properties__header h2 {
+    font-size: 1.5rem;
+  }
+
+  .properties__header p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .properties__grid {
+    gap: 18px;
+  }
+
+  .property-card__image {
+    height: 220px;
+  }
+
+  .property-card__body {
+    padding: 16px 18px;
+  }
+
+  .property-card__title {
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+  }
+
+  .property-card__meta {
+    font-size: 0.875rem;
+    margin-bottom: 10px;
+  }
+
+  .property-card__price {
+    font-size: 1.25rem;
+  }
+
+  .btn {
+    padding: 13px 20px;
+    font-size: 0.9rem !important;
+  }
+
+  .property-detail-main-info {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+    padding: 16px !important;
+  }
+
+  .property-detail-main-info > div {
+    padding: 8px;
+  }
+
+  .footer {
+    padding: 36px 18px;
+    gap: 24px;
+  }
+
+  .footer__column h4 {
+    font-size: 1.05rem;
+    margin-bottom: 14px;
+  }
+
+  .footer__column p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .login {
+    padding: 40px 14px;
+  }
+
+  .login__card {
+    padding: 24px 18px;
+    margin: 0 14px;
+  }
+
+  .login__card h2 {
+    font-size: 1.4rem;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 13px 15px;
+    font-size: 16px;
+  }
+
+  .contatti-office-info {
+    padding: 28px 18px !important;
+  }
+
+  .contatti-office-title h2 {
+    font-size: 1.35rem !important;
+  }
+
+  /* Mobile nav improvements */
+  .mobile-nav {
+    padding: 20px 14px;
+    gap: 6px;
+  }
+
+  .mobile-nav a {
+    padding: 13px 16px !important;
+    font-size: 0.975rem !important;
+  }
+
+  .mobile-nav svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  h1 {
+    font-size: 1.75rem !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  h3 {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* iPhone SE and very small devices (< 375px) */
+@media (max-width: 375px) {
+  .navbar {
+    padding: 0 10px;
+    height: 54px;
+  }
+
+  .navbar__logo {
+    font-size: 0.9rem;
+  }
+
+  .mobile-menu-toggle {
+    padding: 6px;
+  }
+
+  .split-panel {
+    min-height: 520px;
+    height: 80vh;
+  }
+
+  .split-panel h2 {
+    font-size: 2.1rem !important;
+    padding: 0 16px;
+  }
+
+  .split-panel p {
+    font-size: 1.05rem !important;
+    padding: 0 16px;
+  }
+
+  .hero {
+    height: 260px;
+    padding: 18px 14px;
+  }
+
+  .hero h1 {
+    font-size: 1.65rem !important;
+  }
+
+  .hero p {
+    font-size: 0.9rem !important;
+  }
+
+  .properties {
+    padding: 0 12px;
+    margin: 24px auto;
+  }
+
+  .properties__header h2 {
+    font-size: 1.4rem;
+  }
+
+  .properties__header p {
+    font-size: 0.875rem;
+  }
+
+  .property-card__image {
+    height: 200px;
+  }
+
+  .property-card__body {
+    padding: 14px 16px;
+  }
+
+  .property-card__title {
+    font-size: 1rem;
+  }
+
+  .property-card__meta {
+    font-size: 0.85rem;
+  }
+
+  .property-card__price {
+    font-size: 1.2rem;
+  }
+
+  .btn {
+    padding: 12px 18px;
+    font-size: 0.875rem !important;
+  }
+
+  .property-detail-main-info {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    padding: 14px !important;
+  }
+
+  .footer {
+    padding: 32px 14px;
+  }
+
+  .login__card {
+    padding: 20px 16px;
+    margin: 0 12px;
+  }
+
+  .mobile-nav {
+    padding: 18px 12px;
+  }
+
+  .mobile-nav a {
+    padding: 12px 14px !important;
+    font-size: 0.95rem !important;
+  }
+}
+
+/* Large desktop screens */
+@media (min-width: 1400px) {
+  .properties {
+    max-width: 1400px;
+  }
+
+  .properties__grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 32px;
+  }
+
+  .navbar {
+    padding: 0 48px;
+  }
+
+  .footer {
+    padding: 56px 48px;
+  }
+}
+
+/* Mobile landscape mode */
+@media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+  .split-panel {
+    min-height: 100vh;
+    height: 100vh;
+  }
+
+  .split-panel h2 {
+    font-size: 2.5rem !important;
+  }
+
+  .split-panel p {
+    font-size: 1.2rem !important;
+  }
+
+  .hero {
+    height: 100vh;
+  }
+
+  .navbar {
+    height: 50px;
+  }
+
+  .mobile-nav {
+    overflow-y: auto;
+  }
+}
+
+/* Print styles */
+@media print {
+  .navbar,
+  .footer,
+  .mobile-menu-toggle,
+  .mobile-nav {
+    display: none !important;
+  }
+
+  .split-layout {
+    margin-top: 0;
+  }
+
+  main {
+    margin-top: 0 !important;
+  }
+
+  .property-card {
+    break-inside: avoid;
   }
 }

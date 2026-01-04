@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { Property } from '../services/api';
 
 interface PropertiesGridProps {
@@ -17,6 +18,7 @@ function formatPrice(value: number): string {
 
 export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   if (!branch) return null;
 
@@ -54,9 +56,13 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
             <article 
               key={property.id} 
               className="property-card scale-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              style={{ 
+                animationDelay: `${index * 0.1}s`,
+                cursor: 'pointer'
+              }}
               onMouseEnter={() => setHoveredCard(property.id)}
               onMouseLeave={() => setHoveredCard(null)}
+              onClick={() => navigate(`/immobile/${property.id}`)}
             >
               <div style={{ position: 'relative' }}>
                 <div
@@ -67,36 +73,61 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
                   }}
                 >
                 </div>
-                {/* Overlay VENDUTO con barra diagonale */}
+                {/* Overlay VENDUTO elegante */}
                 {property.status === 'sold' && (
-                  <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: 'rgba(0, 0, 0, 0.6)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 10,
-                    pointerEvents: 'none'
-                  }}>
+                  <>
+                    {/* Overlay semitrasparente */}
                     <div style={{
-                      background: '#dc2626',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(30, 41, 59, 0.85) 100%)',
+                      backdropFilter: 'blur(2px)',
+                      zIndex: 10,
+                      pointerEvents: 'none',
+                      borderRadius: '12px'
+                    }}></div>
+                    
+                    {/* Badge VENDUTO angolo in alto a destra */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '16px',
+                      right: '16px',
+                      background: 'linear-gradient(135deg, #991b1b 0%, #dc2626 100%)',
                       color: 'white',
-                      padding: '12px 60px',
-                      fontSize: '1.5rem',
-                      fontWeight: '800',
-                      transform: 'rotate(-15deg)',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
-                      letterSpacing: '4px',
-                      border: '4px solid white',
-                      borderRadius: '4px'
+                      padding: '10px 24px',
+                      fontSize: '0.875rem',
+                      fontWeight: '700',
+                      letterSpacing: '2px',
+                      borderRadius: '6px',
+                      boxShadow: '0 4px 16px rgba(220, 38, 38, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.15)',
+                      zIndex: 11,
+                      pointerEvents: 'none',
+                      textTransform: 'uppercase'
                     }}>
-                      VENDUTO
+                      Venduto
                     </div>
-                  </div>
+
+                    {/* Testo centrale discreto */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      color: 'rgba(255, 255, 255, 0.95)',
+                      fontSize: '1.25rem',
+                      fontWeight: '600',
+                      letterSpacing: '1px',
+                      textAlign: 'center',
+                      zIndex: 11,
+                      pointerEvents: 'none',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.5)'
+                    }}>
+                      Immobile non disponibile
+                    </div>
+                  </>
                 )}
               </div>
               <div className="property-card__body">

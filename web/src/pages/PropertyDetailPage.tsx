@@ -50,40 +50,76 @@ export function PropertyDetailPage() {
           ← Indietro
         </button>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }} className="property-detail-grid">
           {/* Gallery */}
           <div>
             <div style={{ position: 'relative' }}>
               <img src={property.images[0]} alt={property.title} style={{ width: '100%', borderRadius: '16px', marginBottom: '16px' }} />
               {(property as any).status === 'sold' && (
                 <>
+                  {/* Overlay sfumato elegante */}
                   <div style={{
                     position: 'absolute',
                     top: 0,
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    background: 'rgba(0, 0, 0, 0.6)',
+                    background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.9) 100%)',
+                    backdropFilter: 'blur(3px)',
                     borderRadius: '16px',
-                    pointerEvents: 'none'
+                    pointerEvents: 'none',
+                    zIndex: 10
                   }}></div>
+                  
+                  {/* Badge VENDUTO moderno */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '32px',
+                    right: '32px',
+                    background: 'linear-gradient(135deg, #991b1b 0%, #dc2626 100%)',
+                    color: 'white',
+                    padding: '14px 32px',
+                    fontSize: '1rem',
+                    fontWeight: '700',
+                    letterSpacing: '2.5px',
+                    borderRadius: '8px',
+                    boxShadow: '0 8px 24px rgba(220, 38, 38, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2)',
+                    zIndex: 11,
+                    pointerEvents: 'none',
+                    textTransform: 'uppercase'
+                  }}>
+                    Venduto
+                  </div>
+
+                  {/* Messaggio centrale professionale */}
                   <div style={{
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
-                    transform: 'translate(-50%, -50%) rotate(-15deg)',
-                    background: '#dc2626',
-                    color: 'white',
-                    padding: '20px 80px',
-                    fontSize: '2.5rem',
-                    fontWeight: 'bold',
-                    border: '4px solid white',
-                    borderRadius: '8px',
-                    whiteSpace: 'nowrap',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
+                    transform: 'translate(-50%, -50%)',
+                    textAlign: 'center',
+                    zIndex: 11,
                     pointerEvents: 'none'
                   }}>
-                    VENDUTO
+                    <div style={{
+                      color: 'rgba(255, 255, 255, 0.95)',
+                      fontSize: '1.75rem',
+                      fontWeight: '600',
+                      letterSpacing: '0.5px',
+                      marginBottom: '8px',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      Immobile non disponibile
+                    </div>
+                    <div style={{
+                      color: 'rgba(255, 255, 255, 0.7)',
+                      fontSize: '1rem',
+                      fontWeight: '400',
+                      letterSpacing: '0.5px',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      Questo immobile è stato venduto
+                    </div>
                   </div>
                 </>
               )}
@@ -108,7 +144,7 @@ export function PropertyDetailPage() {
             </div>
 
             {/* Caratteristiche principali */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px', padding: '20px', background: '#f8fafc', borderRadius: '12px', border: '2px solid #e2e8f0' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px', padding: '20px', background: '#f8fafc', borderRadius: '12px', border: '2px solid #e2e8f0' }} className="property-detail-main-info">
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '4px' }}>Locali</div>
                 <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1e293b' }}>{property.details.rooms}</div>
@@ -127,7 +163,7 @@ export function PropertyDetailPage() {
             {(property as any).details && (
               <div style={{ marginBottom: '24px' }}>
                 <h3 style={{ marginBottom: '16px', fontSize: '1.3rem', color: '#1e293b' }}>🏠 Caratteristiche</h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }} className="property-detail-characteristics">
                   {(property as any).details.floor !== undefined && (
                     <div style={{ padding: '12px', background: '#f1f5f9', borderRadius: '8px' }}>
                       <span style={{ color: '#64748b', fontSize: '0.9rem' }}>Piano:</span>

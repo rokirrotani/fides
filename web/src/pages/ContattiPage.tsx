@@ -34,26 +34,42 @@ export function ContattiPage() {
     <>
       <Navbar />
       
-      <main style={{ marginTop: '56px', padding: '48px 24px', background: '#ffffff' }}>
-        <div className="fade-in" style={{ textAlign: 'center', marginBottom: '48px' }}>
+      <main style={{ marginTop: '72px', padding: '64px 24px', background: '#f9fafb' }}>
+        <div className="fade-in" style={{ textAlign: 'center', marginBottom: '64px' }}>
           <div style={{ 
             display: 'inline-flex', 
             alignItems: 'center', 
             justifyContent: 'center',
-            width: '48px',
-            height: '48px',
-            borderRadius: '8px',
-            background: '#0f172a',
-            marginBottom: '16px'
+            width: '56px',
+            height: '56px',
+            borderRadius: '12px',
+            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+            marginBottom: '20px',
+            boxShadow: '0 4px 16px rgba(15, 23, 42, 0.2)'
           }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
               <circle cx="12" cy="10" r="3"></circle>
             </svg>
           </div>
-          <h1 style={{ fontSize: '2rem', marginBottom: '12px', color: '#0f172a', fontWeight: '600' }}>Contatti</h1>
-          <p style={{ fontSize: '1rem', color: '#6b7280', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6' }}>
-            Visita le nostre sedi per qualsiasi informazione.
+          <h1 style={{ 
+            fontSize: '2.5rem', 
+            marginBottom: '16px', 
+            color: '#0f172a', 
+            fontWeight: '700',
+            letterSpacing: '-0.02em'
+          }}>
+            Le Nostre Sedi
+          </h1>
+          <p style={{ 
+            fontSize: '1.125rem', 
+            color: '#64748b', 
+            maxWidth: '700px', 
+            margin: '0 auto', 
+            lineHeight: '1.7',
+            fontWeight: '400'
+          }}>
+            Vieni a trovarci nelle nostre sedi per una consulenza personalizzata e professionale.
           </p>
         </div>
 
@@ -62,75 +78,152 @@ export function ContattiPage() {
             key={office.name} 
             className="scale-in"
             style={{ 
-              maxWidth: '1200px', 
-              margin: '0 auto 64px', 
-              background: '#fff', 
-              borderRadius: '16px', 
+              maxWidth: '1280px', 
+              margin: '0 auto 48px', 
+              background: '#ffffff', 
+              borderRadius: '20px', 
               overflow: 'hidden', 
-              boxShadow: hoveredOffice === office.name ? '0 12px 32px rgba(0,0,0,0.2)' : '0 4px 16px rgba(0,0,0,0.1)',
-              transition: 'all 0.3s ease',
-              transform: hoveredOffice === office.name ? 'translateY(-8px)' : 'translateY(0)',
-              animationDelay: `${index * 0.2}s`,
-              border: '1px solid #f3f4f6'
+              boxShadow: hoveredOffice === office.name 
+                ? '0 20px 40px rgba(15, 23, 42, 0.15)' 
+                : '0 4px 16px rgba(15, 23, 42, 0.08)',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: hoveredOffice === office.name ? 'translateY(-4px)' : 'translateY(0)',
+              animationDelay: `${index * 0.15}s`,
+              border: '1px solid #e2e8f0'
             }}
             onMouseEnter={() => setHoveredOffice(office.name)}
             onMouseLeave={() => setHoveredOffice(null)}
           >
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0 }} className="contatti-office-card">
               {/* Info */}
-              <div style={{ padding: '48px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+              <div style={{ padding: '56px 48px', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#ffffff' }} className="contatti-office-info">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }} className="contatti-office-title">
                   <span style={{ fontSize: '2rem' }}>{office.icon}</span>
-                  <h2 style={{ fontSize: '1.8rem', color: '#2c3e50', fontWeight: '700', margin: 0 }}>{office.name}</h2>
+                  <h2 style={{ 
+                    fontSize: '1.75rem', 
+                    color: '#0f172a', 
+                    fontWeight: '700', 
+                    margin: 0,
+                    letterSpacing: '-0.01em'
+                  }}>
+                    {office.name}
+                  </h2>
                 </div>
                 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
-                  <span style={{ fontSize: '1.5rem' }}>⭐</span>
-                  <span style={{ color: '#f59e0b', fontWeight: '600', fontSize: '1.1rem' }}>{office.rating}</span>
-                  <span style={{ color: '#9ca3af', fontSize: '0.95rem' }}>({office.reviews})</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '32px', paddingBottom: '24px', borderBottom: '1px solid #e2e8f0' }}>
+                  <span style={{ fontSize: '1.25rem' }}>⭐</span>
+                  <span style={{ color: '#0f172a', fontWeight: '700', fontSize: '1.125rem' }}>{office.rating}</span>
+                  <span style={{ color: '#94a3b8', fontSize: '0.925rem', fontWeight: '500' }}>({office.reviews})</span>
                 </div>
                 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" style={{ flexShrink: 0, marginTop: '2px' }}>
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                      <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                    <div>
-                      <strong style={{ color: '#2c3e50' }}>Indirizzo</strong><br />
-                      <span style={{ color: '#6b7280' }}>{office.address}</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                    <div style={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '10px',
+                      background: 'linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2.5">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                      </svg>
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <strong style={{ color: '#0f172a', fontSize: '0.925rem', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Indirizzo</strong>
+                      <span style={{ color: '#64748b', fontSize: '0.95rem', lineHeight: '1.5' }}>{office.address}</span>
                     </div>
                   </div>
                   
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2" style={{ flexShrink: 0, marginTop: '2px' }}>
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                    </svg>
-                    <div>
-                      <strong style={{ color: '#2c3e50' }}>Telefono</strong><br />
-                      <a href={`tel:${office.phone.replace(/\s/g, '')}`} style={{ color: '#16a34a', textDecoration: 'none', fontWeight: '600', transition: 'color 0.2s' }}>{office.phone}</a>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                    <div style={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '10px',
+                      background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e40af" strokeWidth="2.5">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                      </svg>
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <strong style={{ color: '#0f172a', fontSize: '0.925rem', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Telefono</strong>
+                      <a href={`tel:${office.phone.replace(/\s/g, '')}`} style={{ 
+                        color: '#1e40af', 
+                        textDecoration: 'none', 
+                        fontWeight: '600',
+                        fontSize: '0.95rem',
+                        transition: 'color 0.2s',
+                        display: 'inline-block'
+                      }}
+                      onMouseOver={(e) => e.currentTarget.style.color = '#dc2626'}
+                      onMouseOut={(e) => e.currentTarget.style.color = '#1e40af'}
+                      >
+                        {office.phone}
+                      </a>
                     </div>
                   </div>
                   
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" style={{ flexShrink: 0, marginTop: '2px' }}>
-                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                      <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                    <div>
-                      <strong style={{ color: '#2c3e50' }}>Email</strong><br />
-                      <a href={`mailto:${office.email}`} style={{ color: '#2563eb', textDecoration: 'none', transition: 'color 0.2s' }}>{office.email}</a>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                    <div style={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '10px',
+                      background: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2.5">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                      </svg>
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <strong style={{ color: '#0f172a', fontSize: '0.925rem', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Email</strong>
+                      <a href={`mailto:${office.email}`} style={{ 
+                        color: '#475569', 
+                        textDecoration: 'none',
+                        fontSize: '0.95rem',
+                        transition: 'color 0.2s',
+                        wordBreak: 'break-all'
+                      }}
+                      onMouseOver={(e) => e.currentTarget.style.color = '#dc2626'}
+                      onMouseOut={(e) => e.currentTarget.style.color = '#475569'}
+                      >
+                        {office.email}
+                      </a>
                     </div>
                   </div>
                   
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" style={{ flexShrink: 0, marginTop: '2px' }}>
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <div>
-                      <strong style={{ color: '#2c3e50' }}>Orari</strong><br />
-                      <span style={{ color: '#6b7280', fontSize: '0.9rem' }}>{office.hours}</span>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                    <div style={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '10px',
+                      background: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2.5">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg>
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <strong style={{ color: '#0f172a', fontSize: '0.925rem', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Orari</strong>
+                      <span style={{ color: '#64748b', fontSize: '0.875rem', lineHeight: '1.6' }}>{office.hours}</span>
                     </div>
                   </div>
                 </div>
@@ -139,24 +232,50 @@ export function ContattiPage() {
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(office.address)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn--primary"
-                  style={{ marginTop: '24px', textAlign: 'center' }}
+                  style={{ 
+                    marginTop: '32px', 
+                    textAlign: 'center',
+                    padding: '14px 28px',
+                    background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '10px',
+                    fontSize: '0.95rem',
+                    fontWeight: '600',
+                    textDecoration: 'none',
+                    display: 'inline-block',
+                    width: '100%',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxShadow: '0 4px 12px rgba(220, 38, 38, 0.3)',
+                    letterSpacing: '0.01em'
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(220, 38, 38, 0.4)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(220, 38, 38, 0.3)';
+                  }}
                 >
-                  Apri in Google Maps
+                  Apri in Google Maps →
                 </a>
               </div>
 
               {/* Map */}
-              <iframe
-                src={office.mapUrl}
-                width="100%"
-                height="500"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title={`Mappa ${office.name}`}
-              />
+              <div style={{ position: 'relative', overflow: 'hidden' }} className="contatti-map-container">
+                <iframe
+                  src={office.mapUrl}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, minHeight: '600px' }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title={`Mappa ${office.name}`}
+                />
+              </div>
             </div>
           </section>
         ))}
