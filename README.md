@@ -1,6 +1,8 @@
-# 🏠 FIDES IMMOBILIARE - Documentazione Completa
+# 🏠 FIDES IMMOBILIARE
 
-**Piattaforma immobiliare full-stack** per Fides Immobiliare con due sedi:
+**Piattaforma immobiliare full-stack** professionale con architettura moderna React + TypeScript + Node.js
+
+**Due sedi operative:**
 - 🏔️ **Paesana** (Valle Po) - Via Po, 1, 12034 Paesana CN
 - 🏙️ **Torino** (Centro) - Via Paolo Sacchi, 32, 10128 Torino TO
 
@@ -9,20 +11,20 @@
 ## 🚀 AVVIO RAPIDO
 
 ### Prerequisiti
-- Node.js 18+ 
-- NPM
+- **Node.js** 18+ (LTS)
+- **npm** o **yarn**
 
-### Installazione e Avvio
+### Installazione
 
-**Backend (Terminale 1):**
+**1. Backend (Express API):**
 ```bash
 cd server
 npm install
 npm run dev
 ```
-→ Server: http://localhost:4000
+→ API: http://localhost:4000
 
-**Frontend (Terminale 2):**
+**2. Frontend (React SPA):**
 ```bash
 cd web
 npm install
@@ -87,30 +89,32 @@ fides/
 
 ---
 
-## ✨ FUNZIONALITÀ
+## ✨ FUNZIONALITÀ PRINCIPALI
 
-### Frontend
-- ✅ Navbar blu scura (#0f172a) con icone bianche
-- ✅ Homepage split-screen interattiva
-- ✅ Griglia immobili con animazioni
-- ✅ Form vendita/acquisto validati
-- ✅ Cookie banner iubenda GDPR
-- ✅ Design responsive mobile
+### 🎨 Frontend
+- ✅ **Design Responsive** - Ottimizzato per tutti i dispositivi (iPhone SE → Desktop 4K)
+- ✅ **Homepage Split-Screen** - Interfaccia dinamica con effetti hover
+- ✅ **Griglia Immobili** - Card eleganti con badge "VENDUTO"
+- ✅ **Mobile Menu** - Hamburger menu con overlay full-screen
+- ✅ **Form Validati** - Vendita/acquisto con validazione real-time
+- ✅ **Cookie Banner** - Integrazione iubenda GDPR-compliant
+- ✅ **Animazioni Fluide** - Transizioni CSS professionali
 
-### Backend  
-- ✅ API RESTful Express + TypeScript
-- ✅ Database SQLite con DAO pattern
-- ✅ Autenticazione bcrypt sicura
-- ✅ Rate limiting (5 login/15min)
-- ✅ Security headers (CSP, HSTS)
-- ✅ 0 vulnerabilità npm
+### 🔧 Backend  
+- ✅ **API RESTful** - Express + TypeScript con architettura layered
+- ✅ **Database SQLite** - Pattern DAO per data access
+- ✅ **Autenticazione Sicura** - Bcrypt hashing + timing attack prevention
+- ✅ **Rate Limiting** - 5 tentativi login ogni 15 minuti
+- ✅ **Security Headers** - CSP, HSTS, X-Frame-Options
+- ✅ **Upload Immagini** - Gestione file multi-immagine
+- ✅ **0 Vulnerabilità** - npm audit clean
 
-### Sicurezza
-- 🔒 Bcrypt hashing (10 rounds)
-- 🔒 Protezione brute-force
-- 🔒 Timing attack prevention
-- 🔒 SQL injection prevention
-- 🔒 XSS/CSRF protection
+### 🛡️ Sicurezza
+- 🔒 **Password Hashing** - Bcrypt 10 rounds
+- 🔒 **Brute-Force Protection** - Rate limiting avanzato
+- 🔒 **Timing Attack Prevention** - Constant-time comparisons
+- 🔒 **SQL Injection Prevention** - Prepared statements
+- 🔒 **XSS/CSRF Protection** - Sanitizzazione input + security headers
 
 ---
 
@@ -142,20 +146,50 @@ GET  /api/requests       - Lista (auth)
 
 ## 🎨 DESIGN SYSTEM
 
-### Colori
+### Palette Colori
 ```css
---navy: #0f172a        /* Navbar, bottoni */
+--primary: #0f172a     /* Navy scuro - Navbar, header, footer */
+--accent: #dc2626      /* Rosso - CTA, prezzi, badge */
+--secondary: #64748b   /* Grigio - Testi secondari */
+--success: #16a34a     /* Verde - Successo, disponibile */
 --text: #2c3e50        /* Testo principale */
---red: #dc2626         /* CTA, prezzi */
---green: #16a34a       /* Successo */
+--light: #f8fafc       /* Background chiari */
+--gradient-sold: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.85))
+```
+
+### Breakpoints Responsive
+```css
+/* Mobile Extra Small (iPhone SE) */
+@media (max-width: 375px)   { /* 80vh panels, 1-col grid */ }
+
+/* Mobile Small */
+@media (max-width: 400px)   { /* 75vh panels, compact spacing */ }
+
+/* Mobile Standard */
+@media (max-width: 600px)   { /* 65vh panels, 1-col layout */ }
+
+/* Mobile Large / Tablet */
+@media (max-width: 768px)   { /* Hamburger menu, 60vh panels */ }
+
+/* Tablet */
+@media (min-width: 769px)   { /* 2-col grid, compact nav */ }
+
+/* Desktop */
+@media (min-width: 1024px)  { /* Full horizontal nav, 3-col grid */ }
+
+/* Large Desktop */
+@media (min-width: 1400px)  { /* Max-width containers, 4-col grid */ }
+
+/* Landscape Mode */
+@media (orientation: landscape) { /* 100vh panels */ }
 ```
 
 ### Animazioni CSS
 - `fadeIn` - Fade in + slide up
-- `slideInFromLeft/Right` - Slide laterali
-- `scaleIn` - Zoom in
-- `pulse` - Pulsazione
-- `float` - Galleggiamento
+- `slideInFromLeft/Right` - Slide laterali homepage
+- `scaleIn` - Zoom in per card
+- `pulse` - Pulsazione badge
+- `float` - Galleggiamento elementi
 
 ---
 
@@ -225,22 +259,44 @@ sudo certbot --nginx -d fides-immobiliare.it
 
 ## 🐛 TROUBLESHOOTING
 
-**Backend non parte?**
+### Backend non parte?
 ```bash
+# Windows
 netstat -ano | findstr :4000
-cd server && npm install
+# Linux/Mac
+lsof -ti:4000
+
+# Risoluzione
+cd server
+rm -rf node_modules package-lock.json
+npm install
+npm run dev
 ```
 
-**Login non funziona?**
-- Verifica credenziali in `CREDENZIALI_ADMIN.md`
-- Controlla console (F12) per errori
-- Se bloccato, attendi 15 minuti
+### Login non funziona?
+1. Verifica credenziali in `CREDENZIALI_ADMIN.md`
+2. Controlla console browser (F12 → Console)
+3. Se bloccato per troppi tentativi, attendi 15 minuti
+4. Verifica che backend sia attivo su porta 4000
 
-**Cookie banner non appare?**
-- Verifica script in `index.html`
-- Controlla Network tab
-- Disattiva AdBlocker
-- Pulisci cache (Ctrl+Shift+R)
+### Cookie banner non appare?
+1. Verifica script iubenda in `web/index.html`
+2. Apri DevTools → Network → cerca "iubenda"
+3. Disattiva AdBlocker/Privacy Badger
+4. Pulisci cache (Ctrl+Shift+R / Cmd+Shift+R)
+5. Verifica ID Cookie Policy in `index.html`
+
+### Responsive issues su mobile?
+1. Apri DevTools → Toggle device toolbar (Ctrl+Shift+M)
+2. Testa vari dispositivi (iPhone SE, iPad, Desktop)
+3. Verifica viewport meta tag in `index.html`
+4. Controlla media queries in `main.css`
+
+### Immagini non si caricano?
+1. Verifica cartella `server/uploads` esista
+2. Controlla permessi scrittura
+3. Verifica MAX_FILE_SIZE in backend
+4. Controlla formato supportato (jpg, png, webp)
 
 ---
 
@@ -275,11 +331,12 @@ cd server && npm install
 **Mensile:**
 - `npm audit fix` (vulnerabilità)
 - Backup database
-- Verifica link esterni
+- Verifica link esterniGennaio 2026 | **Status:** ✅ Production Ready
 
-**Trimestrale:**
-- Rotazione password admin
-- Riscansione cookie iubenda
+> 🎉 **Piattaforma immobiliare completa, sicura e GDPR-compliant!**
+
+**Stack**: React 18 + TypeScript + Vite | Express + Node.js + SQLite  
+**Architettura**: REST API layered (Route → Controller → Service → DAO) + React SPA responsive-first
 - Security audit
 
 ---
@@ -304,41 +361,41 @@ cd server && npm install
 **Architettura**: REST API layered + React SPA con design split-screen dinamico.
 
 ---
-
-## 🌟 Features Principali
-
-### 🎨 Frontend
-- ✨ **Split-Screen Homepage** - Interfaccia dinamica con immagini full-screen per Paesana e Torino
-- 🎯 **Animazioni Fluide** - Hover effects e transizioni morbide
-- 📱 **Design Responsive** - Ottimizzato per desktop, tablet e mobile
-- 🗺️ **Multi-Sede** - Pagine dedicate per ogni branch (Paesana/Torino)
-- 🖼️ **Gallerie Immobili** - Visualizzazione proprietà con immagini e dettagli
-- 🔍 **Ricerca Avanzata** - Filtri per località, prezzo, tipologia
-
-### 🔧 Backend
-- 🔐 **API REST Sicure** - Autenticazione e validazione robusta
-- 📊 **Dashboard Admin** - Gestione immobili, upload immagini
-- 🗄️ **Database SQLite** - Leggero e performante
-- 📤 **Upload Immagini** - Sistema di gestione file
-- ✅ **Validazione Zod** - Input/output type-safe
-
----
-
-## 🚀 Stack Tecnologico
+🚀 STACK TECNOLOGICO
 
 ### Backend (server/)
-- **Node.js + Express** → REST API server
-- **TypeScript** → type safety completa
-- **SQLite** → database embedded
-- **Zod** → validazione robusta input/output
-- **Architettura Layered** → Route → Controller → Service → DAO
-- **Middleware Stack** → CORS, security headers, rate limiting, error handling
+```typescript
+- Node.js 18+ + Express 4.x      // REST API server
+- TypeScript 5.x                 // Type safety completa
+- SQLite3                        // Database embedded performante
+- Bcrypt                         // Password hashing sicuro
+- Express Rate Limit             // Protezione brute-force
+- Helmet                         // Security headers
+- CORS                           // Cross-origin configurato
+- Multer                         // Upload file gestito
+```
+
+**Architettura Layered:**
+```
+Request → Route → Middleware → Controller → Service → DAO → Database
+                     ↓
+            (Auth, Validation, Rate Limit, Error Handler)
+```
 
 ### Frontend (web/)
-- **React 18 + Vite** → SPA ultra-veloce con HMR
-- **TypeScript** → type safety end-to-end
-- **React Router** → navigazione client-side
-- **CSS Modules** → styling modulare
+```typescript
+- React 18.3 + Vite 5.x          // SPA con HMR ultra-veloce
+- TypeScript 5.x                 // Type safety end-to-end
+- React Router 6.x               // Routing client-side
+- CSS3 Modules                   // Styling responsive
+- Fetch API                      // REST client
+```
+
+**Design Pattern:**
+- Component-based architecture
+- Mobile-first responsive design
+- Atomic design principles
+- Performance-optimized lazy loading
 - **Fetch API** → comunicazione REST con backend
 
 ---
@@ -559,25 +616,29 @@ npm run preview  # Preview build locale
 - Upload e gestione immagini
 - CRUD completo proprietà
 
-### ✅ Features Tecniche
-- [x] CRUD completo immobili
-- [x] Validazione robusta input (Zod)
-- [x] Upload immagini multiple
-- [x] Ricerca e filtri per branch
-- [x] Database SQLite ottimizzato
-- [x] API REST complete
-- [x] Middleware security stack
-- [x] Rate limiting
-- [x] Error handling centralizzato
-- [x] Request logging
+### ✅ Features Implementate
+- [x] **CRUD Immobili** - Gestione completa proprietà
+- [x] **Admin Panel** - Dashboard con autenticazione sicura
+- [x] **Upload Multi-Immagine** - Sistema robusto con validazione
+- [x] **Filtri per Sede** - Paesana/Torino separati
+- [x] **Responsive Design** - iPhone SE → Desktop 4K
+- [x] **Hamburger Menu** - Mobile navigation ottimizzata
+- [x] **Badge "VENDUTO"** - Overlay elegante con gradiente
+- [x] **Security Stack** - Rate limit, CORS, headers, sanitization
+- [x] **Error Handling** - Gestione centralizzata errori
+- [x] **Cookie Banner** - GDPR-compliant (iubenda)
+- [x] **Form Validati** - Vendita/acquisto con feedback
+- [x] **SEO Ready** - Meta tags, sitemap, structured data
 
-### 🚧 Roadmap Futura
-- [ ] Autenticazione JWT
-- [ ] Sistema preferiti utenti
-- [ ] Notifiche email automatiche
-- [ ] Integrazione Google Maps
-- [ ] Export PDF schede immobili
-- [ ] Analytics dashboard
+### 🎯 Roadmap Futura (Opzionale)
+- [ ] **Integrazione Portali** - Immobiliare.it, Casa.it API
+- [ ] **JWT Auth** - Token-based invece di sessioni
+- [ ] **Email Automatiche** - Notifiche richieste vendita/acquisto
+- [ ] **Google Maps Premium** - Mappe interattive proprietà
+- [ ] **Export PDF** - Schede immobili stampabili
+- [ ] **Analytics Dashboard** - Statistiche visite e conversioni
+- [ ] **Sistema Preferiti** - Utenti salvano immobili
+- [ ] **Multi-lingua** - IT/EN per clienti internazionali
 
 ---
 
@@ -604,15 +665,47 @@ MAX_FILE_SIZE=5242880  # 5MB
 - [Guida Sviluppo Rapido](./olllooooread.md)
 - [API Documentation](./docs/api.md)
 - [Database Schema](./docs/database.md)
-- [Frontend Components](./docs/components.md)
+- [F� VALUTAZIONE COMMERCIALE
+
+**Caratteristiche del prodotto:**
+- ✅ Full-stack custom (React + Node.js + TypeScript)
+- ✅ Design professionale responsive
+- ✅ Admin panel completo
+- ✅ Security best practices implementate
+- ✅ GDPR-compliant
+- ✅ Production-ready
+
+**Valore di mercato stimato:** €7.000 - €9.000
+
+**Target clienti:**
+- Piccole/medie agenzie immobiliari (2-10 agenti)
+- Agenzie che cercano indipendenza da portali terzi
+- Clienti che preferiscono investimento una-tantum vs canoni mensili
+
+**Cosa include la vendita:**
+- Codice sorgente completo
+- Documentazione tecnica
+- Setup deployment
+- 1h formazione admin panel (opzionale: +€500)
+- Personalizzazione logo/colori (opzionale: +€800)
 
 ---
 
-## 👥 Team
+## 👥 TEAM
 
-**Roki Rrotani** & **Alessandro Olivero** — 2025
+**Sviluppatori:** Roki Rrotani & Alessandro Olivero  
+**Anno:** 2026  
+**Contatto:** info@fidesimmobiliare.it
 
 ---
+
+## 📄 LICENSE
+
+**Proprietario:** Fides Immobiliare  
+**Uso:** Commerciale consentito  
+**Rivendita:** Possibile come prodotto completo
+
+Per acquisto o licenza, contattare: info@fidesimmobiliare.it
 
 ## 📄 License
 
