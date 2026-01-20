@@ -33,28 +33,6 @@ dist/
 build/
 *.js.map
 
-# ===== DATABASE =====
-*.sqlite
-*.db
-database.sqlite
-*.sqlite3
-*.sqlite-journal
-
-# ===== UPLOADS & MEDIA =====
-uploads/
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.webp
-*.svg
-*.mp4
-*.mov
-*.avi
-*.mkv
-*.wmv
-*.flv
-
 # ===== LOGS =====
 logs/
 *.log
@@ -114,12 +92,6 @@ web/.eslintcache
 
 # ===== DOCUMENTATION TEMP =====
 docs/.vuepress/dist/
-
-# ===== TESTING =====
-coverage/
-.nyc_output/
-test-results/
-junit.xml
 
 # ===== MISC =====
 *.tgz
