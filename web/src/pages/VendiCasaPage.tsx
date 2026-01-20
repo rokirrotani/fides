@@ -1048,6 +1048,13 @@ export function VendiCasaPage() {
 
         @media (max-width: 768px) {
           h1 { font-size: 2rem !important; }
+          
+          /* Prevent iOS zoom on inputs */
+          input,
+          textarea,
+          select {
+            font-size: 16px !important;
+          }
         }
       `}</style>
     </>

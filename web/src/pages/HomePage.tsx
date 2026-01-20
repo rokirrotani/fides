@@ -1,5 +1,6 @@
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
+import { ScrollToTop } from '../components/ScrollToTop';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -364,6 +365,7 @@ export function HomePage() {
       </main>
 
       <Footer />
+      <ScrollToTop />
 
       <style>{`
         @keyframes fadeIn {
@@ -382,15 +384,115 @@ export function HomePage() {
 
         .split-panel {
           will-change: flex;
+          -webkit-tap-highlight-color: transparent;
         }
 
+        /* Mobile optimizations */
         @media (max-width: 768px) {
+          .split-panel {
+            flex-direction: column !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+
           .split-panel h2 {
-            font-size: 2.5rem !important;
+            font-size: 2.8rem !important;
+            line-height: 1.1;
+          }
+          
+          .split-panel p {
+            font-size: 1.15rem !important;
+            line-height: 1.4;
+          }
+
+          .split-panel:active {
+            opacity: 0.95;
+          }
+
+          /* Logo centered on mobile */
+          .split-layout > div:last-child {
+            display: none;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .split-panel h2 {
+            font-size: 2.4rem !important;
+            padding: 0 20px;
+          }
+          
+          .split-panel p {
+            font-size: 1.05rem !important;
+            padding: 0 20px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .split-panel h2 {
+            font-size: 2.2rem !important;
           }
           
           .split-panel p {
             font-size: 1rem !important;
+          }
+
+          .split-panel > div:first-child > div:first-child {
+            font-size: 0.75rem !important;
+            padding: 6px 14px !important;
+          }
+        }
+
+        /* Tablet adjustments */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .split-panel h2 {
+            font-size: 3.2rem !important;
+          }
+          
+          .split-panel p {
+            font-size: 1.25rem !important;
+          }
+        }
+
+        /* Landscape mobile */
+        @media (max-height: 600px) and (orientation: landscape) {
+          .split-panel {
+            min-height: 100vh !important;
+          }
+
+          .split-panel h2 {
+            font-size: 2rem !important;
+          }
+
+          .split-panel p {
+            font-size: 0.95rem !important;
+          }
+
+          .split-panel > div:nth-child(2) {
+            padding: 30px 20px !important;
+          }
+        }
+
+        /* Performance optimizations */
+        .split-panel,
+        .split-panel * {
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+        }
+
+        /* Smooth scrolling */
+        html {
+          scroll-behavior: smooth;
+        }
+
+        /* Accessibility - reduce motion */
+        @media (prefers-reduced-motion: reduce) {
+          .split-panel,
+          .split-panel h2,
+          .split-panel p,
+          img[alt="Logo Fides Immobiliare"] {
+            transition: none !important;
+            animation: none !important;
           }
         }
       `}</style>

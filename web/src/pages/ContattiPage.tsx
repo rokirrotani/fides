@@ -623,6 +623,34 @@ export function ContattiPage() {
       </main>
 
       <Footer />
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+          h1 { font-size: 2rem !important; }
+          
+          section {
+            padding: 48px 16px !important;
+          }
+        }
+
+        @media (max-width: 600px) {
+          h1 { font-size: 1.75rem !important; }
+          
+          section {
+            padding: 32px 14px !important;
+          }
+        }
+      `}</style>
     </>
   );
 }

@@ -3,16 +3,16 @@ import bcrypt from 'bcryptjs';
 /**
  * CREDENZIALI ADMIN SICURE
  * 
- * Username: admin
- * Password: admin123
+ * Username: fidesimmobiliare2026
+ * Password: f1d3s1mm0b1l1@r3
  * 
  * ⚠️ IMPORTANTE: Non condividere queste credenziali!
  * La password è stata hashata con bcrypt (10 rounds) per massima sicurezza.
  */
 
-// Hash generato da: admin123
-const ADMIN_PASSWORD_HASH = '$2b$10$2FJk3fAP5s1EMZ0kzlN8qumKjAgUbkBRfbjL5URQqgI2DCX6ZrgSu';
-const ADMIN_USERNAME = 'admin';
+// Hash generato da: f1d3s1mm0b1l1@r3
+const ADMIN_PASSWORD_HASH = '$2b$10$MXKq76TWzmgoA7FmSdxXT.e5PCkrvjrZhYAMi1wcmrHaLKkTzdh3y';
+const ADMIN_USERNAME = 'fidesimmobiliare2026';
 
 export interface AdminCredentials {
   username: string;

@@ -1,9 +1,12 @@
 import { Request, Response } from 'express';
 import { verifyAdminCredentials } from '../config/security';
 
+// Mappa per tracciare i tentativi di login falliti per IP
+const loginAttempts = new Map<string, { count: number; blockedUntil: number }>();
+
 export class AuthController {
   /**
-   * Login admin
+   * Login admin con blocco dopo 3 tentativi
    */
   static async login(req: Request, res: Response): Promise<void> {
     const { username, password } = req.body;
@@ -26,19 +29,54 @@ export class AuthController {
       return;
     }
 
+    // Controlla se l'IP è bloccato
+    const now = Date.now();
+    const attempt = loginAttempts.get(ip);
+    
+    if (attempt && attempt.blockedUntil > now) {
+      const remainingTime = Math.ceil((attempt.blockedUntil - now) / 1000 / 60);
+      res.status(429).json({ 
+        error: `Troppi tentativi falliti. Account bloccato per ${remainingTime} minuti.` 
+      });
+      return;
+    }
+
     try {
       // Verifica credenziali
       const isValid = await verifyAdminCredentials(username, password);
 
       if (!isValid) {
-        // Log per sicurezza
-        console.warn(`⚠️ Tentativo di login fallito da IP: ${ip} alle ${new Date().toISOString()}`);
+        // Incrementa i tentativi falliti
+        const currentAttempts = attempt && attempt.blockedUntil < now 
+          ? 1 
+          : (attempt?.count || 0) + 1;
 
-        res.status(401).json({ error: 'Credenziali non valide' });
+        if (currentAttempts >= 3) {
+          // Blocca per 5 minuti
+          const blockTime = now + 5 * 60 * 1000;
+          loginAttempts.set(ip, { count: currentAttempts, blockedUntil: blockTime });
+          
+          console.warn(`🔒 IP ${ip} bloccato per 5 minuti dopo 3 tentativi falliti`);
+          
+          res.status(429).json({ 
+            error: 'Troppi tentativi falliti. Account bloccato per 5 minuti.' 
+          });
+          return;
+        } else {
+          loginAttempts.set(ip, { count: currentAttempts, blockedUntil: 0 });
+        }
+
+        console.warn(`⚠️ Tentativo di login fallito (${currentAttempts}/3) da IP: ${ip} alle ${new Date().toISOString()}`);
+
+        res.status(401).json({ 
+          error: `Credenziali non valide. Tentativi rimasti: ${3 - currentAttempts}` 
+        });
         return;
       }
 
-      // Login riuscito
+      // Login riuscito - resetta i tentativi
+      loginAttempts.delete(ip);
+      
       const sessionToken = generateSecureToken();
 
       console.log(`✅ Login admin riuscito da IP: ${ip} alle ${new Date().toISOString()}`);

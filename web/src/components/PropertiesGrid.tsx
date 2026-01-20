@@ -881,6 +881,63 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
           height: 6px;
           border-radius: 3px;
         }
+
+        /* Responsive Optimizations */
+        @media (max-width: 768px) {
+          .properties {
+            padding: 0 16px !important;
+            margin: 32px auto !important;
+          }
+
+          select {
+            font-size: 16px !important; /* Prevent zoom on iOS */
+            min-height: 44px !important;
+          }
+
+          input[type="range"]::-webkit-slider-thumb {
+            width: 28px !important;
+            height: 28px !important;
+          }
+
+          input[type="range"]::-moz-range-thumb {
+            width: 28px !important;
+            height: 28px !important;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .properties {
+            padding: 0 14px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          select {
+            padding: 12px 14px !important;
+          }
+
+          input[type="range"]::-webkit-slider-thumb {
+            width: 32px !important;
+            height: 32px !important;
+          }
+
+          input[type="range"]::-moz-range-thumb {
+            width: 32px !important;
+            height: 32px !important;
+          }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+          .property-card:hover {
+            transform: translateY(0) !important;
+          }
+
+          .property-card:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+          }
+        }
       `}</style>
     </section>
   );

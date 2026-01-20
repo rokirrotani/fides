@@ -1,4 +1,9 @@
 {
+  "name": "fides-immobiliare",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "powershell -ExecutionPolicy Bypass -File ./test-colorato.ps1"
+  },
   "devDependencies": {
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3"

@@ -1,0 +1,28 @@
+{
+  "name": "Fides Immobiliare - Agenzia Immobiliare Paesana e Torino",
+  "short_name": "Fides Immobiliare",
+  "description": "Trova la casa dei tuoi sogni a Paesana, Valle Po e Torino. Vendita, acquisto e affitto immobili.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0066ff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/Colore-Logo-sfondo-bianco.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/Colore-Logo-sfondo-bianco.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "lifestyle"],
+  "lang": "it-IT",
+  "dir": "ltr",
+  "prefer_related_applications": false
+}

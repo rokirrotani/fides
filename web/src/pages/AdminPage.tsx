@@ -1,5 +1,4 @@
 import { useState, FormEvent, useEffect, DragEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 
@@ -1511,6 +1510,41 @@ export function AdminPage() {
       </main>
 
       <Footer />
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+          main {
+            padding: 80px 16px 48px 16px !important;
+          }
+
+          h1 { font-size: 2rem !important; }
+          
+          /* Prevent iOS zoom on inputs */
+          input,
+          textarea,
+          select {
+            font-size: 16px !important;
+          }
+        }
+
+        @media (max-width: 600px) {
+          main {
+            padding: 72px 14px 40px 14px !important;
+          }
+
+          h1 { font-size: 1.75rem !important; }
+        }
+      `}</style>
     </>
   );
 }

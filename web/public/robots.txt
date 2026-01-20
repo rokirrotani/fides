@@ -1,0 +1,21 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://fidesimmobiliare.it/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin
+Disallow: /api/
+
+# Allow images and assets
+Allow: /assets/
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.svg$
+
+# Crawl delay (optional)
+Crawl-delay: 1

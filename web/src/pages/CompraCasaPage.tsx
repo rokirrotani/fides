@@ -813,6 +813,35 @@ export function CompraCasaPage() {
       </main>
 
       <Footer />
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+          h1 { font-size: 2rem !important; }
+          
+          /* Prevent iOS zoom on inputs */
+          input,
+          textarea,
+          select {
+            font-size: 16px !important;
+          }
+        }
+
+        @media (max-width: 600px) {
+          main {
+            padding: 32px 16px !important;
+          }
+        }
+      `}</style>
     </>
   );
 }

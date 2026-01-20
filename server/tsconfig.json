@@ -20,7 +20,7 @@
     "noFallthroughCasesInSwitch": true,
 
     /* === Librerie e tipi === */
-    "types": ["node"],
+    "types": ["node", "jest"],
     "lib": ["ES2020"],
 
     /* === Generazione output === */

@@ -100,6 +100,34 @@ function ChiSiamoPage() {
       </main>
 
       <Footer />
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+          main {
+            padding: 80px 16px 48px 16px !important;
+          }
+
+          h1 { font-size: 2rem !important; }
+        }
+
+        @media (max-width: 600px) {
+          main {
+            padding: 72px 14px 40px 14px !important;
+          }
+
+          h1 { font-size: 1.75rem !important; }
+        }
+      `}</style>
     </>
   );
 }
