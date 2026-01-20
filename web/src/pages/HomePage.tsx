@@ -112,7 +112,7 @@ export function HomePage() {
             className="split-panel"
             style={{
               flex: hoveredSide === 'torino' ? '1.2' : hoveredSide === 'paesana' ? '0.8' : '1',
-              backgroundImage: 'linear-gradient(rgba(44, 62, 80, 0.15), rgba(44, 62, 80, 0.35)), url(/torino.jpg)',
+              backgroundImage: 'linear-gradient(rgba(44, 62, 80, 0.15), rgba(44, 62, 80, 0.35)), url(https://images.unsplash.com/photo-1559564689-5f26e5f43d38?q=80&w=2000)',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               cursor: 'pointer',

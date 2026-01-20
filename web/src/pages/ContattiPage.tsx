@@ -34,7 +34,7 @@ export function ContattiPage() {
     <>
       <Navbar />
       
-      <main style={{ marginTop: '72px', padding: '64px 24px', background: '#f9fafb' }}>
+      <main style={{ marginTop: '72px', padding: '64px 24px', background: '#ffffff' }}>
         <div className="fade-in" style={{ textAlign: 'center', marginBottom: '64px' }}>
           <div style={{ 
             display: 'inline-flex', 
@@ -43,9 +43,9 @@ export function ContattiPage() {
             width: '56px',
             height: '56px',
             borderRadius: '12px',
-            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+            background: '#2c3e50',
             marginBottom: '20px',
-            boxShadow: '0 4px 16px rgba(15, 23, 42, 0.2)'
+            boxShadow: '0 4px 16px rgba(44, 62, 80, 0.15)'
           }}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -55,7 +55,7 @@ export function ContattiPage() {
           <h1 style={{ 
             fontSize: '2.5rem', 
             marginBottom: '16px', 
-            color: '#0f172a', 
+            color: '#2c3e50', 
             fontWeight: '700',
             letterSpacing: '-0.02em'
           }}>
@@ -63,7 +63,7 @@ export function ContattiPage() {
           </h1>
           <p style={{ 
             fontSize: '1.125rem', 
-            color: '#64748b', 
+            color: '#666', 
             maxWidth: '700px', 
             margin: '0 auto', 
             lineHeight: '1.7',
@@ -80,16 +80,16 @@ export function ContattiPage() {
             style={{ 
               maxWidth: '1280px', 
               margin: '0 auto 48px', 
-              background: '#ffffff', 
+              background: '#f8f9fa', 
               borderRadius: '20px', 
               overflow: 'hidden', 
               boxShadow: hoveredOffice === office.name 
-                ? '0 20px 40px rgba(15, 23, 42, 0.15)' 
-                : '0 4px 16px rgba(15, 23, 42, 0.08)',
+                ? '0 20px 40px rgba(44, 62, 80, 0.12)' 
+                : '0 4px 16px rgba(44, 62, 80, 0.06)',
               transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
               transform: hoveredOffice === office.name ? 'translateY(-4px)' : 'translateY(0)',
               animationDelay: `${index * 0.15}s`,
-              border: '1px solid #e2e8f0'
+              border: '1px solid #e8ecef'
             }}
             onMouseEnter={() => setHoveredOffice(office.name)}
             onMouseLeave={() => setHoveredOffice(null)}
@@ -101,7 +101,7 @@ export function ContattiPage() {
                   <span style={{ fontSize: '2rem' }}>{office.icon}</span>
                   <h2 style={{ 
                     fontSize: '1.75rem', 
-                    color: '#0f172a', 
+                    color: '#2c3e50', 
                     fontWeight: '700', 
                     margin: 0,
                     letterSpacing: '-0.01em'
@@ -110,10 +110,10 @@ export function ContattiPage() {
                   </h2>
                 </div>
                 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '32px', paddingBottom: '24px', borderBottom: '1px solid #e2e8f0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '32px', paddingBottom: '24px', borderBottom: '1px solid #e8ecef' }}>
                   <span style={{ fontSize: '1.25rem' }}>⭐</span>
-                  <span style={{ color: '#0f172a', fontWeight: '700', fontSize: '1.125rem' }}>{office.rating}</span>
-                  <span style={{ color: '#94a3b8', fontSize: '0.925rem', fontWeight: '500' }}>({office.reviews})</span>
+                  <span style={{ color: '#2c3e50', fontWeight: '700', fontSize: '1.125rem' }}>{office.rating}</span>
+                  <span style={{ color: '#999', fontSize: '0.925rem', fontWeight: '500' }}>({office.reviews})</span>
                 </div>
                 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -122,20 +122,20 @@ export function ContattiPage() {
                       width: '40px',
                       height: '40px',
                       borderRadius: '10px',
-                      background: 'linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)',
+                      background: '#f0f4f8',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       flexShrink: 0
                     }}>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2.5">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2.5">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                         <circle cx="12" cy="10" r="3"></circle>
                       </svg>
                     </div>
                     <div style={{ flex: 1 }}>
-                      <strong style={{ color: '#0f172a', fontSize: '0.925rem', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Indirizzo</strong>
-                      <span style={{ color: '#64748b', fontSize: '0.95rem', lineHeight: '1.5' }}>{office.address}</span>
+                      <strong style={{ color: '#2c3e50', fontSize: '0.925rem', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Indirizzo</strong>
+                      <span style={{ color: '#666', fontSize: '0.95rem', lineHeight: '1.5' }}>{office.address}</span>
                     </div>
                   </div>
                   
@@ -144,28 +144,28 @@ export function ContattiPage() {
                       width: '40px',
                       height: '40px',
                       borderRadius: '10px',
-                      background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
+                      background: '#f0f4f8',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       flexShrink: 0
                     }}>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e40af" strokeWidth="2.5">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2.5">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                       </svg>
                     </div>
                     <div style={{ flex: 1 }}>
-                      <strong style={{ color: '#0f172a', fontSize: '0.925rem', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Telefono</strong>
+                      <strong style={{ color: '#2c3e50', fontSize: '0.925rem', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Telefono</strong>
                       <a href={`tel:${office.phone.replace(/\s/g, '')}`} style={{ 
-                        color: '#1e40af', 
+                        color: '#2c3e50', 
                         textDecoration: 'none', 
                         fontWeight: '600',
                         fontSize: '0.95rem',
                         transition: 'color 0.2s',
                         display: 'inline-block'
                       }}
-                      onMouseOver={(e) => e.currentTarget.style.color = '#dc2626'}
-                      onMouseOut={(e) => e.currentTarget.style.color = '#1e40af'}
+                      onMouseOver={(e) => e.currentTarget.style.color = '#555'}
+                      onMouseOut={(e) => e.currentTarget.style.color = '#2c3e50'}
                       >
                         {office.phone}
                       </a>
@@ -177,28 +177,28 @@ export function ContattiPage() {
                       width: '40px',
                       height: '40px',
                       borderRadius: '10px',
-                      background: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
+                      background: '#f0f4f8',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       flexShrink: 0
                     }}>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2.5">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2.5">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
                       </svg>
                     </div>
                     <div style={{ flex: 1 }}>
-                      <strong style={{ color: '#0f172a', fontSize: '0.925rem', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Email</strong>
+                      <strong style={{ color: '#2c3e50', fontSize: '0.925rem', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Email</strong>
                       <a href={`mailto:${office.email}`} style={{ 
-                        color: '#475569', 
+                        color: '#666', 
                         textDecoration: 'none',
                         fontSize: '0.95rem',
                         transition: 'color 0.2s',
                         wordBreak: 'break-all'
                       }}
-                      onMouseOver={(e) => e.currentTarget.style.color = '#dc2626'}
-                      onMouseOut={(e) => e.currentTarget.style.color = '#475569'}
+                      onMouseOver={(e) => e.currentTarget.style.color = '#2c3e50'}
+                      onMouseOut={(e) => e.currentTarget.style.color = '#666'}
                       >
                         {office.email}
                       </a>
@@ -210,20 +210,20 @@ export function ContattiPage() {
                       width: '40px',
                       height: '40px',
                       borderRadius: '10px',
-                      background: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
+                      background: '#f0f4f8',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       flexShrink: 0
                     }}>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2.5">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" strokeWidth="2.5">
                         <circle cx="12" cy="12" r="10"></circle>
                         <polyline points="12 6 12 12 16 14"></polyline>
                       </svg>
                     </div>
                     <div style={{ flex: 1 }}>
-                      <strong style={{ color: '#0f172a', fontSize: '0.925rem', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Orari</strong>
-                      <span style={{ color: '#64748b', fontSize: '0.875rem', lineHeight: '1.6' }}>{office.hours}</span>
+                      <strong style={{ color: '#2c3e50', fontSize: '0.925rem', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Orari</strong>
+                      <span style={{ color: '#666', fontSize: '0.875rem', lineHeight: '1.6' }}>{office.hours}</span>
                     </div>
                   </div>
                 </div>
@@ -236,7 +236,7 @@ export function ContattiPage() {
                     marginTop: '32px', 
                     textAlign: 'center',
                     padding: '14px 28px',
-                    background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+                    background: '#2c3e50',
                     color: 'white',
                     border: 'none',
                     borderRadius: '10px',
@@ -247,16 +247,18 @@ export function ContattiPage() {
                     width: '100%',
                     cursor: 'pointer',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    boxShadow: '0 4px 12px rgba(220, 38, 38, 0.3)',
+                    boxShadow: '0 4px 12px rgba(44, 62, 80, 0.2)',
                     letterSpacing: '0.01em'
                   }}
                   onMouseOver={(e) => {
                     e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(220, 38, 38, 0.4)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(44, 62, 80, 0.3)';
+                    e.currentTarget.style.background = '#1a252f';
                   }}
                   onMouseOut={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(220, 38, 38, 0.3)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(44, 62, 80, 0.2)';
+                    e.currentTarget.style.background = '#2c3e50';
                   }}
                 >
                   Apri in Google Maps →
