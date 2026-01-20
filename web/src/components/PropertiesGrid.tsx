@@ -47,7 +47,10 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
     let filtered = properties.filter(property => {
       if (property.status === 'sold') return false;
       if (filters.type !== 'all' && property.type !== filters.type) return false;
-      if (filters.propertyType !== 'all' && property.propertyType !== filters.propertyType) return false;
+      if (filters.propertyType !== 'all') {
+        const propType = property.propertyType || property.category;
+        if (propType !== filters.propertyType) return false;
+      }
       if (property.price < filters.priceMin || property.price > filters.priceMax) return false;
       if (property.details.sqm < filters.sqmMin || property.details.sqm > filters.sqmMax) return false;
       return true;
@@ -56,8 +59,11 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
     // Ordina
     switch (sortBy) {
       case 'recent':
-        // Assumiamo che ci sia un campo createdAt
-        filtered.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+        filtered.sort((a, b) => {
+          const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+          const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          return dateB - dateA;
+        });
         break;
       case 'price_asc':
         filtered.sort((a, b) => a.price - b.price);
@@ -80,7 +86,7 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
     padding: '11px 35px 11px 14px',
     borderRadius: '8px',
     border: '1px solid rgba(209, 213, 219, 0.3)',
-    background: 'rgba(249, 250, 251, 0.05)',
+    background: 'rgba(30, 30, 30, 0.8)',
     color: '#ffffff',
     fontSize: '0.9rem',
     cursor: 'pointer',
@@ -90,6 +96,12 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'right 12px center',
     minWidth: '140px'
+  };
+
+  const optionStyle = {
+    background: '#1e1e1e',
+    color: '#ffffff',
+    padding: '8px'
   };
 
   const rangeStyle = {
@@ -106,13 +118,13 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
     <section id="properties" className="properties fade-in">
       {/* BARRA FILTRI ORIZZONTALE */}
       <div style={{
-        background: 'rgba(255, 255, 255, 0.03)',
+        background: 'rgba(255, 255, 255, 0.95)',
         backdropFilter: 'blur(10px)',
         padding: '20px 24px',
         marginBottom: '32px',
         borderRadius: '12px',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)'
+        border: '1px solid rgba(209, 213, 219, 0.5)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
       }}>
         <div style={{
           display: 'flex',
@@ -126,7 +138,7 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
               display: 'block', 
               marginBottom: '6px', 
               fontSize: '0.8rem',
-              color: 'rgba(255, 255, 255, 0.6)',
+              color: '#1a1a1a',
               fontWeight: '500'
             }}>
               Contratto
@@ -136,9 +148,9 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
               value={filters.type}
               onChange={(e) => setFilters({ ...filters, type: e.target.value })}
             >
-              <option value="all">Tutti</option>
-              <option value="sale">Vendita</option>
-              <option value="rent">Affitto</option>
+              <option style={optionStyle} value="all">Tutti</option>
+              <option style={optionStyle} value="sale">Vendita</option>
+              <option style={optionStyle} value="rent">Affitto</option>
             </select>
           </div>
 
@@ -148,7 +160,7 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
               display: 'block', 
               marginBottom: '6px', 
               fontSize: '0.8rem',
-              color: 'rgba(255, 255, 255, 0.6)',
+              color: '#1a1a1a',
               fontWeight: '500'
             }}>
               Tipologia
@@ -158,13 +170,13 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
               value={filters.propertyType}
               onChange={(e) => setFilters({ ...filters, propertyType: e.target.value })}
             >
-              <option value="all">Tutti</option>
-              <option value="apartment">Appartamento</option>
-              <option value="villa">Villa</option>
-              <option value="house">Casa indipendente</option>
-              <option value="rustico">Rustico/Casale</option>
-              <option value="attico">Attico</option>
-              <option value="loft">Loft</option>
+              <option style={optionStyle} value="all">Tutti</option>
+              <option style={optionStyle} value="apartment">Appartamento</option>
+              <option style={optionStyle} value="villa">Villa</option>
+              <option style={optionStyle} value="house">Casa indipendente</option>
+              <option style={optionStyle} value="rustico">Rustico/Casale</option>
+              <option style={optionStyle} value="attico">Attico</option>
+              <option style={optionStyle} value="loft">Loft</option>
             </select>
           </div>
 
@@ -174,7 +186,7 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
               display: 'block', 
               marginBottom: '6px', 
               fontSize: '0.8rem',
-              color: 'rgba(255, 255, 255, 0.6)',
+              color: '#1a1a1a',
               fontWeight: '500'
             }}>
               Prezzo
@@ -185,7 +197,7 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
                 justifyContent: 'space-between', 
                 marginBottom: '8px',
                 fontSize: '0.85rem',
-                color: 'rgba(255, 255, 255, 0.8)'
+                color: '#1a1a1a'
               }}>
                 <span>{formatPrice(filters.priceMin)}</span>
                 <span>{formatPrice(filters.priceMax)}</span>
@@ -238,7 +250,7 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
               display: 'block', 
               marginBottom: '6px', 
               fontSize: '0.8rem',
-              color: 'rgba(255, 255, 255, 0.6)',
+              color: '#1a1a1a',
               fontWeight: '500'
             }}>
               Superficie
@@ -249,7 +261,7 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
                 justifyContent: 'space-between', 
                 marginBottom: '8px',
                 fontSize: '0.85rem',
-                color: 'rgba(255, 255, 255, 0.8)'
+                color: '#1a1a1a'
               }}>
                 <span>{filters.sqmMin} m²</span>
                 <span>{filters.sqmMax} m²</span>
@@ -363,11 +375,11 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
-            <option value="recent">Più recenti</option>
-            <option value="price_asc">Prezzo crescente</option>
-            <option value="price_desc">Prezzo decrescente</option>
-            <option value="sqm_asc">Superficie crescente</option>
-            <option value="sqm_desc">Superficie decrescente</option>
+            <option style={optionStyle} value="recent">Più recenti</option>
+            <option style={optionStyle} value="price_asc">Prezzo crescente</option>
+            <option style={optionStyle} value="price_desc">Prezzo decrescente</option>
+            <option style={optionStyle} value="sqm_asc">Superficie crescente</option>
+            <option style={optionStyle} value="sqm_desc">Superficie decrescente</option>
           </select>
         </div>
       </div>

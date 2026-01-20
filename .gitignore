@@ -25,17 +25,20 @@ coverage/
 .env.development.local
 .env.test.local
 .env.production.local
+.env.*.local
 
 # ===== TYPESCRIPT =====
 *.tsbuildinfo
 dist/
 build/
+*.js.map
 
 # ===== DATABASE =====
 *.sqlite
 *.db
 database.sqlite
 *.sqlite3
+*.sqlite-journal
 
 # ===== UPLOADS & MEDIA =====
 uploads/
@@ -48,6 +51,9 @@ uploads/
 *.mp4
 *.mov
 *.avi
+*.mkv
+*.wmv
+*.flv
 
 # ===== LOGS =====
 logs/
@@ -55,10 +61,16 @@ logs/
 
 # ===== EDITORS & IDEs =====
 .vscode/
+.vscode-test/
 .idea/
 *.swp
 *.swo
 *~
+.project
+.classpath
+.settings/
+*.sublime-workspace
+*.sublime-project
 
 # ===== OS GENERATED =====
 .DS_Store
@@ -68,29 +80,37 @@ logs/
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
 
 # ===== TEMPORARY FILES =====
 *.tmp
 *.temp
 .cache/
+tmp/
+temp/
 
 # ===== PACKAGE MANAGERS =====
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+.yarn/
+.pnp.*
 
 # ===== VITE (Frontend) =====
 # Vite build output
 web/dist/
 web/build/
+.vite/
 
 # ===== REACT =====
 web/.eslintcache
+.eslintcache
 
 # ===== BACKUP FILES =====
 *.bak
 *.backup
 *.old
+*.orig
 
 # ===== DOCUMENTATION TEMP =====
 docs/.vuepress/dist/
@@ -99,9 +119,26 @@ docs/.vuepress/dist/
 coverage/
 .nyc_output/
 test-results/
+junit.xml
 
 # ===== MISC =====
 *.tgz
 *.tar.gz
 .npm
-.eslintcache
+.node_repl_history
+.yarn-integrity
+.env.test
+.vercel
+.turbo
+
+# ===== BUILD ARTIFACTS =====
+server/dist/
+server/build/
+web/dist/
+web/build/
+
+# ===== LOCK FILES (Opzionale - puoi rimuovere se vuoi committarli) =====
+# Sconsigliato committare i lock files per librerie, ma raccomandato per applicazioni
+# Decommenta la riga sotto se vuoi committare i lock files:
+# !package-lock.json
+# !yarn.lock

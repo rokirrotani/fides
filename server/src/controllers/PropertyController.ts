@@ -19,13 +19,14 @@ export class PropertyController {
     }
   };
 
-  getPropertyById = async (req: Request, res: Response) => {
+  getPropertyById = async (req: Request, res: Response): Promise<void> => {
     try {
       const { id } = req.params;
       const property = await this.propertyService.getPropertyById(id);
       
       if (!property) {
-        return res.status(404).json({ error: 'Property not found' });
+        res.status(404).json({ error: 'Property not found' });
+        return;
       }
       
       res.json(property);
@@ -50,7 +51,7 @@ export class PropertyController {
     }
   };
 
-  updateProperty = async (req: Request, res: Response) => {
+  updateProperty = async (req: Request, res: Response): Promise<void> => {
     try {
       const { id } = req.params;
       const validatedData = UpdatePropertyDTO.parse(req.body);
@@ -58,7 +59,8 @@ export class PropertyController {
       const property = await this.propertyService.updateProperty(id, validatedData);
       
       if (!property) {
-        return res.status(404).json({ error: 'Property not found' });
+        res.status(404).json({ error: 'Property not found' });
+        return;
       }
       
       res.json(property);
@@ -72,13 +74,14 @@ export class PropertyController {
     }
   };
 
-  deleteProperty = async (req: Request, res: Response) => {
+  deleteProperty = async (req: Request, res: Response): Promise<void> => {
     try {
       const { id } = req.params;
       const deleted = await this.propertyService.deleteProperty(id);
       
       if (!deleted) {
-        return res.status(404).json({ error: 'Property not found' });
+        res.status(404).json({ error: 'Property not found' });
+        return;
       }
       
       res.status(204).send();

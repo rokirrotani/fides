@@ -18,10 +18,15 @@ export interface Property {
   price: number;
   type: 'sale' | 'rent';
   category: 'apartment' | 'house' | 'commercial';
+  propertyType?: 'apartment' | 'villa' | 'house' | 'rustico' | 'attico' | 'loft';
   location: PropertyLocation;
   details: PropertyDetails;
   images: string[];
   status?: 'available' | 'sold';
+  createdAt?: string;
+  features?: {
+    virtualTour?: boolean;
+  };
 }
 
 const API_BASE_URL = 'http://localhost:4000';
