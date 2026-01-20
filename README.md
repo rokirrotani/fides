@@ -93,10 +93,11 @@ fides/
 
 ### 🎨 Frontend
 - ✅ **Design Responsive** - Ottimizzato per tutti i dispositivi (iPhone SE → Desktop 4K)
-- ✅ **Homepage Split-Screen** - Interfaccia dinamica con effetti hover
+- ✅ **Homepage Split-Screen** - Interfaccia dinamica con Mole Antonelliana ed effetti hover
 - ✅ **Griglia Immobili** - Card eleganti con badge "VENDUTO"
 - ✅ **Mobile Menu** - Hamburger menu con overlay full-screen
 - ✅ **Form Validati** - Vendita/acquisto con validazione real-time
+- ✅ **Pagina Contatti** - Design professionale con palette neutra e elegante
 - ✅ **Cookie Banner** - Integrazione iubenda GDPR-compliant
 - ✅ **Animazioni Fluide** - Transizioni CSS professionali
 
@@ -596,7 +597,7 @@ npm run preview  # Preview build locale
 ### 🏠 Homepage
 - Split-screen dinamico con immagini full-screen
 - Sezione Paesana (sinistra) con zani1.jpeg
-- Sezione Torino (destra) con torino.jpg
+- Sezione Torino (destra) con **foto della Mole Antonelliana** (Unsplash)
 - Effetti hover interattivi con espansione
 - Logo centrale "FIDES IMMOBILIARE"
 - Sezione "Chi Siamo" informativa
@@ -609,7 +610,7 @@ npm run preview  # Preview build locale
 
 ### 📄 Pagine Istituzionali
 - **Chi Siamo** - Storia e valori aziendali
-- **Contatti** - Form contatti e informazioni
+- **Contatti** - Design professionale con palette neutra (grigio #2c3e50), schede uffici eleganti, mappe integrate Google Maps
 
 ### 🔧 Area Admin
 - Dashboard gestione immobili

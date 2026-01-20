@@ -1,6 +1,7 @@
 # ✅ MODIFICHE COMPLETATE - FIDES IMMOBILIARE
 
-**Data completamento:** 31 Dicembre 2025
+**Data ultimo aggiornamento:** 20 Gennaio 2026  
+**Data completamento iniziale:** 31 Dicembre 2025
 
 ---
 
@@ -113,11 +114,42 @@
 ## 📊 Statistiche Modifiche
 
 - **File creati:** 8
-- **File modificati:** 6
-- **Totale file:** 14
+- **File modificati:** 8
+- **Totale file:** 16
 - **Nuove pagine:** 2
 - **Nuovi endpoint API:** 10
 - **Nuovi componenti UI:** 2 form completi
+- **Restyling pagine:** 2 (Homepage + Contatti)
+
+---
+
+---
+
+### 7️⃣ **Immagine Mole Antonelliana - Homepage** ✅
+**File modificati:**
+- `web/src/pages/HomePage.tsx`
+
+**Funzionalità:**
+- ✅ Sostituita immagine sezione Torino con foto professionale della Mole Antonelliana
+- ✅ Immagine da Unsplash (https://images.unsplash.com/photo-1559564689-5f26e5f43d38)
+- ✅ Ottimizzata per performance con parametri q=80&w=2000
+- ✅ Mantenuto overlay scuro per leggibilità testo
+
+---
+
+### 8️⃣ **Restyling Professionale Pagina Contatti** ✅
+**File modificati:**
+- `web/src/pages/ContattiPage.tsx`
+
+**Funzionalità:**
+- ✅ Palette colori unificata con il resto del sito (grigio #2c3e50)
+- ✅ Rimossi gradienti colorati casuali (rosso, blu)
+- ✅ Sfondo principale bianco puro (#ffffff)
+- ✅ Icone con background grigio chiaro uniforme (#f0f4f8)
+- ✅ Testi in grigio professionale (#666, #2c3e50)
+- ✅ Pulsante "Apri in Google Maps" elegante grigio scuro
+- ✅ Bordi e ombre uniformati con tonalità neutre
+- ✅ Design pulito e minimalista coerente con brand
 
 ---
 
@@ -130,6 +162,8 @@ npm run dev
 ```
 
 Vai a:
+- http://localhost:5173/ (per vedere la Mole Antonelliana)
+- http://localhost:5173/contatti (per vedere il design professionale)
 - http://localhost:5173/vendi-casa
 - http://localhost:5173/compra-casa
 - http://localhost:5173/admin (per vedere il checkbox Manda Zani)
