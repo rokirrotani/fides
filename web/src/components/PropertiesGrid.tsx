@@ -18,20 +18,27 @@ function formatPrice(value: number): string {
 
 export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [filtersOpen, setFiltersOpen] = useState(true);
   const navigate = useNavigate();
+
+  // Calcola il prezzo massimo SOLO UNA VOLTA dalle proprietà originali
+  const absoluteMaxPrice = useMemo(() => {
+    if (properties.length === 0) return 1000000;
+    return Math.max(...properties.map(p => p.price));
+  }, [properties]);
 
   // Stati per i filtri
   const [filters, setFilters] = useState({
     type: 'all',
     propertyType: 'all',
     priceMin: 0,
-    priceMax: 1000000,
+    priceMax: absoluteMaxPrice,
     sqmMin: 20,
     sqmMax: 500
   });
 
   // Ordinamento
-  const [sortBy, setSortBy] = useState('recent'); // recent, price_asc, price_desc, sqm_asc, sqm_desc
+  const [sortBy, setSortBy] = useState('recent');
 
   if (!branch) return null;
 
@@ -82,260 +89,475 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
     return filtered;
   }, [properties, filters, sortBy]);
 
-  const selectStyle = {
-    padding: '11px 35px 11px 14px',
-    borderRadius: '8px',
-    border: '1px solid rgba(209, 213, 219, 0.3)',
-    background: 'rgba(30, 30, 30, 0.8)',
-    color: '#ffffff',
-    fontSize: '0.9rem',
-    cursor: 'pointer',
-    outline: 'none',
-    appearance: 'none' as const,
-    backgroundImage: `url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E")`,
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'right 12px center',
-    minWidth: '140px'
-  };
-
-  const optionStyle = {
-    background: '#1e1e1e',
-    color: '#ffffff',
-    padding: '8px'
-  };
-
-  const rangeStyle = {
-    width: '100%',
-    height: '6px',
-    borderRadius: '3px',
-    background: 'rgba(209, 213, 219, 0.3)',
-    outline: 'none',
-    WebkitAppearance: 'none' as const,
-    appearance: 'none' as const
+  const handleResetFilters = () => {
+    setFilters({
+      type: 'all',
+      propertyType: 'all',
+      priceMin: 0,
+      priceMax: absoluteMaxPrice,
+      sqmMin: 20,
+      sqmMax: 500
+    });
   };
 
   return (
     <section id="properties" className="properties fade-in">
-      {/* BARRA FILTRI ORIZZONTALE */}
+      {/* BARRA FILTRI MODERNA CON COLLAPSIBILE */}
       <div style={{
-        background: 'rgba(255, 255, 255, 0.95)',
-        backdropFilter: 'blur(10px)',
-        padding: '20px 24px',
-        marginBottom: '32px',
-        borderRadius: '12px',
-        border: '1px solid rgba(209, 213, 219, 0.5)',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+        background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%)',
+        backdropFilter: 'blur(20px)',
+        marginBottom: '40px',
+        borderRadius: '16px',
+        border: '2px solid rgba(16, 185, 129, 0.4)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(148, 163, 184, 0.1), 0 0 20px rgba(16, 185, 129, 0.15)',
+        position: 'relative',
+        overflow: 'hidden',
+        transition: 'all 0.3s ease'
       }}>
+        {/* Background gradient animato */}
         <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '20px',
-          flexWrap: 'wrap'
-        }}>
-          {/* Contratto */}
-          <div>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '6px', 
-              fontSize: '0.8rem',
-              color: '#1a1a1a',
-              fontWeight: '500'
-            }}>
-              Contratto
-            </label>
-            <select
-              style={selectStyle}
-              value={filters.type}
-              onChange={(e) => setFilters({ ...filters, type: e.target.value })}
-            >
-              <option style={optionStyle} value="all">Tutti</option>
-              <option style={optionStyle} value="sale">Vendita</option>
-              <option style={optionStyle} value="rent">Affitto</option>
-            </select>
-          </div>
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 50%)',
+          pointerEvents: 'none'
+        }}></div>
 
-          {/* Tipologia */}
-          <div>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '6px', 
-              fontSize: '0.8rem',
-              color: '#1a1a1a',
-              fontWeight: '500'
-            }}>
-              Tipologia
-            </label>
-            <select
-              style={selectStyle}
-              value={filters.propertyType}
-              onChange={(e) => setFilters({ ...filters, propertyType: e.target.value })}
-            >
-              <option style={optionStyle} value="all">Tutti</option>
-              <option style={optionStyle} value="apartment">Appartamento</option>
-              <option style={optionStyle} value="villa">Villa</option>
-              <option style={optionStyle} value="house">Casa indipendente</option>
-              <option style={optionStyle} value="rustico">Rustico/Casale</option>
-              <option style={optionStyle} value="attico">Attico</option>
-              <option style={optionStyle} value="loft">Loft</option>
-            </select>
-          </div>
-
-          {/* Prezzo - Slider */}
-          <div style={{ flex: '1', minWidth: '280px' }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '6px', 
-              fontSize: '0.8rem',
-              color: '#1a1a1a',
-              fontWeight: '500'
-            }}>
-              Prezzo
-            </label>
-            <div style={{ position: 'relative' }}>
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                marginBottom: '8px',
-                fontSize: '0.85rem',
-                color: '#1a1a1a'
-              }}>
-                <span>{formatPrice(filters.priceMin)}</span>
-                <span>{formatPrice(filters.priceMax)}</span>
-              </div>
-              <div style={{ position: 'relative', height: '6px' }}>
-                <input
-                  type="range"
-                  min="0"
-                  max="1000000"
-                  step="10000"
-                  value={filters.priceMin}
-                  onChange={(e) => setFilters({ ...filters, priceMin: parseInt(e.target.value) })}
-                  style={{
-                    ...rangeStyle,
-                    position: 'absolute',
-                    pointerEvents: 'none',
-                    zIndex: 3
-                  }}
-                />
-                <input
-                  type="range"
-                  min="0"
-                  max="1000000"
-                  step="10000"
-                  value={filters.priceMax}
-                  onChange={(e) => setFilters({ ...filters, priceMax: parseInt(e.target.value) })}
-                  style={{
-                    ...rangeStyle,
-                    position: 'absolute',
-                    zIndex: 4
-                  }}
-                />
-                {/* Barra riempimento */}
-                <div style={{
-                  position: 'absolute',
-                  height: '6px',
-                  background: 'linear-gradient(90deg, #10b981 0%, #059669 100%)',
-                  borderRadius: '3px',
-                  left: `${(filters.priceMin / 1000000) * 100}%`,
-                  right: `${100 - (filters.priceMax / 1000000) * 100}%`,
-                  zIndex: 2
-                }}></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Superficie - Slider */}
-          <div style={{ flex: '1', minWidth: '280px' }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '6px', 
-              fontSize: '0.8rem',
-              color: '#1a1a1a',
-              fontWeight: '500'
-            }}>
-              Superficie
-            </label>
-            <div style={{ position: 'relative' }}>
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                marginBottom: '8px',
-                fontSize: '0.85rem',
-                color: '#1a1a1a'
-              }}>
-                <span>{filters.sqmMin} m²</span>
-                <span>{filters.sqmMax} m²</span>
-              </div>
-              <div style={{ position: 'relative', height: '6px' }}>
-                <input
-                  type="range"
-                  min="20"
-                  max="500"
-                  step="5"
-                  value={filters.sqmMin}
-                  onChange={(e) => setFilters({ ...filters, sqmMin: parseInt(e.target.value) })}
-                  style={{
-                    ...rangeStyle,
-                    position: 'absolute',
-                    pointerEvents: 'none',
-                    zIndex: 3
-                  }}
-                />
-                <input
-                  type="range"
-                  min="20"
-                  max="500"
-                  step="5"
-                  value={filters.sqmMax}
-                  onChange={(e) => setFilters({ ...filters, sqmMax: parseInt(e.target.value) })}
-                  style={{
-                    ...rangeStyle,
-                    position: 'absolute',
-                    zIndex: 4
-                  }}
-                />
-                {/* Barra riempimento */}
-                <div style={{
-                  position: 'absolute',
-                  height: '6px',
-                  background: 'linear-gradient(90deg, #10b981 0%, #059669 100%)',
-                  borderRadius: '3px',
-                  left: `${((filters.sqmMin - 20) / 480) * 100}%`,
-                  right: `${100 - ((filters.sqmMax - 20) / 480) * 100}%`,
-                  zIndex: 2
-                }}></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Pulsante CERCA */}
-          <button
-            style={{
-              padding: '12px 32px',
-              borderRadius: '8px',
-              border: 'none',
-              background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
-              color: 'white',
-              fontSize: '0.95rem',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              boxShadow: '0 4px 12px rgba(5, 150, 105, 0.3)',
-              marginTop: '20px',
-              textTransform: 'uppercase',
+        {/* Header collassabile */}
+        <div
+          onClick={() => setFiltersOpen(!filtersOpen)}
+          style={{
+            position: 'relative',
+            zIndex: 2,
+            padding: '20px 28px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            cursor: 'pointer',
+            userSelect: 'none',
+            borderBottom: filtersOpen ? '1px solid rgba(16, 185, 129, 0.3)' : 'none',
+            transition: 'all 0.3s ease'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              boxShadow: '0 0 12px rgba(16, 185, 129, 0.6)'
+            }}></div>
+            <h3 style={{
+              fontSize: '1.1rem',
+              fontWeight: '700',
+              color: '#ffffff',
+              margin: 0,
               letterSpacing: '0.5px'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 6px 16px rgba(5, 150, 105, 0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 12px rgba(5, 150, 105, 0.3)';
-            }}
-          >
-            CERCA
-          </button>
+            }}>
+              Filtri di Ricerca
+            </h3>
+          </div>
+          <div style={{
+            width: '24px',
+            height: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'transform 0.3s ease'
+          }}>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="rgba(16, 185, 129, 0.8)"
+              strokeWidth="2.5"
+              style={{
+                transform: filtersOpen ? 'rotate(0deg)' : 'rotate(-90deg)',
+                transition: 'transform 0.3s ease'
+              }}
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </div>
+
+        {/* Contenuto filtri collassabile */}
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 1,
+            overflow: 'hidden',
+            maxHeight: filtersOpen ? '1200px' : '0',
+            opacity: filtersOpen ? 1 : 0,
+            transition: 'all 0.4s ease',
+            paddingLeft: filtersOpen ? '28px' : '0',
+            paddingRight: filtersOpen ? '28px' : '0',
+            paddingTop: filtersOpen ? '28px' : '0',
+            paddingBottom: filtersOpen ? '28px' : '0'
+          }}
+        >
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '28px',
+            marginBottom: '28px'
+          }}>
+            {/* Contratto */}
+            <div>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '12px', 
+                fontSize: '0.9rem',
+                color: '#ffffff',
+                fontWeight: '700',
+                textTransform: 'uppercase',
+                letterSpacing: '0.7px'
+              }}>
+                Contratto
+              </label>
+              <select
+                style={{
+                  width: '100%',
+                  padding: '13px 16px',
+                  borderRadius: '10px',
+                  border: '2px solid rgba(16, 185, 129, 0.3)',
+                  background: 'rgba(30, 41, 59, 0.7)',
+                  color: '#ffffff',
+                  fontSize: '0.95rem',
+                  cursor: 'pointer',
+                  outline: 'none',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                  fontWeight: '500'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.7)';
+                  e.currentTarget.style.background = 'rgba(30, 41, 59, 0.9)';
+                  e.currentTarget.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.3)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                  e.currentTarget.style.background = 'rgba(30, 41, 59, 0.7)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                }}
+                value={filters.type}
+                onChange={(e) => setFilters({ ...filters, type: e.target.value })}
+              >
+                <option value="all">Tutti i contratti</option>
+                <option value="sale">Vendita</option>
+                <option value="rent">Affitto</option>
+              </select>
+            </div>
+
+            {/* Tipologia */}
+            <div>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '12px', 
+                fontSize: '0.9rem',
+                color: '#ffffff',
+                fontWeight: '700',
+                textTransform: 'uppercase',
+                letterSpacing: '0.7px'
+              }}>
+                Tipologia
+              </label>
+              <select
+                style={{
+                  width: '100%',
+                  padding: '13px 16px',
+                  borderRadius: '10px',
+                  border: '2px solid rgba(16, 185, 129, 0.3)',
+                  background: 'rgba(30, 41, 59, 0.7)',
+                  color: '#ffffff',
+                  fontSize: '0.95rem',
+                  cursor: 'pointer',
+                  outline: 'none',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                  fontWeight: '500'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.7)';
+                  e.currentTarget.style.background = 'rgba(30, 41, 59, 0.9)';
+                  e.currentTarget.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.3)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                  e.currentTarget.style.background = 'rgba(30, 41, 59, 0.7)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                }}
+                value={filters.propertyType}
+                onChange={(e) => setFilters({ ...filters, propertyType: e.target.value })}
+              >
+                <option value="all">Tutte le tipologie</option>
+                <option value="apartment">Appartamento</option>
+                <option value="villa">Villa</option>
+                <option value="house">Casa indipendente</option>
+                <option value="rustico">Rustico/Casale</option>
+                <option value="attico">Attico</option>
+                <option value="loft">Loft</option>
+              </select>
+            </div>
+
+            {/* Prezzo */}
+            <div>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '12px', 
+                fontSize: '0.9rem',
+                color: '#ffffff',
+                fontWeight: '700',
+                textTransform: 'uppercase',
+                letterSpacing: '0.7px'
+              }}>
+                Prezzo
+              </label>
+              <div style={{
+                background: 'rgba(30, 41, 59, 0.7)',
+                padding: '18px',
+                borderRadius: '10px',
+                border: '2px solid rgba(16, 185, 129, 0.3)'
+              }}>
+                <div style={{ marginBottom: '20px' }}>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '10px',
+                    fontSize: '0.8rem',
+                    color: 'rgba(255, 255, 255, 0.8)'
+                  }}>
+                    <span style={{ fontWeight: '600' }}>Minimo</span>
+                    <span style={{ color: '#10b981', fontWeight: '700', fontSize: '0.9rem' }}>
+                      {formatPrice(filters.priceMin)}
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <input
+                      type="range"
+                      min="0"
+                      max={absoluteMaxPrice}
+                      step="10000"
+                      value={filters.priceMin}
+                      onChange={(e) => {
+                        const newMin = parseInt(e.target.value);
+                        if (newMin <= filters.priceMax) {
+                          setFilters({ ...filters, priceMin: newMin });
+                        }
+                      }}
+                      style={{
+                        flex: 1,
+                        height: '6px',
+                        borderRadius: '3px',
+                        outline: 'none'
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '10px',
+                    fontSize: '0.8rem',
+                    color: 'rgba(255, 255, 255, 0.8)'
+                  }}>
+                    <span style={{ fontWeight: '600' }}>Massimo</span>
+                    <span style={{ color: '#10b981', fontWeight: '700', fontSize: '0.9rem' }}>
+                      {formatPrice(filters.priceMax)}
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <input
+                      type="range"
+                      min="0"
+                      max={absoluteMaxPrice}
+                      step="10000"
+                      value={filters.priceMax}
+                      onChange={(e) => {
+                        const newMax = parseInt(e.target.value);
+                        if (newMax >= filters.priceMin) {
+                          setFilters({ ...filters, priceMax: newMax });
+                        }
+                      }}
+                      style={{
+                        flex: 1,
+                        height: '6px',
+                        borderRadius: '3px',
+                        outline: 'none'
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Superficie */}
+            <div>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '12px', 
+                fontSize: '0.9rem',
+                color: '#ffffff',
+                fontWeight: '700',
+                textTransform: 'uppercase',
+                letterSpacing: '0.7px'
+              }}>
+                Superficie
+              </label>
+              <div style={{
+                background: 'rgba(30, 41, 59, 0.7)',
+                padding: '18px',
+                borderRadius: '10px',
+                border: '2px solid rgba(16, 185, 129, 0.3)'
+              }}>
+                <div style={{ marginBottom: '20px' }}>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '10px',
+                    fontSize: '0.8rem',
+                    color: 'rgba(255, 255, 255, 0.8)'
+                  }}>
+                    <span style={{ fontWeight: '600' }}>Minima</span>
+                    <span style={{ color: '#10b981', fontWeight: '700', fontSize: '0.9rem' }}>
+                      {filters.sqmMin} m²
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <input
+                      type="range"
+                      min="20"
+                      max="500"
+                      step="5"
+                      value={filters.sqmMin}
+                      onChange={(e) => {
+                        const newMin = parseInt(e.target.value);
+                        if (newMin <= filters.sqmMax) {
+                          setFilters({ ...filters, sqmMin: newMin });
+                        }
+                      }}
+                      style={{
+                        flex: 1,
+                        height: '6px',
+                        borderRadius: '3px',
+                        outline: 'none'
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '10px',
+                    fontSize: '0.8rem',
+                    color: 'rgba(255, 255, 255, 0.8)'
+                  }}>
+                    <span style={{ fontWeight: '600' }}>Massima</span>
+                    <span style={{ color: '#10b981', fontWeight: '700', fontSize: '0.9rem' }}>
+                      {filters.sqmMax} m²
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <input
+                      type="range"
+                      min="20"
+                      max="500"
+                      step="5"
+                      value={filters.sqmMax}
+                      onChange={(e) => {
+                        const newMax = parseInt(e.target.value);
+                        if (newMax >= filters.sqmMin) {
+                          setFilters({ ...filters, sqmMax: newMax });
+                        }
+                      }}
+                      style={{
+                        flex: 1,
+                        height: '6px',
+                        borderRadius: '3px',
+                        outline: 'none'
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Pulsanti CERCA E RIPRISTINA */}
+          <div style={{ 
+            display: 'flex', 
+            gap: '16px', 
+            justifyContent: 'center',
+            paddingTop: '12px',
+            borderTop: '1px solid rgba(16, 185, 129, 0.2)'
+          }}>
+            <button
+              style={{
+                padding: '14px 48px',
+                borderRadius: '10px',
+                border: 'none',
+                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                color: 'white',
+                fontSize: '1rem',
+                fontWeight: '700',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 8px 20px rgba(16, 185, 129, 0.4)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.9px'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 12px 28px rgba(16, 185, 129, 0.5)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 8px 20px rgba(16, 185, 129, 0.4)';
+              }}
+            >
+              Cerca Immobili
+            </button>
+
+            <button
+              onClick={handleResetFilters}
+              style={{
+                padding: '14px 48px',
+                borderRadius: '10px',
+                border: '2px solid rgba(16, 185, 129, 0.5)',
+                background: 'transparent',
+                color: '#10b981',
+                fontSize: '1rem',
+                fontWeight: '700',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                textTransform: 'uppercase',
+                letterSpacing: '0.9px'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(16, 185, 129, 0.15)';
+                e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.8)';
+                e.currentTarget.style.color = '#10b981';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+                e.currentTarget.style.color = '#10b981';
+              }}
+            >
+              Ripristina Filtri
+            </button>
+          </div>
         </div>
       </div>
 
@@ -369,17 +591,35 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
         <div>
           <select
             style={{
-              ...selectStyle,
-              minWidth: '180px'
+              padding: '12px 16px',
+              borderRadius: '10px',
+              border: '2px solid rgba(16, 185, 129, 0.3)',
+              background: 'rgba(30, 41, 59, 0.7)',
+              color: '#ffffff',
+              fontSize: '0.95rem',
+              cursor: 'pointer',
+              outline: 'none',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+              minWidth: '220px',
+              fontWeight: '500'
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.7)';
+              e.currentTarget.style.background = 'rgba(30, 41, 59, 0.9)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+              e.currentTarget.style.background = 'rgba(30, 41, 59, 0.7)';
             }}
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
-            <option style={optionStyle} value="recent">Più recenti</option>
-            <option style={optionStyle} value="price_asc">Prezzo crescente</option>
-            <option style={optionStyle} value="price_desc">Prezzo decrescente</option>
-            <option style={optionStyle} value="sqm_asc">Superficie crescente</option>
-            <option style={optionStyle} value="sqm_desc">Superficie decrescente</option>
+            <option value="recent">Più recenti</option>
+            <option value="price_asc">Prezzo: crescente</option>
+            <option value="price_desc">Prezzo: decrescente</option>
+            <option value="sqm_asc">Superficie: crescente</option>
+            <option value="sqm_desc">Superficie: decrescente</option>
           </select>
         </div>
       </div>
@@ -584,13 +824,15 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
           appearance: none;
           background: transparent;
           cursor: pointer;
+          width: 100%;
+          vertical-align: middle;
         }
 
         input[type="range"]::-webkit-slider-thumb {
           -webkit-appearance: none;
           appearance: none;
-          width: 18px;
-          height: 18px;
+          width: 22px;
+          height: 22px;
           border-radius: 50%;
           background: linear-gradient(135deg, #10b981 0%, #059669 100%);
           cursor: pointer;
@@ -598,22 +840,46 @@ export function PropertiesGrid({ branch, properties }: PropertiesGridProps) {
           pointer-events: all;
           position: relative;
           z-index: 100;
+          margin-top: -8px;
         }
 
         input[type="range"]::-moz-range-thumb {
-          width: 18px;
-          height: 18px;
+          width: 22px;
+          height: 22px;
           border-radius: 50%;
           background: linear-gradient(135deg, #10b981 0%, #059669 100%);
           cursor: pointer;
           box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
           border: none;
           pointer-events: all;
+          margin-top: 0;
         }
 
         input[type="range"]::-webkit-slider-thumb:hover {
           transform: scale(1.2);
           box-shadow: 0 4px 12px rgba(16, 185, 129, 0.6);
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+          transform: scale(1.2);
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.6);
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+          background: linear-gradient(90deg, rgba(16, 185, 129, 0.3) 0%, rgba(16, 185, 129, 0.1) 100%);
+          height: 6px;
+          border-radius: 3px;
+        }
+
+        input[type="range"]::-moz-range-track {
+          background: transparent;
+          border: none;
+        }
+
+        input[type="range"]::-moz-range-progress {
+          background: linear-gradient(90deg, rgba(16, 185, 129, 0.3) 0%, rgba(16, 185, 129, 0.1) 100%);
+          height: 6px;
+          border-radius: 3px;
         }
       `}</style>
     </section>

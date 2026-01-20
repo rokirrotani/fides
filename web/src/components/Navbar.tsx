@@ -12,7 +12,7 @@ export function Navbar() {
       setScrolled(window.scrollY > 20);
     };
     
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
@@ -30,22 +30,22 @@ export function Navbar() {
     alignItems: 'center',
     gap: '10px',
     padding: '16px 28px',
-    color: isActive(path) ? '#ffffff' : 'rgba(255, 255, 255, 0.92)',
+    color: isActive(path) ? '#0066ff' : 'rgba(0, 0, 0, 0.75)',
     textDecoration: 'none',
     fontSize: '1.05rem',
     fontWeight: isActive(path) ? 700 : 600,
     borderRadius: '14px',
     transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
     background: isActive(path) 
-      ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(37, 99, 235, 0.3))' 
+      ? 'linear-gradient(135deg, rgba(0, 102, 255, 0.15), rgba(0, 80, 200, 0.15))' 
       : hoveredLink === path
-        ? 'rgba(59, 130, 246, 0.12)'
+        ? 'rgba(0, 102, 255, 0.1)'
         : 'transparent',
     transform: hoveredLink === path ? 'translateY(-2px)' : 'translateY(0)',
     boxShadow: hoveredLink === path 
-      ? '0 6px 20px rgba(59, 130, 246, 0.4), 0 0 30px rgba(59, 130, 246, 0.2)' 
+      ? '0 6px 20px rgba(0, 102, 255, 0.3), 0 0 30px rgba(0, 102, 255, 0.15)' 
       : isActive(path)
-        ? '0 0 25px rgba(59, 130, 246, 0.4), inset 0 0 20px rgba(59, 130, 246, 0.15)'
+        ? '0 0 25px rgba(0, 102, 255, 0.3), inset 0 0 20px rgba(0, 102, 255, 0.1)'
         : 'none',
     position: 'relative' as const,
     letterSpacing: '0.02em',
@@ -53,7 +53,7 @@ export function Navbar() {
   
   return (
     <>
-      {/* TOP BAR - Nascosta su mobile */}
+      {/* TOP BAR - BLU ELETTRICO */}
       <div 
         className="top-bar"
         style={{
@@ -62,90 +62,97 @@ export function Navbar() {
           left: 0,
           right: 0,
           height: '44px',
-          background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+          background: 'linear-gradient(135deg, #0052c8 0%, #0066ff 100%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 56px',
           zIndex: 101,
-          boxShadow: '0 2px 12px rgba(0, 0, 0, 0.25)',
+          boxShadow: '0 2px 12px rgba(0, 102, 255, 0.3)',
           fontSize: '0.875rem',
-          color: 'rgba(255, 255, 255, 0.9)',
-          borderBottom: '1px solid rgba(59, 130, 246, 0.15)'
+          color: '#ffffff',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+          willChange: 'transform',
+          backfaceVisibility: 'hidden' as const,
+          perspective: 1000,
         }}
       >
         <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
-          <a href="tel:+39xxxxxxxxxx" style={{
+          <a href="tel:+39011428254" style={{
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
-            color: 'rgba(255, 255, 255, 0.9)',
+            color: 'rgba(255, 255, 255, 0.95)',
             textDecoration: 'none',
             transition: 'all 0.3s ease',
             padding: '6px 12px',
             borderRadius: '8px'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#60a5fa';
-            e.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)';
+            e.currentTarget.style.color = '#ffffff';
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+            e.currentTarget.style.transform = 'translateY(-2px)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
+            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
             e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.transform = 'translateY(0)';
           }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
             </svg>
-            <span style={{ fontWeight: 500 }}>+39 XXX XXX XXXX</span>
+            <span style={{ fontWeight: 500 }}>+39 011 428 2544</span>
           </a>
           
-          <a href="mailto:info@fides.it" style={{
+          <a href="mailto:info@fidesimmobiliare.it" style={{
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
-            color: 'rgba(255, 255, 255, 0.9)',
+            color: 'rgba(255, 255, 255, 0.95)',
             textDecoration: 'none',
             transition: 'all 0.3s ease',
             padding: '6px 12px',
             borderRadius: '8px'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#60a5fa';
-            e.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)';
+            e.currentTarget.style.color = '#ffffff';
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+            e.currentTarget.style.transform = 'translateY(-2px)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
+            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
             e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.transform = 'translateY(0)';
           }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <rect x="2" y="4" width="20" height="16" rx="2"></rect>
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
             </svg>
-            <span style={{ fontWeight: 500 }}>info@fides.it</span>
+            <span style={{ fontWeight: 500 }}>info@fidesimmobiliare.it</span>
           </a>
 
           <div style={{
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
-            color: 'rgba(255, 255, 255, 0.9)',
+            color: '#ffffff',
             padding: '6px 12px',
             borderRadius: '8px',
-            background: 'rgba(59, 130, 246, 0.08)'
+            background: 'rgba(255, 255, 255, 0.12)'
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
               <circle cx="12" cy="10" r="3"></circle>
             </svg>
-            <span style={{ fontWeight: 500 }}>Varese, Italia</span>
+            <span style={{ fontWeight: 500 }}>Piemonte, Italia</span>
           </div>
         </div>
 
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{
-            color: 'rgba(255, 255, 255, 0.85)',
+            color: 'rgba(255, 255, 255, 0.9)',
             transition: 'all 0.3s ease',
             display: 'flex',
             alignItems: 'center',
@@ -155,12 +162,12 @@ export function Navbar() {
             borderRadius: '8px'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#60a5fa';
-            e.currentTarget.style.background = 'rgba(59, 130, 246, 0.15)';
+            e.currentTarget.style.color = '#ffffff';
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
             e.currentTarget.style.transform = 'translateY(-2px)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.85)';
+            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
             e.currentTarget.style.background = 'transparent';
             e.currentTarget.style.transform = 'translateY(0)';
           }}>
@@ -170,7 +177,7 @@ export function Navbar() {
           </a>
           
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{
-            color: 'rgba(255, 255, 255, 0.85)',
+            color: 'rgba(255, 255, 255, 0.9)',
             transition: 'all 0.3s ease',
             display: 'flex',
             alignItems: 'center',
@@ -180,59 +187,61 @@ export function Navbar() {
             borderRadius: '8px'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#60a5fa';
-            e.currentTarget.style.background = 'rgba(59, 130, 246, 0.15)';
+            e.currentTarget.style.color = '#ffffff';
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
             e.currentTarget.style.transform = 'translateY(-2px)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.85)';
+            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
             e.currentTarget.style.background = 'transparent';
             e.currentTarget.style.transform = 'translateY(0)';
           }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              <circle cx="17.5" cy="6.5" r="1.5"></circle>
             </svg>
           </a>
         </div>
       </div>
 
-      {/* MAIN NAVBAR - STATICA (non cambia dimensioni) */}
+      {/* MAIN NAVBAR - BIANCA */}
       <header 
         className="main-navbar"
         style={{
-        position: 'fixed',
-        top: '44px',
-        left: 0,
-        right: 0,
-        height: '100px',
-        padding: '0 56px',
-        background: scrolled 
-          ? 'rgba(15, 23, 42, 0.98)' 
-          : 'linear-gradient(180deg, rgba(15, 23, 42, 0.98) 0%, rgba(15, 23, 42, 0.96) 100%)',
-        backdropFilter: 'blur(20px)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        zIndex: 100,
-        boxShadow: scrolled 
-          ? '0 8px 40px rgba(0, 0, 0, 0.5), 0 2px 16px rgba(59, 130, 246, 0.2)' 
-          : '0 4px 24px rgba(0, 0, 0, 0.3)',
-        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-        borderBottom: '1px solid rgba(59, 130, 246, 0.2)'
-      }}>
+          position: 'fixed',
+          top: '44px',
+          left: 0,
+          right: 0,
+          height: '100px',
+          padding: '0 56px',
+          background: '#ffffff',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          zIndex: 100,
+          boxShadow: scrolled
+            ? '0 8px 40px rgba(0, 102, 255, 0.25), 0 2px 16px rgba(0, 0, 0, 0.1)'
+            : '0 4px 24px rgba(0, 102, 255, 0.15)',
+          transition: 'box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          borderBottom: '2px solid rgba(0, 102, 255, 0.15)',
+          willChange: 'box-shadow',
+          transform: 'translateZ(0)',
+          backfaceVisibility: 'hidden' as const,
+          perspective: 1000,
+          contain: 'layout style paint' as any
+        }}>
 
-        {/* LOGO STATICO CON SCROLL TO TOP E HOMEPAGE */}
+        {/* LOGO */}
         <Link
           to="/"
           onClick={(e) => {
-            // Se siamo già sulla homepage, scrolla in alto
             if (location.pathname === '/') {
               e.preventDefault();
               scrollToTop();
             }
-            // Altrimenti naviga alla homepage (che poi scrollerà automaticamente in alto)
           }}
           style={{ 
             display: 'flex',
@@ -241,9 +250,11 @@ export function Navbar() {
             transition: 'all 0.35s ease',
             transform: hoveredLink === 'logo' ? 'scale(1.05)' : 'scale(1)',
             filter: hoveredLink === 'logo' 
-              ? 'drop-shadow(0 8px 20px rgba(59, 130, 246, 0.6))' 
-              : 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5))',
-            textDecoration: 'none'
+              ? 'drop-shadow(0 8px 20px rgba(0, 102, 255, 0.5))' 
+              : 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15))',
+            textDecoration: 'none',
+            willChange: 'transform, filter',
+            backfaceVisibility: 'hidden' as const
           }}
           onMouseEnter={() => setHoveredLink('logo')}
           onMouseLeave={() => setHoveredLink(null)}
@@ -254,7 +265,9 @@ export function Navbar() {
             style={{
               height: '64px',
               width: 'auto',
+              willChange: 'transform'
             }}
+            loading="lazy"
           />
         </Link>
 
@@ -263,15 +276,17 @@ export function Navbar() {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           style={{
             display: 'none',
-            background: 'rgba(59, 130, 246, 0.2)',
-            border: '2px solid rgba(59, 130, 246, 0.4)',
+            background: 'rgba(0, 102, 255, 0.15)',
+            border: '2px solid rgba(0, 102, 255, 0.3)',
             borderRadius: '12px',
-            color: 'white',
+            color: '#0066ff',
             cursor: 'pointer',
             padding: '12px',
             zIndex: 102,
             transition: 'all 0.3s ease',
-            backdropFilter: 'blur(10px)'
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            backfaceVisibility: 'hidden' as const
           }}
           className="mobile-menu-toggle"
         >
@@ -289,13 +304,14 @@ export function Navbar() {
           )}
         </button>
 
-        {/* Desktop Navigation - ARROTONDATA */}
+        {/* Desktop Navigation */}
         <nav 
           className="desktop-nav"
           style={{ 
             display: 'flex', 
             gap: '8px', 
-            alignItems: 'center'
+            alignItems: 'center',
+            backfaceVisibility: 'hidden' as const
           }}
         >
           <Link 
@@ -371,11 +387,11 @@ export function Navbar() {
               ...linkStyle('/admin'),
               marginLeft: '16px',
               background: isActive('/admin')
-                ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(37, 99, 235, 0.3))'
+                ? 'linear-gradient(135deg, rgba(0, 102, 255, 0.2), rgba(0, 80, 200, 0.2))'
                 : hoveredLink === '/admin'
-                  ? 'rgba(59, 130, 246, 0.12)'
-                  : 'rgba(59, 130, 246, 0.06)',
-              border: '1.5px solid rgba(59, 130, 246, 0.4)',
+                  ? 'rgba(0, 102, 255, 0.12)'
+                  : 'rgba(0, 102, 255, 0.08)',
+              border: '1.5px solid rgba(0, 102, 255, 0.4)',
             }}
             onMouseEnter={() => setHoveredLink('/admin')}
             onMouseLeave={() => setHoveredLink(null)}
@@ -399,15 +415,18 @@ export function Navbar() {
               left: 0,
               right: 0,
               bottom: 0,
-              background: '#0f172a',
+              background: 'linear-gradient(180deg, #ffffff 0%, #f8fbff 100%)',
               display: 'flex',
               flexDirection: 'column',
               padding: '32px 24px',
               gap: '14px',
               zIndex: 101,
               animation: 'slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-              borderTop: '1px solid rgba(59, 130, 246, 0.25)',
-              overflowY: 'auto'
+              borderTop: '2px solid rgba(0, 102, 255, 0.15)',
+              overflowY: 'auto',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              backfaceVisibility: 'hidden' as const
             }}
             onClick={() => setMobileMenuOpen(false)}
           >
@@ -443,7 +462,7 @@ export function Navbar() {
               </svg>
               Contatti
             </Link>
-            <Link to="/admin" style={{...linkStyle('/admin'), justifyContent: 'center', fontSize: '1.15rem', border: '1.5px solid rgba(59, 130, 246, 0.4)', marginTop: '12px'}}>
+            <Link to="/admin" style={{...linkStyle('/admin'), justifyContent: 'center', fontSize: '1.15rem', border: '1.5px solid rgba(0, 102, 255, 0.4)', marginTop: '12px'}}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
                 <polyline points="10 17 15 12 10 7"></polyline>
@@ -486,7 +505,6 @@ export function Navbar() {
             display: block !important;
           }
 
-          /* NASCONDI COMPLETAMENTE LA TOP BAR SU MOBILE */
           .top-bar {
             display: none !important;
           }
@@ -495,8 +513,9 @@ export function Navbar() {
             top: 0 !important;
             height: 80px !important;
             padding: 0 24px !important;
-            background: #0f172a !important;
-            backdrop-filter: none !important;
+            background: #ffffff !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
           }
 
           .main-navbar img {
@@ -542,6 +561,18 @@ export function Navbar() {
           .mobile-nav {
             top: 64px !important;
           }
+        }
+
+        /* Smooth transitions */
+        .main-navbar {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          will-change: box-shadow;
+          contain: layout style paint;
+        }
+
+        .desktop-nav {
+          will-change: auto;
         }
       `}</style>
     </>

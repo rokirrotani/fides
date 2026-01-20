@@ -32,19 +32,20 @@ export function CompraCasaPage() {
     notes: ''
   });
 
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     
+    setSubmitStatus('loading');
+    
     try {
       await submitBuyRequest(formData);
       
       setSubmitStatus('success');
-      setMessage('✅ Richiesta inviata con successo! Ti contatteremo con le migliori proposte.');
+      setMessage('Richiesta inviata con successo! Ti contatteremo con le migliori proposte.');
       
-      // Reset form
       setFormData({
         buyerName: '',
         email: '',
@@ -59,7 +60,6 @@ export function CompraCasaPage() {
         notes: ''
       });
 
-      // Reset message dopo 5 secondi
       setTimeout(() => {
         setSubmitStatus('idle');
         setMessage('');
@@ -67,7 +67,12 @@ export function CompraCasaPage() {
       
     } catch (error) {
       setSubmitStatus('error');
-      setMessage('❌ Errore nell\'invio. Riprova più tardi.');
+      setMessage('Errore nell\'invio della richiesta. Riprova più tardi.');
+      
+      setTimeout(() => {
+        setSubmitStatus('idle');
+        setMessage('');
+      }, 5000);
     }
   }
 
@@ -75,55 +80,90 @@ export function CompraCasaPage() {
     <>
       <Navbar />
       
-      <main style={{ marginTop: '56px', padding: '48px 24px', minHeight: 'calc(100vh - 56px)', background: '#ffffff' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto' }} className="fade-in">
+      <main style={{ marginTop: '56px', padding: '48px 24px', minHeight: 'calc(100vh - 56px)', background: '#f8fafc' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           
           {/* Header */}
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '56px' }}>
             <div style={{ 
               display: 'inline-flex', 
               alignItems: 'center', 
               justifyContent: 'center',
-              width: '48px',
-              height: '48px',
-              borderRadius: '8px',
-              background: '#0f172a',
-              marginBottom: '16px'
+              width: '80px',
+              height: '80px',
+              borderRadius: '16px',
+              background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+              marginBottom: '24px',
+              boxShadow: '0 4px 20px rgba(15, 23, 42, 0.15)'
             }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
               </svg>
             </div>
-            <h1 style={{ fontSize: '2rem', marginBottom: '12px', color: '#0f172a', fontWeight: '600' }}>
-              Cerca Immobile
+            <h1 style={{ 
+              fontSize: '2.2rem', 
+              marginBottom: '12px', 
+              color: '#0f172a', 
+              fontWeight: '800',
+              letterSpacing: '-0.5px'
+            }}>
+              Cerca la Tua Casa
             </h1>
-            <p style={{ fontSize: '1rem', color: '#6b7280', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6' }}>
-              Compila il form e ti invieremo le migliori proposte disponibili.
+            <p style={{ 
+              fontSize: '1.1rem', 
+              color: '#64748b', 
+              maxWidth: '600px', 
+              margin: '0 auto', 
+              lineHeight: '1.8',
+              fontWeight: '400'
+            }}>
+              Compila il modulo con i tuoi criteri di ricerca e il nostro team ti contatterà con le migliori proposte disponibili nel nostro portafoglio.
             </p>
           </div>
 
-          {/* Form */}
+          {/* Main Form Container */}
           <div style={{ 
-            background: '#f9fafb', 
-            padding: '32px', 
-            borderRadius: '8px', 
-            border: '1px solid #e5e7eb'
+            background: '#ffffff', 
+            padding: '48px', 
+            borderRadius: '16px', 
+            boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+            border: '1px solid #e2e8f0'
           }}>
-            <h2 style={{ marginBottom: '24px', color: '#0f172a', fontSize: '1.3rem', fontWeight: '600' }}>
-              Dettagli Ricerca
-            </h2>
 
             <form onSubmit={handleSubmit}>
-              {/* Dati Personali */}
-              <div style={{ marginBottom: '24px' }}>
-                <h3 style={{ marginBottom: '12px', color: '#0f172a', fontSize: '1rem', fontWeight: '600', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px' }}>
-                  Dati Personali
-                </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+
+              {/* Sezione 1: Dati Personali */}
+              <div style={{ marginBottom: '48px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
+                  <div style={{
+                    width: '5px',
+                    height: '32px',
+                    background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
+                    borderRadius: '3px'
+                  }}></div>
+                  <h2 style={{ 
+                    margin: 0,
+                    color: '#0f172a', 
+                    fontSize: '1.3rem', 
+                    fontWeight: '700',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>
+                    Dati Personali
+                  </h2>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
                   
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#475569' }}>
+                    <label style={{ 
+                      display: 'block', 
+                      marginBottom: '10px', 
+                      fontWeight: '600', 
+                      color: '#334155',
+                      fontSize: '0.95rem'
+                    }}>
                       Nome e Cognome *
                     </label>
                     <input
@@ -132,12 +172,35 @@ export function CompraCasaPage() {
                       value={formData.buyerName}
                       onChange={(e) => setFormData({...formData, buyerName: e.target.value})}
                       placeholder="Mario Rossi"
-                      style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem' }}
+                      style={{ 
+                        width: '100%', 
+                        padding: '13px 14px', 
+                        border: '2px solid #e2e8f0', 
+                        borderRadius: '10px', 
+                        fontSize: '0.95rem',
+                        transition: 'all 0.3s',
+                        boxSizing: 'border-box',
+                        fontFamily: 'inherit'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#0f172a';
+                        e.currentTarget.style.boxShadow = '0 0 0 3px rgba(15, 23, 42, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#475569' }}>
+                    <label style={{ 
+                      display: 'block', 
+                      marginBottom: '10px', 
+                      fontWeight: '600', 
+                      color: '#334155',
+                      fontSize: '0.95rem'
+                    }}>
                       Email *
                     </label>
                     <input
@@ -146,12 +209,35 @@ export function CompraCasaPage() {
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
                       placeholder="mario.rossi@email.com"
-                      style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem' }}
+                      style={{ 
+                        width: '100%', 
+                        padding: '13px 14px', 
+                        border: '2px solid #e2e8f0', 
+                        borderRadius: '10px', 
+                        fontSize: '0.95rem',
+                        transition: 'all 0.3s',
+                        boxSizing: 'border-box',
+                        fontFamily: 'inherit'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#0f172a';
+                        e.currentTarget.style.boxShadow = '0 0 0 3px rgba(15, 23, 42, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#475569' }}>
+                    <label style={{ 
+                      display: 'block', 
+                      marginBottom: '10px', 
+                      fontWeight: '600', 
+                      color: '#334155',
+                      fontSize: '0.95rem'
+                    }}>
                       Telefono *
                     </label>
                     <input
@@ -160,38 +246,102 @@ export function CompraCasaPage() {
                       value={formData.phone}
                       onChange={(e) => setFormData({...formData, phone: e.target.value})}
                       placeholder="+39 333 1234567"
-                      style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem' }}
+                      style={{ 
+                        width: '100%', 
+                        padding: '13px 14px', 
+                        border: '2px solid #e2e8f0', 
+                        borderRadius: '10px', 
+                        fontSize: '0.95rem',
+                        transition: 'all 0.3s',
+                        boxSizing: 'border-box',
+                        fontFamily: 'inherit'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#0f172a';
+                        e.currentTarget.style.boxShadow = '0 0 0 3px rgba(15, 23, 42, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                 </div>
               </div>
 
-              {/* Preferenze Ricerca */}
-              <div style={{ marginBottom: '24px' }}>
-                <h3 style={{ marginBottom: '12px', color: '#0f172a', fontSize: '1rem', fontWeight: '600', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px' }}>
-                  Caratteristiche Immobile
-                </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+              {/* Sezione 2: Caratteristiche Immobile */}
+              <div style={{ marginBottom: '48px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
+                  <div style={{
+                    width: '5px',
+                    height: '32px',
+                    background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
+                    borderRadius: '3px'
+                  }}></div>
+                  <h2 style={{ 
+                    margin: 0,
+                    color: '#0f172a', 
+                    fontSize: '1.3rem', 
+                    fontWeight: '700',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>
+                    Caratteristiche Immobile
+                  </h2>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
                   
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#475569' }}>
+                    <label style={{ 
+                      display: 'block', 
+                      marginBottom: '10px', 
+                      fontWeight: '600', 
+                      color: '#334155',
+                      fontSize: '0.95rem'
+                    }}>
                       Tipologia *
                     </label>
                     <select
                       value={formData.propertyType}
                       onChange={(e) => setFormData({...formData, propertyType: e.target.value as any})}
-                      style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem' }}
+                      style={{ 
+                        width: '100%', 
+                        padding: '13px 14px', 
+                        border: '2px solid #e2e8f0', 
+                        borderRadius: '10px', 
+                        fontSize: '0.95rem',
+                        transition: 'all 0.3s',
+                        boxSizing: 'border-box',
+                        background: '#fff',
+                        fontFamily: 'inherit',
+                        cursor: 'pointer'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#0f172a';
+                        e.currentTarget.style.boxShadow = '0 0 0 3px rgba(15, 23, 42, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
                     >
-                      <option value="any">Qualsiasi</option>
+                      <option value="any">Qualsiasi Tipologia</option>
                       <option value="apartment">Appartamento</option>
-                      <option value="house">Casa/Villa</option>
-                      <option value="commercial">Commerciale</option>
+                      <option value="house">Casa / Villa</option>
+                      <option value="commercial">Locale Commerciale</option>
                     </select>
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#475569' }}>
+                    <label style={{ 
+                      display: 'block', 
+                      marginBottom: '10px', 
+                      fontWeight: '600', 
+                      color: '#334155',
+                      fontSize: '0.95rem'
+                    }}>
                       Zona Preferita *
                     </label>
                     <input
@@ -199,13 +349,102 @@ export function CompraCasaPage() {
                       type="text"
                       value={formData.preferredCity}
                       onChange={(e) => setFormData({...formData, preferredCity: e.target.value})}
-                      placeholder="Es: Paesana, Torino, Valle Po..."
-                      style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem' }}
+                      placeholder="Paesana, Torino, Valle Po..."
+                      style={{ 
+                        width: '100%', 
+                        padding: '13px 14px', 
+                        border: '2px solid #e2e8f0', 
+                        borderRadius: '10px', 
+                        fontSize: '0.95rem',
+                        transition: 'all 0.3s',
+                        boxSizing: 'border-box',
+                        fontFamily: 'inherit'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#0f172a';
+                        e.currentTarget.style.boxShadow = '0 0 0 3px rgba(15, 23, 42, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#475569' }}>
+                    <label style={{ 
+                      display: 'block', 
+                      marginBottom: '10px', 
+                      fontWeight: '600', 
+                      color: '#334155',
+                      fontSize: '0.95rem'
+                    }}>
+                      Urgenza della Ricerca *
+                    </label>
+                    <select
+                      value={formData.urgency}
+                      onChange={(e) => setFormData({...formData, urgency: e.target.value as any})}
+                      style={{ 
+                        width: '100%', 
+                        padding: '13px 14px', 
+                        border: '2px solid #e2e8f0', 
+                        borderRadius: '10px', 
+                        fontSize: '0.95rem',
+                        transition: 'all 0.3s',
+                        boxSizing: 'border-box',
+                        background: '#fff',
+                        fontFamily: 'inherit',
+                        cursor: 'pointer'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#0f172a';
+                        e.currentTarget.style.boxShadow = '0 0 0 3px rgba(15, 23, 42, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    >
+                      <option value="low">Bassa - Sto solo guardando</option>
+                      <option value="medium">Media - Entro 3-6 mesi</option>
+                      <option value="high">Alta - Subito</option>
+                    </select>
+                  </div>
+
+                </div>
+              </div>
+
+              {/* Sezione 3: Budget e Dimensioni */}
+              <div style={{ marginBottom: '48px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
+                  <div style={{
+                    width: '5px',
+                    height: '32px',
+                    background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
+                    borderRadius: '3px'
+                  }}></div>
+                  <h2 style={{ 
+                    margin: 0,
+                    color: '#0f172a', 
+                    fontSize: '1.3rem', 
+                    fontWeight: '700',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>
+                    Budget e Dimensioni
+                  </h2>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
+                  
+                  <div>
+                    <label style={{ 
+                      display: 'block', 
+                      marginBottom: '10px', 
+                      fontWeight: '600', 
+                      color: '#334155',
+                      fontSize: '0.95rem'
+                    }}>
                       Budget Minimo (€)
                     </label>
                     <input
@@ -213,13 +452,36 @@ export function CompraCasaPage() {
                       min="0"
                       value={formData.minPrice || ''}
                       onChange={(e) => setFormData({...formData, minPrice: e.target.value ? Number(e.target.value) : undefined})}
-                      placeholder="50000"
-                      style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem' }}
+                      placeholder="50.000"
+                      style={{ 
+                        width: '100%', 
+                        padding: '13px 14px', 
+                        border: '2px solid #e2e8f0', 
+                        borderRadius: '10px', 
+                        fontSize: '0.95rem',
+                        transition: 'all 0.3s',
+                        boxSizing: 'border-box',
+                        fontFamily: 'inherit'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#0f172a';
+                        e.currentTarget.style.boxShadow = '0 0 0 3px rgba(15, 23, 42, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#475569' }}>
+                    <label style={{ 
+                      display: 'block', 
+                      marginBottom: '10px', 
+                      fontWeight: '600', 
+                      color: '#334155',
+                      fontSize: '0.95rem'
+                    }}>
                       Budget Massimo (€)
                     </label>
                     <input
@@ -227,13 +489,36 @@ export function CompraCasaPage() {
                       min="0"
                       value={formData.maxPrice || ''}
                       onChange={(e) => setFormData({...formData, maxPrice: e.target.value ? Number(e.target.value) : undefined})}
-                      placeholder="200000"
-                      style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem' }}
+                      placeholder="200.000"
+                      style={{ 
+                        width: '100%', 
+                        padding: '13px 14px', 
+                        border: '2px solid #e2e8f0', 
+                        borderRadius: '10px', 
+                        fontSize: '0.95rem',
+                        transition: 'all 0.3s',
+                        boxSizing: 'border-box',
+                        fontFamily: 'inherit'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#0f172a';
+                        e.currentTarget.style.boxShadow = '0 0 0 3px rgba(15, 23, 42, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#475569' }}>
+                    <label style={{ 
+                      display: 'block', 
+                      marginBottom: '10px', 
+                      fontWeight: '600', 
+                      color: '#334155',
+                      fontSize: '0.95rem'
+                    }}>
                       Numero Minimo Locali
                     </label>
                     <input
@@ -242,12 +527,35 @@ export function CompraCasaPage() {
                       value={formData.minRooms || ''}
                       onChange={(e) => setFormData({...formData, minRooms: e.target.value ? Number(e.target.value) : undefined})}
                       placeholder="2"
-                      style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem' }}
+                      style={{ 
+                        width: '100%', 
+                        padding: '13px 14px', 
+                        border: '2px solid #e2e8f0', 
+                        borderRadius: '10px', 
+                        fontSize: '0.95rem',
+                        transition: 'all 0.3s',
+                        boxSizing: 'border-box',
+                        fontFamily: 'inherit'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#0f172a';
+                        e.currentTarget.style.boxShadow = '0 0 0 3px rgba(15, 23, 42, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#475569' }}>
+                    <label style={{ 
+                      display: 'block', 
+                      marginBottom: '10px', 
+                      fontWeight: '600', 
+                      color: '#334155',
+                      fontSize: '0.95rem'
+                    }}>
                       Superficie Minima (m²)
                     </label>
                     <input
@@ -256,80 +564,144 @@ export function CompraCasaPage() {
                       value={formData.minSqm || ''}
                       onChange={(e) => setFormData({...formData, minSqm: e.target.value ? Number(e.target.value) : undefined})}
                       placeholder="60"
-                      style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem' }}
+                      style={{ 
+                        width: '100%', 
+                        padding: '13px 14px', 
+                        border: '2px solid #e2e8f0', 
+                        borderRadius: '10px', 
+                        fontSize: '0.95rem',
+                        transition: 'all 0.3s',
+                        boxSizing: 'border-box',
+                        fontFamily: 'inherit'
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#0f172a';
+                        e.currentTarget.style.boxShadow = '0 0 0 3px rgba(15, 23, 42, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
                     />
-                  </div>
-
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#475569' }}>
-                      Urgenza *
-                    </label>
-                    <select
-                      value={formData.urgency}
-                      onChange={(e) => setFormData({...formData, urgency: e.target.value as any})}
-                      style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem' }}
-                    >
-                      <option value="low">⏰ Bassa - Sto solo guardando</option>
-                      <option value="medium">⚡ Media - Entro 3-6 mesi</option>
-                      <option value="high">🔥 Alta - Subito</option>
-                    </select>
                   </div>
 
                 </div>
               </div>
 
-              {/* Note */}
-              <div style={{ marginBottom: '32px' }}>
-                <h3 style={{ marginBottom: '16px', color: '#475569', fontSize: '1.2rem', borderBottom: '2px solid #3b82f6', paddingBottom: '8px' }}>
-                  📝 Caratteristiche Desiderate
-                </h3>
+              {/* Sezione 4: Note Aggiuntive */}
+              <div style={{ marginBottom: '40px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
+                  <div style={{
+                    width: '5px',
+                    height: '32px',
+                    background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
+                    borderRadius: '3px'
+                  }}></div>
+                  <h2 style={{ 
+                    margin: 0,
+                    color: '#0f172a', 
+                    fontSize: '1.3rem', 
+                    fontWeight: '700',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>
+                    Note Aggiuntive
+                  </h2>
+                </div>
+
                 <textarea
                   rows={6}
                   value={formData.notes}
                   onChange={(e) => setFormData({...formData, notes: e.target.value})}
-                  placeholder="Esempio: Cerco appartamento con balcone, piano non troppo alto, possibilmente con garage. Preferenza per zone tranquille..."
-                  style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem', resize: 'vertical' }}
+                  placeholder="Descrivi le caratteristiche desiderate: balcone, garage, ascensore, zona tranquilla, vicino ai trasporti, giardino, ecc..."
+                  style={{ 
+                    width: '100%', 
+                    padding: '14px', 
+                    border: '2px solid #e2e8f0', 
+                    borderRadius: '10px', 
+                    fontSize: '0.95rem', 
+                    resize: 'vertical',
+                    fontFamily: 'inherit',
+                    transition: 'all 0.3s',
+                    boxSizing: 'border-box'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#0f172a';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(15, 23, 42, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e2e8f0';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                 />
               </div>
 
-              {/* Submit */}
+              {/* Submit Button */}
               <button 
                 type="submit"
+                disabled={submitStatus === 'loading'}
                 style={{ 
                   width: '100%', 
                   padding: '16px', 
-                  background: '#0f172a', 
+                  background: submitStatus === 'loading' 
+                    ? '#cbd5e1'
+                    : 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
                   color: 'white', 
                   border: 'none', 
-                  borderRadius: '8px', 
-                  fontSize: '1rem', 
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s'
+                  borderRadius: '10px', 
+                  fontSize: '1.05rem', 
+                  fontWeight: '700',
+                  cursor: submitStatus === 'loading' ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.3s',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  boxShadow: '0 4px 12px rgba(15, 23, 42, 0.3)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#1e293b';
+                  if (submitStatus !== 'loading') {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(15, 23, 42, 0.4)';
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#0f172a';
+                  if (submitStatus !== 'loading') {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(15, 23, 42, 0.3)';
+                  }
                 }}
               >
-                Invia Richiesta
+                {submitStatus === 'loading' ? 'Invio in corso...' : 'Invia Richiesta di Ricerca'}
               </button>
 
               {/* Status Message */}
               {submitStatus !== 'idle' && (
                 <div style={{ 
                   marginTop: '24px', 
-                  padding: '16px', 
-                  borderRadius: '8px', 
+                  padding: '16px 20px', 
+                  borderRadius: '10px', 
                   textAlign: 'center',
-                  background: submitStatus === 'success' ? '#dbeafe' : '#fee2e2',
-                  color: submitStatus === 'success' ? '#1e3a8a' : '#991b1b',
+                  background: submitStatus === 'success' 
+                    ? '#d1fae5'
+                    : submitStatus === 'error'
+                    ? '#fee2e2'
+                    : '#dbeafe',
+                  color: submitStatus === 'success' 
+                    ? '#065f46'
+                    : submitStatus === 'error'
+                    ? '#991b1b'
+                    : '#1e3a8a',
                   fontWeight: '600',
-                  fontSize: '1.1rem'
+                  fontSize: '0.95rem',
+                  border: submitStatus === 'success' 
+                    ? '1px solid #a7f3d0'
+                    : submitStatus === 'error'
+                    ? '1px solid #fca5a5'
+                    : '1px solid #93c5fd',
+                  animation: 'slideIn 0.3s ease-out'
                 }}>
-                  {message}
+                  {submitStatus === 'success' && '✓ ' + message}
+                  {submitStatus === 'error' && '✕ ' + message}
+                  {submitStatus === 'loading' && message}
                 </div>
               )}
 
@@ -338,21 +710,102 @@ export function CompraCasaPage() {
 
           {/* Info Section */}
           <div style={{ 
-            marginTop: '48px', 
-            padding: '32px', 
-            background: '#f9fafb', 
-            borderRadius: '8px',
+            marginTop: '56px', 
+            padding: '40px', 
+            background: '#ffffff', 
+            borderRadius: '16px',
             textAlign: 'center',
-            border: '1px solid #e5e7eb'
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.08)'
           }}>
-            <h3 style={{ fontSize: '1.2rem', marginBottom: '16px', fontWeight: '600', color: '#0f172a' }}>
-              Preferisci Parlare Direttamente?
+            <h3 style={{ 
+              fontSize: '1.4rem', 
+              marginBottom: '20px', 
+              fontWeight: '700', 
+              color: '#0f172a',
+              letterSpacing: '-0.5px'
+            }}>
+              Preferisci Contattarci Direttamente?
             </h3>
-            <p style={{ fontSize: '1rem', marginBottom: '8px', color: '#475569' }}>
-              Chiamaci al <strong style={{ color: '#0f172a' }}>011 428 2544</strong>
-            </p>
-            <p style={{ fontSize: '0.95rem', color: '#64748b' }}>
-              Oppure scrivici a <strong style={{ color: '#0f172a' }}>info@fidesimmobiliare.it</strong>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px', marginTop: '28px' }}>
+              
+              <div style={{ 
+                padding: '24px', 
+                background: '#f8fafc', 
+                borderRadius: '12px',
+                border: '1px solid #e2e8f0'
+              }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '10px',
+                  background: '#dbeafe',
+                  marginBottom: '12px'
+                }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e40af" strokeWidth="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                </div>
+                <p style={{ fontSize: '0.95rem', color: '#64748b', marginBottom: '8px', margin: 0 }}>
+                  Chiama la nostra sede principale
+                </p>
+                <p style={{ 
+                  fontSize: '1.3rem', 
+                  fontWeight: '700', 
+                  color: '#0f172a',
+                  margin: '12px 0 0 0'
+                }}>
+                  011 428 2544
+                </p>
+              </div>
+
+              <div style={{ 
+                padding: '24px', 
+                background: '#f8fafc', 
+                borderRadius: '12px',
+                border: '1px solid #e2e8f0'
+              }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '10px',
+                  background: '#dbeafe',
+                  marginBottom: '12px'
+                }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e40af" strokeWidth="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </div>
+                <p style={{ fontSize: '0.95rem', color: '#64748b', marginBottom: '8px', margin: 0 }}>
+                  Invia una email
+                </p>
+                <p style={{ 
+                  fontSize: '1.1rem', 
+                  fontWeight: '700', 
+                  color: '#0f172a',
+                  margin: '12px 0 0 0',
+                  wordBreak: 'break-all'
+                }}>
+                  info@fidesimmobiliare.it
+                </p>
+              </div>
+
+            </div>
+
+            <p style={{
+              marginTop: '24px',
+              fontSize: '0.9rem',
+              color: '#64748b'
+            }}>
+              Il nostro team risponderà nel più breve tempo possibile con le proposte più adatte alle tue esigenze.
             </p>
           </div>
 

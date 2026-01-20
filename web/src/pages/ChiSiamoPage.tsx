@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 
-export function ChiSiamoPage() {
+function ChiSiamoPage() {
   const [hoveredMember, setHoveredMember] = useState<string | null>(null);
 
   const team = [
@@ -24,7 +24,7 @@ export function ChiSiamoPage() {
     <>
       <Navbar />
       
-      <main style={{ marginTop: '56px', padding: '64px 24px', maxWidth: '1000px', margin: '56px auto' }}>
+      <main style={{ paddingTop: '120px', padding: '120px 24px 64px 24px', maxWidth: '1000px', margin: '0 auto' }}>
         <div className="fade-in">
           <div style={{ 
             textAlign: 'center', 
@@ -103,3 +103,5 @@ export function ChiSiamoPage() {
     </>
   );
 }
+
+export { ChiSiamoPage };
