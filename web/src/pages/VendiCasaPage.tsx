@@ -1,4 +1,5 @@
 import { useState, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { submitSellRequest } from '../services/api';
@@ -19,6 +20,7 @@ interface SellRequestFormData {
 }
 
 export function VendiCasaPage() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<SellRequestFormData>({
     ownerName: '',
     email: '',
@@ -946,70 +948,79 @@ export function VendiCasaPage() {
               Preferisci Contattarci Direttamente?
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px', marginTop: '20px' }}>
-              <div style={{
-                padding: '16px',
-                background: '#ffffff',
-                borderRadius: '10px',
-                border: '1px solid #e2e8f0',
-                transition: 'all 0.3s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}>
+              <a href="tel:0114282544" style={{ textDecoration: 'none' }}>
+                <div style={{
+                  padding: '16px',
+                  background: '#ffffff',
+                  borderRadius: '10px',
+                  border: '1px solid #e2e8f0',
+                  transition: 'all 0.3s',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}>
+                  <p style={{ fontSize: '0.85rem', color: '#64748b', margin: '0 0 8px 0', fontWeight: '600' }}>
+                    Telefono
+                  </p>
+                  <p style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>
+                    011 428 2544
+                  </p>
+                </div>
+              </a>
+              <a href="mailto:info@fidesimmobiliare.it" style={{ textDecoration: 'none' }}>
+                <div style={{
+                  padding: '16px',
+                  background: '#ffffff',
+                  borderRadius: '10px',
+                  border: '1px solid #e2e8f0',
+                  transition: 'all 0.3s',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}>
+                  <p style={{ fontSize: '0.85rem', color: '#64748b', margin: '0 0 8px 0', fontWeight: '600' }}>
+                    Email
+                  </p>
+                  <p style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0f172a', margin: 0, wordBreak: 'break-all' }}>
+                    info@fidesimmobiliare.it
+                  </p>
+                </div>
+              </a>
+              <div
+                onClick={() => navigate('/contatti')}
+                style={{
+                  padding: '16px',
+                  background: '#ffffff',
+                  borderRadius: '10px',
+                  border: '1px solid #e2e8f0',
+                  transition: 'all 0.3s',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}>
                 <p style={{ fontSize: '0.85rem', color: '#64748b', margin: '0 0 8px 0', fontWeight: '600' }}>
-                  Telefono
+                  Visita le Sedi
                 </p>
                 <p style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>
-                  011 428 2544
-                </p>
-              </div>
-              <div style={{
-                padding: '16px',
-                background: '#ffffff',
-                borderRadius: '10px',
-                border: '1px solid #e2e8f0',
-                transition: 'all 0.3s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}>
-                <p style={{ fontSize: '0.85rem', color: '#64748b', margin: '0 0 8px 0', fontWeight: '600' }}>
-                  Email
-                </p>
-                <p style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0f172a', margin: 0, wordBreak: 'break-all' }}>
-                  info@fidesimmobiliare.it
-                </p>
-              </div>
-              <div style={{
-                padding: '16px',
-                background: '#ffffff',
-                borderRadius: '10px',
-                border: '1px solid #e2e8f0',
-                transition: 'all 0.3s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}>
-                <p style={{ fontSize: '0.85rem', color: '#64748b', margin: '0 0 8px 0', fontWeight: '600' }}>
-                  Orari
-                </p>
-                <p style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>
-                  Lun - Ven 9:00-18:00
+                  Vedi orari e sedi
                 </p>
               </div>
             </div>

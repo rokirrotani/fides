@@ -463,118 +463,142 @@ export function ContattiPage() {
               marginTop: '32px'
             }}>
               
-              <div style={{
-                padding: '32px 24px',
-                background: '#f8fafc',
-                borderRadius: '12px',
-                border: '1px solid #e2e8f0'
-              }}>
+              <a href="tel:0114282544" style={{ textDecoration: 'none' }}>
                 <div style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '56px',
-                  height: '56px',
+                  padding: '32px 24px',
+                  background: '#f8fafc',
                   borderRadius: '12px',
-                  background: '#dbeafe',
-                  marginBottom: '16px'
+                  border: '1px solid #e2e8f0',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
                 }}>
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e40af" strokeWidth="2">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                  </svg>
-                </div>
-                <h3 style={{
-                  fontSize: '1.1rem',
-                  fontWeight: '700',
-                  color: '#0f172a',
-                  marginBottom: '8px',
-                  margin: 0
-                }}>
-                  Telefonici
-                </h3>
-                <p style={{
-                  fontSize: '0.95rem',
-                  color: '#64748b',
-                  marginBottom: '12px',
-                  margin: '8px 0 12px'
-                }}>
-                  Risposta rapida e professionale
-                </p>
-                <a
-                  href="tel:0114282544"
-                  style={{
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '56px',
+                    height: '56px',
+                    borderRadius: '12px',
+                    background: '#dbeafe',
+                    marginBottom: '16px'
+                  }}>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e40af" strokeWidth="2">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                  </div>
+                  <h3 style={{
+                    fontSize: '1.1rem',
+                    fontWeight: '700',
+                    color: '#0f172a',
+                    marginBottom: '8px',
+                    margin: 0
+                  }}>
+                    Telefonici
+                  </h3>
+                  <p style={{
+                    fontSize: '0.95rem',
+                    color: '#64748b',
+                    marginBottom: '12px',
+                    margin: '8px 0 12px'
+                  }}>
+                    Risposta rapida e professionale
+                  </p>
+                  <span style={{
                     color: '#0f172a',
                     fontWeight: '700',
-                    textDecoration: 'none',
                     fontSize: '1.1rem'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#3b82f6'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#0f172a'}
-                >
-                  011 428 2544
-                </a>
-              </div>
-
-              <div style={{
-                padding: '32px 24px',
-                background: '#f8fafc',
-                borderRadius: '12px',
-                border: '1px solid #e2e8f0'
-              }}>
-                <div style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '12px',
-                  background: '#dbeafe',
-                  marginBottom: '16px'
-                }}>
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e40af" strokeWidth="2">
-                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                  </svg>
+                  }}>
+                    011 428 2544
+                  </span>
                 </div>
-                <h3 style={{
-                  fontSize: '1.1rem',
-                  fontWeight: '700',
-                  color: '#0f172a',
-                  marginBottom: '8px',
-                  margin: 0
+              </a>
+
+              <a href="mailto:info@fidesimmobiliare.it" style={{ textDecoration: 'none' }}>
+                <div style={{
+                  padding: '32px 24px',
+                  background: '#f8fafc',
+                  borderRadius: '12px',
+                  border: '1px solid #e2e8f0',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
                 }}>
-                  Email
-                </h3>
-                <p style={{
-                  fontSize: '0.95rem',
-                  color: '#64748b',
-                  marginBottom: '12px',
-                  margin: '8px 0 12px'
-                }}>
-                  Scrivi i tuoi dettagli
-                </p>
-                <a
-                  href="mailto:info@fidesimmobiliare.it"
-                  style={{
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '56px',
+                    height: '56px',
+                    borderRadius: '12px',
+                    background: '#dbeafe',
+                    marginBottom: '16px'
+                  }}>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e40af" strokeWidth="2">
+                      <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                    </svg>
+                  </div>
+                  <h3 style={{
+                    fontSize: '1.1rem',
+                    fontWeight: '700',
+                    color: '#0f172a',
+                    marginBottom: '8px',
+                    margin: 0
+                  }}>
+                    Email
+                  </h3>
+                  <p style={{
+                    fontSize: '0.95rem',
+                    color: '#64748b',
+                    marginBottom: '12px',
+                    margin: '8px 0 12px'
+                  }}>
+                    Scrivi i tuoi dettagli
+                  </p>
+                  <span style={{
                     color: '#0f172a',
                     fontWeight: '700',
-                    textDecoration: 'none',
                     fontSize: '0.95rem',
                     wordBreak: 'break-all'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#3b82f6'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#0f172a'}
-                >
-                  info@fidesimmobiliare.it
-                </a>
-              </div>
+                  }}>
+                    info@fidesimmobiliare.it
+                  </span>
+                </div>
+              </a>
 
-              <div style={{
-                padding: '32px 24px',
-                background: '#f8fafc',
-                borderRadius: '12px',
-                border: '1px solid #e2e8f0'
-              }}>
+              <div
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                style={{
+                  padding: '32px 24px',
+                  background: '#f8fafc',
+                  borderRadius: '12px',
+                  border: '1px solid #e2e8f0',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}>
                 <div style={{
                   display: 'inline-flex',
                   alignItems: 'center',
