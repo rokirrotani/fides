@@ -118,6 +118,12 @@ function ChiSiamoPage() {
           }
 
           h1 { font-size: 2rem !important; }
+
+          /* Team grid */
+          main > div > div:last-child {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
         }
 
         @media (max-width: 600px) {
@@ -126,6 +132,11 @@ function ChiSiamoPage() {
           }
 
           h1 { font-size: 1.75rem !important; }
+        }
+
+        @media (max-width: 480px) {
+          main { padding: 64px 12px 36px 12px !important; }
+          h1 { font-size: 1.6rem !important; }
         }
       `}</style>
     </>

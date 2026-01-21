@@ -388,14 +388,35 @@ export function HomePage() {
         }
 
         /* Mobile optimizations */
-        @media (max-width: 768px) {
-          .split-panel {
+        @media (max-width: 1024px) {
+          .split-layout {
             flex-direction: column !important;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: auto !important;
+          }
+
+          .split-panel {
+            flex: 1 !important;
+            min-height: 60vh !important;
           }
 
           .split-panel h2 {
             font-size: 2.8rem !important;
+          }
+
+          .split-panel p {
+            font-size: 1.2rem !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .split-panel {
+            flex-direction: column !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 50vh !important;
+          }
+
+          .split-panel h2 {
+            font-size: 2.4rem !important;
             line-height: 1.1;
           }
           

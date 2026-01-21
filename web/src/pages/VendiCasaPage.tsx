@@ -1048,13 +1048,35 @@ export function VendiCasaPage() {
 
         @media (max-width: 768px) {
           h1 { font-size: 2rem !important; }
+
+          main { padding: 48px 16px !important; }
           
           /* Prevent iOS zoom on inputs */
           input,
           textarea,
           select {
             font-size: 16px !important;
+            min-height: 44px !important;
           }
+
+          /* Form container */
+          .hero { height: 350px !important; }
+
+          /* Benefits grid */
+          > div:first-child > div:first-child {
+            grid-template-columns: 1fr !important;
+          }
+        }
+
+        @media (max-width: 600px) {
+          main { padding: 32px 14px !important; }
+          h1 { font-size: 1.75rem !important; }
+          .hero { height: 300px !important; }
+        }
+
+        @media (max-width: 480px) {
+          main { padding: 24px 12px !important; }
+          h1 { font-size: 1.6rem !important; }
         }
       `}</style>
     </>

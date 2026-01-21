@@ -816,10 +816,30 @@ export function PropertyDetailPage() {
           to { transform: rotate(360deg); }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
           .property-detail-grid {
             grid-template-columns: 1fr !important;
             gap: 32px !important;
+          }
+
+          main {
+            padding: 24px 20px !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          main {
+            padding: 20px 16px !important;
+          }
+
+          .property-detail-grid {
+            gap: 24px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          main {
+            padding: 16px 12px !important;
           }
         }
       `}</style>

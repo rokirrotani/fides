@@ -1,6 +1,28 @@
 export function Footer() {
   return (
     <>
+      {/* Iubenda script loader */}
+      <script
+        type="text/javascript"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function (w,d) {
+              var loader = function () {
+                var s = d.createElement('script');
+                s.type = 'text/javascript';
+                s.async = true;
+                s.src = 'https://cdn.iubenda.com/iubenda.js';
+                var x = d.getElementsByTagName('script')[0];
+                x.parentNode.insertBefore(s, x);
+              };
+              if (w.addEventListener) { w.addEventListener('load', loader, false); }
+              else if (w.attachEvent) { w.attachEvent('onload', loader); }
+              else { w.onload = loader; }
+            })(window, document);
+          `
+        }}
+      />
+
       <footer id="contacts" className="footer" style={{
         background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
         color: '#e5e7eb',
@@ -56,12 +78,12 @@ export function Footer() {
             marginBottom: '24px'
           }}>
             {[
-              { icon: 'M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z', label: 'Facebook' },
-              { icon: 'M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z', label: 'Instagram' }
+              { icon: 'M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z', label: 'Facebook', href: 'https://www.facebook.com/fides.immobiliarefides' },
+              { icon: 'M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z', label: 'Instagram', href: 'https://www.instagram.com/immobiliare.fides/' }
             ].map((social, idx) => (
               <a
                 key={idx}
-                href="#"
+                href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -124,14 +146,14 @@ export function Footer() {
               fontSize: '0.9rem' 
             }}>
               {[
-                { text: 'Privacy Policy', href: 'https://www.iubenda.com/privacy-policy/12345678' },
-                { text: 'Cookie Policy', href: 'https://www.iubenda.com/privacy-policy/12345678/cookie-policy' },
-                { text: '🍪 Preferenze Cookie', href: '#', class: 'iubenda-cs-preferences-link' }
+                { text: 'Privacy Policy', href: 'https://www.iubenda.com/privacy-policy/PLACEHOLDER_ID', className: 'iubenda-white iubenda-noiframe iubenda-embed' },
+                { text: 'Cookie Policy', href: 'https://www.iubenda.com/privacy-policy/PLACEHOLDER_ID/cookie-policy', className: 'iubenda-white iubenda-noiframe iubenda-embed' },
+                { text: 'Gestisci Preferenze', href: '#', className: 'iubenda-white iubenda-cs-preferences-link' }
               ].map((link, idx) => (
-                <a 
+                <a
                   key={idx}
                   href={link.href}
-                  className={link.class || 'iubenda-white iubenda-noiframe iubenda-embed iubenda-noiframe'}
+                  className={link.className}
                   title={link.text}
                   style={{ 
                     color: 'rgba(255,255,255,0.8)', 
@@ -261,7 +283,7 @@ export function Footer() {
       </footer>
 
       {/* Copyright bar */}
-      <div style={{
+      <div className="copyright-bar" style={{
         background: '#0a0f1a',
         color: 'rgba(255, 255, 255, 0.6)',
         textAlign: 'center',
@@ -275,41 +297,77 @@ export function Footer() {
       </div>
 
       <style>{`
-        /* Footer responsive styles */
+        /* Footer responsive styles - COMPATTO MOBILE */
         @media (max-width: 768px) {
           .footer {
             grid-template-columns: 1fr !important;
-            padding: 48px 24px 24px !important;
-            gap: 36px !important;
+            padding: 32px 20px 20px !important;
+            gap: 24px !important;
           }
 
           .footer__column h4 {
-            font-size: 1.15rem !important;
-            margin-bottom: 14px !important;
+            font-size: 1rem !important;
+            margin-bottom: 10px !important;
           }
 
           .footer__column p {
-            font-size: 0.9rem !important;
+            font-size: 0.85rem !important;
+            line-height: 1.5 !important;
           }
 
           .footer__column a {
-            font-size: 0.9rem !important;
+            font-size: 0.85rem !important;
+          }
+
+          .footer__column > div:first-of-type {
+            margin-top: 16px !important;
+            margin-bottom: 16px !important;
           }
         }
 
         @media (max-width: 480px) {
           .footer {
-            padding: 40px 20px 20px !important;
-            gap: 32px !important;
+            padding: 24px 16px 16px !important;
+            gap: 20px !important;
           }
 
           .footer__column h4 {
-            font-size: 1.1rem !important;
+            font-size: 0.95rem !important;
+          }
+
+          .footer__column p {
+            font-size: 0.8rem !important;
           }
 
           .footer__column svg {
+            width: 14px !important;
+            height: 14px !important;
+          }
+
+          /* Social icons più piccoli su mobile */
+          .footer__column a[aria-label] {
+            width: 36px !important;
+            height: 36px !important;
+          }
+
+          .footer__column a[aria-label] svg {
             width: 16px !important;
             height: 16px !important;
+          }
+        }
+
+        /* Copyright bar mobile compatto */
+        @media (max-width: 768px) {
+          .copyright-bar {
+            padding: 16px 20px !important;
+            font-size: 0.8rem !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .copyright-bar {
+            padding: 12px 16px !important;
+            font-size: 0.75rem !important;
           }
         }
 

@@ -19,6 +19,7 @@ export interface Property {
   type: 'sale' | 'rent';
   category: 'apartment' | 'house' | 'commercial';
   propertyType?: 'apartment' | 'villa' | 'house' | 'rustico' | 'attico' | 'loft';
+  branch?: 'paesana' | 'torino';
   location: PropertyLocation;
   details: PropertyDetails;
   images: string[];

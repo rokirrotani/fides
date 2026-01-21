@@ -343,52 +343,71 @@ export function TorinoPage() {
             {/* Properties Grid with Header */}
             {!loading && (
               <>
-                {/* Section Header */}
-                <div style={{ marginBottom: '56px' }}>
+                {/* Section Header PROFESSIONALE */}
+                <div style={{
+                  marginBottom: '56px',
+                  padding: '32px 40px',
+                  background: 'linear-gradient(135deg, #0066ff 0%, #0052cc 100%)',
+                  borderRadius: '16px',
+                  boxShadow: '0 8px 32px rgba(0, 102, 255, 0.25)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}>
+                  {/* Background decoration */}
                   <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    marginBottom: '24px'
-                  }}>
+                    position: 'absolute',
+                    top: '-20%',
+                    right: '-5%',
+                    width: '300px',
+                    height: '300px',
+                    background: 'radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%)',
+                    borderRadius: '50%',
+                    pointerEvents: 'none'
+                  }} />
+                  
+                  <div style={{ position: 'relative', zIndex: 1 }}>
                     <div style={{
-                      width: '5px',
-                      height: '32px',
-                      background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
-                      borderRadius: '3px'
-                    }} />
-                    <div>
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      marginBottom: '12px'
+                    }}>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                      </svg>
                       <p style={{
-                        fontSize: '0.85rem',
+                        fontSize: '0.9rem',
                         fontWeight: '700',
-                        color: '#475569',
+                        color: 'rgba(255, 255, 255, 0.9)',
                         margin: '0',
                         textTransform: 'uppercase',
-                        letterSpacing: '1px'
+                        letterSpacing: '1.5px'
                       }}>
                         Immobili Disponibili
                       </p>
-                      <h2 style={{
-                        fontSize: '2rem',
-                        fontWeight: '800',
-                        color: '#0f172a',
-                        margin: '6px 0 0 0',
-                        letterSpacing: '-0.5px'
-                      }}>
-                        {properties.length} {properties.length === 1 ? 'Proprietà' : 'Proprietà'}
-                      </h2>
                     </div>
-                  </div>
-                  {properties.length > 0 && (
-                    <p style={{
-                      fontSize: '0.95rem',
-                      color: '#64748b',
-                      margin: 0,
-                      lineHeight: '1.6'
+                    <h2 style={{
+                      fontSize: '2.2rem',
+                      fontWeight: '800',
+                      color: '#ffffff',
+                      margin: '0 0 8px 0',
+                      letterSpacing: '-0.5px'
                     }}>
-                      Scopri la nostra selezione esclusiva di immobili di qualità a Torino e nei comuni limitrofi
-                    </p>
-                  )}
+                      {properties.length} {properties.length === 1 ? 'Proprietà Esclusiva' : 'Proprietà Esclusive'}
+                    </h2>
+                    {properties.length > 0 && (
+                      <p style={{
+                        fontSize: '1rem',
+                        color: 'rgba(255, 255, 255, 0.95)',
+                        margin: 0,
+                        lineHeight: '1.6',
+                        maxWidth: '700px'
+                      }}>
+                        Scopri la nostra selezione di immobili di qualità a Torino e nei comuni limitrofi
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 {/* Properties Grid */}
@@ -507,9 +526,57 @@ export function TorinoPage() {
         .scale-in { animation: slideUp 0.8s ease-out; }
         .float { animation: float 3s ease-in-out infinite; }
 
+        @media (max-width: 1024px) {
+          /* Features grid */
+          section > div > div:first-child {
+            grid-template-columns: 1fr !important;
+          }
+        }
+
         @media (max-width: 768px) {
+          .hero {
+            height: 400px !important;
+            background-attachment: scroll !important;
+          }
+
           h1 { font-size: 2.5rem !important; }
           p { font-size: 0.95rem !important; }
+
+          section {
+            padding: 48px 16px !important;
+          }
+
+          /* Barra professionale compatta mobile */
+          section div[style*="padding: 32px 40px"] {
+            padding: 20px 24px !important;
+          }
+
+          section div[style*="padding: 32px 40px"] h2 {
+            font-size: 1.6rem !important;
+          }
+
+          section div[style*="padding: 32px 40px"] p {
+            font-size: 0.9rem !important;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .hero { height: 350px !important; }
+          h1 { font-size: 2rem !important; }
+          
+          section {
+            padding: 40px 14px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero { height: 300px !important; }
+          h1 { font-size: 1.75rem !important; }
+          p { font-size: 0.9rem !important; }
+          
+          section {
+            padding: 32px 12px !important;
+          }
         }
       `}</style>
     </>

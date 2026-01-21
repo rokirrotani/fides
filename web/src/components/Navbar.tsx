@@ -8,6 +8,10 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [location.pathname]);
+
+  useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
@@ -67,7 +71,7 @@ export function Navbar() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 56px',
-          zIndex: 101,
+          zIndex: 1200,
           boxShadow: '0 2px 12px rgba(0, 102, 255, 0.3)',
           fontSize: '0.875rem',
           color: '#ffffff',
@@ -151,7 +155,7 @@ export function Navbar() {
         </div>
 
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{
+          <a href="https://www.facebook.com/fides.immobiliarefides" target="_blank" rel="noopener noreferrer" style={{
             color: 'rgba(255, 255, 255, 0.9)',
             transition: 'all 0.3s ease',
             display: 'flex',
@@ -176,7 +180,7 @@ export function Navbar() {
             </svg>
           </a>
           
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{
+          <a href="https://www.instagram.com/immobiliare.fides/" target="_blank" rel="noopener noreferrer" style={{
             color: 'rgba(255, 255, 255, 0.9)',
             transition: 'all 0.3s ease',
             display: 'flex',
@@ -221,7 +225,7 @@ export function Navbar() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          zIndex: 100,
+          zIndex: 1000,
           boxShadow: scrolled
             ? '0 8px 40px rgba(0, 102, 255, 0.25), 0 2px 16px rgba(0, 0, 0, 0.1)'
             : '0 4px 24px rgba(0, 102, 255, 0.15)',
@@ -230,8 +234,7 @@ export function Navbar() {
           willChange: 'box-shadow',
           transform: 'translateZ(0)',
           backfaceVisibility: 'hidden' as const,
-          perspective: 1000,
-          contain: 'layout style paint' as any
+          perspective: 1000
         }}>
 
         {/* LOGO */}
@@ -273,20 +276,27 @@ export function Navbar() {
 
         {/* Hamburger button for mobile */}
         <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          onClick={() => {
+            console.log('Hamburger clicked! Current state:', mobileMenuOpen);
+            setMobileMenuOpen(!mobileMenuOpen);
+          }}
           style={{
-            display: 'none',
-            background: 'rgba(0, 102, 255, 0.15)',
-            border: '2px solid rgba(0, 102, 255, 0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: mobileMenuOpen ? '#ffffff' : '#0066ff',
+            border: '2px solid #0066ff',
             borderRadius: '12px',
-            color: '#0066ff',
+            color: mobileMenuOpen ? '#0066ff' : '#ffffff',
             cursor: 'pointer',
-            padding: '12px',
-            zIndex: 102,
+            padding: '16px',
+            width: '52px',
+            height: '52px',
+            position: 'relative',
+            zIndex: 1001,
             transition: 'all 0.3s ease',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            backfaceVisibility: 'hidden' as const
+            boxShadow: '0 4px 16px rgba(0, 102, 255, 0.5)',
+            flexShrink: 0
           }}
           className="mobile-menu-toggle"
         >
@@ -404,75 +414,142 @@ export function Navbar() {
             Accedi
           </Link>
         </nav>
-
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <nav 
-            className="mobile-nav"
-            style={{
-              position: 'fixed',
-              top: '80px',
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: 'linear-gradient(180deg, #ffffff 0%, #f8fbff 100%)',
-              display: 'flex',
-              flexDirection: 'column',
-              padding: '32px 24px',
-              gap: '14px',
-              zIndex: 101,
-              animation: 'slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-              borderTop: '2px solid rgba(0, 102, 255, 0.15)',
-              overflowY: 'auto',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
-              backfaceVisibility: 'hidden' as const
-            }}
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            <Link to="/" style={{...linkStyle('/'), justifyContent: 'center', fontSize: '1.15rem'}}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              </svg>
-              Home
-            </Link>
-            <Link to="/chi-siamo" style={{...linkStyle('/chi-siamo'), justifyContent: 'center', fontSize: '1.15rem'}}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-              </svg>
-              Chi Siamo
-            </Link>
-            <Link to="/vendi-casa" style={{...linkStyle('/vendi-casa'), justifyContent: 'center', fontSize: '1.15rem'}}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              </svg>
-              Vendi Immobile
-            </Link>
-            <Link to="/compra-casa" style={{...linkStyle('/compra-casa'), justifyContent: 'center', fontSize: '1.15rem'}}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <circle cx="11" cy="11" r="8"></circle>
-              </svg>
-              Cerca Immobile
-            </Link>
-            <Link to="/contatti" style={{...linkStyle('/contatti'), justifyContent: 'center', fontSize: '1.15rem'}}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-                <polyline points="3 7 12 13 21 7"></polyline>
-              </svg>
-              Contatti
-            </Link>
-            <Link to="/admin" style={{...linkStyle('/admin'), justifyContent: 'center', fontSize: '1.15rem', border: '1.5px solid rgba(0, 102, 255, 0.4)', marginTop: '12px'}}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                <polyline points="10 17 15 12 10 7"></polyline>
-                <line x1="15" y1="12" x2="3" y2="12"></line>
-              </svg>
-              Accedi
-            </Link>
-          </nav>
-        )}
       </header>
+
+      {/* Mobile Navigation - outside header to avoid clipping */}
+      {mobileMenuOpen && (
+        <nav 
+          className="mobile-nav"
+          style={{
+            position: 'fixed',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: '#ffffff',
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '26px 20px 32px',
+            gap: '14px',
+            zIndex: 2500,
+            animation: 'slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+            borderTop: '1px solid rgba(0, 102, 255, 0.12)',
+            overflowY: 'auto',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            backfaceVisibility: 'hidden' as const,
+            boxShadow: '0 -20px 50px rgba(0, 0, 0, 0.22)',
+            borderTopLeftRadius: '20px',
+            borderTopRightRadius: '20px',
+            maxHeight: 'calc(100vh - 70px)',
+            isolation: 'isolate'
+          }}
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          {/* Link principali */}
+          <Link to="/" style={{...linkStyle('/'), justifyContent: 'center', fontSize: '1.15rem', minHeight: '52px', padding: '18px 28px'}}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            </svg>
+            Home
+          </Link>
+          
+          {/* Sedi - Torino e Paesana */}
+          <div style={{ borderTop: '1px solid rgba(0, 102, 255, 0.08)', paddingTop: '12px', marginTop: '8px' }}>
+            <p className="mobile-nav-section-title" style={{ fontSize: '0.75rem', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px', paddingLeft: '28px' }}>Le Nostre Sedi</p>
+            <Link to="/torino" style={{...linkStyle('/torino'), justifyContent: 'center', fontSize: '1.15rem', minHeight: '52px', padding: '18px 28px'}}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              Torino
+            </Link>
+            <Link to="/paesana" style={{...linkStyle('/paesana'), justifyContent: 'center', fontSize: '1.15rem', minHeight: '52px', padding: '18px 28px'}}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              Paesana
+            </Link>
+          </div>
+          
+          <Link to="/chi-siamo" style={{...linkStyle('/chi-siamo'), justifyContent: 'center', fontSize: '1.15rem', minHeight: '52px', padding: '18px 28px'}}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+            </svg>
+            Chi Siamo
+          </Link>
+          <Link to="/vendi-casa" style={{...linkStyle('/vendi-casa'), justifyContent: 'center', fontSize: '1.15rem', minHeight: '52px', padding: '18px 28px'}}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            </svg>
+            Vendi Immobile
+          </Link>
+          <Link to="/compra-casa" style={{...linkStyle('/compra-casa'), justifyContent: 'center', fontSize: '1.15rem', minHeight: '52px', padding: '18px 28px'}}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <circle cx="11" cy="11" r="8"></circle>
+            </svg>
+            Cerca Immobile
+          </Link>
+          <Link to="/contatti" style={{...linkStyle('/contatti'), justifyContent: 'center', fontSize: '1.15rem', minHeight: '52px', padding: '18px 28px'}}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <polyline points="3 7 12 13 21 7"></polyline>
+            </svg>
+            Contatti
+          </Link>
+          
+          {/* Social Media */}
+          <div style={{ borderTop: '1px solid rgba(0, 102, 255, 0.08)', paddingTop: '16px', marginTop: '12px' }}>
+            <p className="mobile-nav-section-title" style={{ fontSize: '0.75rem', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px', paddingLeft: '28px' }}>Seguici</p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginBottom: '16px' }}>
+              <a href="https://www.facebook.com/fides.immobiliarefides" target="_blank" rel="noopener noreferrer" style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '48px',
+                height: '48px',
+                borderRadius: '12px',
+                background: 'rgba(0, 102, 255, 0.1)',
+                border: '1.5px solid rgba(0, 102, 255, 0.2)',
+                color: '#0066ff',
+                transition: 'all 0.3s'
+              }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+              <a href="https://www.instagram.com/immobiliare.fides/" target="_blank" rel="noopener noreferrer" style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '48px',
+                height: '48px',
+                borderRadius: '12px',
+                background: 'rgba(0, 102, 255, 0.1)',
+                border: '1.5px solid rgba(0, 102, 255, 0.2)',
+                color: '#0066ff',
+                transition: 'all 0.3s'
+              }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <circle cx="17.5" cy="6.5" r="1.5"></circle>
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <Link to="/admin" style={{...linkStyle('/admin'), justifyContent: 'center', fontSize: '1.15rem', minHeight: '52px', padding: '18px 28px', border: '1.5px solid rgba(0, 102, 255, 0.4)', marginTop: '12px'}}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+              <polyline points="10 17 15 12 10 7"></polyline>
+              <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
+            Accedi
+          </Link>
+        </nav>
+      )}
 
       {/* CSS per le animazioni */}
       <style>{`
@@ -491,6 +568,38 @@ export function Navbar() {
           }
         }
 
+        /* Default mobile nav positioning (desktop fallback) */
+        .mobile-nav {
+          top: 100px;
+        }
+
+        .mobile-nav a {
+          background: #ffffff;
+          border: 1px solid rgba(0, 102, 255, 0.12);
+          border-radius: 16px;
+          box-shadow: 0 10px 30px rgba(0, 102, 255, 0.12);
+        }
+
+        .mobile-nav a:hover {
+          background: linear-gradient(135deg, rgba(0, 102, 255, 0.08), rgba(0, 80, 200, 0.08));
+          box-shadow: 0 18px 38px rgba(0, 102, 255, 0.18);
+        }
+
+        .mobile-nav-section-title {
+          color: #3a4b63 !important;
+        }
+
+        /* Desktop - nascondere hamburger su schermi grandi */
+        @media (min-width: 1101px) {
+          .mobile-menu-toggle {
+            display: none !important;
+          }
+          
+          .desktop-nav {
+            display: flex !important;
+          }
+        }
+
         /* Tablet and smaller desktop */
         @media (max-width: 1100px) {
           body {
@@ -502,7 +611,16 @@ export function Navbar() {
           }
           
           .mobile-menu-toggle {
-            display: block !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 52px !important;
+            height: 52px !important;
+            background: #0066ff !important;
+            color: #ffffff !important;
+            border: 2px solid #0066ff !important;
+            border-radius: 12px !important;
+            padding: 12px !important;
           }
 
           .top-bar {
@@ -514,12 +632,17 @@ export function Navbar() {
             height: 80px !important;
             padding: 0 24px !important;
             background: #ffffff !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+            z-index: 1000 !important;
           }
 
           .main-navbar img {
             height: 52px !important;
+          }
+
+          .mobile-nav {
+            z-index: 2000 !important;
+            top: 80px !important;
           }
         }
 
@@ -540,6 +663,7 @@ export function Navbar() {
 
           .mobile-nav {
             top: 70px !important;
+            z-index: 2000 !important;
           }
         }
 
@@ -560,6 +684,7 @@ export function Navbar() {
 
           .mobile-nav {
             top: 64px !important;
+            z-index: 2000 !important;
           }
         }
 

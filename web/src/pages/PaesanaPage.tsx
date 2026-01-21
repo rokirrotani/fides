@@ -311,50 +311,71 @@ export function PaesanaPage() {
         }}>
           <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
             
-            {/* Section Header */}
-            <div style={{ marginBottom: '56px', textAlign: 'center' }}>
+            {/* Section Header PROFESSIONALE */}
+            <div style={{
+              marginBottom: '56px',
+              padding: '32px 40px',
+              background: 'linear-gradient(135deg, #0066ff 0%, #0052cc 100%)',
+              borderRadius: '16px',
+              boxShadow: '0 8px 32px rgba(0, 102, 255, 0.25)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              textAlign: 'center',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              {/* Background decoration */}
               <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '12px',
-                marginBottom: '16px'
-              }}>
+                position: 'absolute',
+                top: '-30%',
+                left: '-5%',
+                width: '350px',
+                height: '350px',
+                background: 'radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%)',
+                borderRadius: '50%',
+                pointerEvents: 'none'
+              }} />
+              
+              <div style={{ position: 'relative', zIndex: 1 }}>
                 <div style={{
-                  width: '5px',
-                  height: '24px',
-                  background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
-                  borderRadius: '3px'
-                }} />
-                <h2 style={{
-                  fontSize: '1.1rem',
-                  fontWeight: '700',
-                  color: '#475569',
-                  margin: 0,
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '12px',
+                  marginBottom: '12px'
                 }}>
-                  Immobili Disponibili
-                </h2>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  </svg>
+                  <h2 style={{
+                    fontSize: '0.9rem',
+                    fontWeight: '700',
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    margin: 0,
+                    textTransform: 'uppercase',
+                    letterSpacing: '1.5px'
+                  }}>
+                    Immobili Disponibili
+                  </h2>
+                </div>
+                <p style={{
+                  fontSize: '2.2rem',
+                  fontWeight: '800',
+                  color: '#ffffff',
+                  margin: '0 0 8px 0',
+                  letterSpacing: '-0.5px'
+                }}>
+                  Le Nostre Proprietà
+                </p>
+                <p style={{
+                  fontSize: '1rem',
+                  color: 'rgba(255, 255, 255, 0.95)',
+                  maxWidth: '700px',
+                  margin: '0 auto',
+                  lineHeight: '1.6'
+                }}>
+                  Scopri la selezione esclusiva di immobili disponibili a Paesana e nella Valle Po
+                </p>
               </div>
-              <p style={{
-                fontSize: '1.8rem',
-                fontWeight: '800',
-                color: '#0f172a',
-                margin: '0 0 8px 0',
-                letterSpacing: '-0.5px'
-              }}>
-                Le Nostre Proprietà
-              </p>
-              <p style={{
-                fontSize: '1rem',
-                color: '#64748b',
-                maxWidth: '600px',
-                margin: '0 auto',
-                lineHeight: '1.6'
-              }}>
-                Scopri la selezione esclusiva di immobili disponibili a Paesana e nella Valle Po
-              </p>
             </div>
 
             {/* Loading State */}
@@ -500,9 +521,57 @@ export function PaesanaPage() {
         .scale-in { animation: slideUp 0.8s ease-out; }
         .float { animation: float 3s ease-in-out infinite; }
 
+        @media (max-width: 1024px) {
+          /* Features grid */
+          section > div > div:first-child {
+            grid-template-columns: 1fr !important;
+          }
+        }
+
         @media (max-width: 768px) {
+          .hero {
+            height: 400px !important;
+            background-attachment: scroll !important;
+          }
+
           h1 { font-size: 2.5rem !important; }
           p { font-size: 0.95rem !important; }
+
+          section {
+            padding: 48px 16px !important;
+          }
+
+          /* Barra professionale compatta mobile */
+          section div[style*="padding: 32px 40px"] {
+            padding: 20px 24px !important;
+          }
+
+          section div[style*="padding: 32px 40px"] p[style*="fontSize: '2.2rem'"] {
+            font-size: 1.6rem !important;
+          }
+
+          section div[style*="padding: 32px 40px"] p[style*="fontSize: '1rem'"] {
+            font-size: 0.9rem !important;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .hero { height: 350px !important; }
+          h1 { font-size: 2rem !important; }
+          
+          section {
+            padding: 40px 14px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero { height: 300px !important; }
+          h1 { font-size: 1.75rem !important; }
+          p { font-size: 0.9rem !important; }
+          
+          section {
+            padding: 32px 12px !important;
+          }
         }
       `}</style>
     </>

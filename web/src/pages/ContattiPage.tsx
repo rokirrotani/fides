@@ -635,11 +635,23 @@ export function ContattiPage() {
           to { opacity: 1; transform: translateY(0); }
         }
 
+        @media (max-width: 1024px) {
+          /* Office cards grid */
+          section > div > div > div:first-child {
+            grid-template-columns: 1fr !important;
+          }
+        }
+
         @media (max-width: 768px) {
           h1 { font-size: 2rem !important; }
           
           section {
             padding: 48px 16px !important;
+          }
+
+          /* Office info panel padding */
+          section > div > div > div:first-child > div:first-child {
+            padding: 40px 28px !important;
           }
         }
 
@@ -649,6 +661,15 @@ export function ContattiPage() {
           section {
             padding: 32px 14px !important;
           }
+
+          section > div > div > div:first-child > div:first-child {
+            padding: 32px 20px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          section { padding: 24px 12px !important; }
+          h1 { font-size: 1.6rem !important; }
         }
       `}</style>
     </>

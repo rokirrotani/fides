@@ -60,7 +60,7 @@ export function AdminPage() {
     location: {
       address: '',
       city: 'Paesana',
-      province: 'CN'
+      province: '12034 (CN)'
     },
     details: {
       rooms: 2,
@@ -288,7 +288,7 @@ export function AdminPage() {
       location: {
         address: '',
         city: 'Paesana',
-        province: 'CN'
+        province: '12034 (CN)'
       },
       details: {
         rooms: 2,
@@ -684,7 +684,7 @@ export function AdminPage() {
                               location: {
                                 ...formData.location,
                                 city: branch === 'paesana' ? 'Paesana' : 'Torino',
-                                province: branch === 'paesana' ? 'CN' : 'TO'
+                                province: branch === 'paesana' ? '12034 (CN)' : '10128 (TO)'
                               }
                             });
                           }}
@@ -1522,6 +1522,13 @@ export function AdminPage() {
           to { opacity: 1; transform: translateY(0); }
         }
 
+        @media (max-width: 1024px) {
+          /* Properties grid */
+          main > div > div:last-child {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+          }
+        }
+
         @media (max-width: 768px) {
           main {
             padding: 80px 16px 48px 16px !important;
@@ -1534,6 +1541,17 @@ export function AdminPage() {
           textarea,
           select {
             font-size: 16px !important;
+            min-height: 44px !important;
+          }
+
+          /* Form grid to single column */
+          form > div > div {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* Properties grid */
+          main > div > div:last-child {
+            grid-template-columns: 1fr !important;
           }
         }
 
@@ -1543,6 +1561,11 @@ export function AdminPage() {
           }
 
           h1 { font-size: 1.75rem !important; }
+        }
+
+        @media (max-width: 480px) {
+          main { padding: 64px 12px 36px 12px !important; }
+          h1 { font-size: 1.6rem !important; }
         }
       `}</style>
     </>

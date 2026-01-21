@@ -833,6 +833,12 @@ export function CompraCasaPage() {
           textarea,
           select {
             font-size: 16px !important;
+            min-height: 44px !important;
+          }
+
+          /* Form grid */
+          main > div > div {
+            grid-template-columns: 1fr !important;
           }
         }
 
@@ -840,6 +846,13 @@ export function CompraCasaPage() {
           main {
             padding: 32px 16px !important;
           }
+
+          h1 { font-size: 1.75rem !important; }
+        }
+
+        @media (max-width: 480px) {
+          main { padding: 24px 12px !important; }
+          h1 { font-size: 1.6rem !important; }
         }
       `}</style>
     </>
